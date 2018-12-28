@@ -27,7 +27,7 @@
 - [安卓][1]
 - iOS 
 
-[1]: https://attachments-cdn.shimo.im/QOJYDCuIlko80nmg/app-release.apk  
+[1]: https://gank.io/api/download_apk  
 
 ## 编译运行
 
