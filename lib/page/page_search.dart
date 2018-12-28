@@ -61,9 +61,7 @@ class _SearchPageState extends State<SearchPage> with GankApi {
       _searching = true;
     });
     var result = await searchData(_search);
-    print(result);
     result = result.map<GankItem>((json) => GankItem.fromJson(json)).toList();
-    print(result);
     setState(() {
       _searchResults = result;
       if (_searchResults.length <= 0) {

@@ -28,9 +28,7 @@ class _GankWebViewState extends State<GankWebView> with DbUtils {
   }
 
   void readFavoriteStatus() async {
-    print(widget.gankItem.toJsonMap());
     var results = await find({'itemId': widget.gankItem.itemId});
-    print(results);
     if (results.length > 0) {
       setState(() {
         _favorite = true;
