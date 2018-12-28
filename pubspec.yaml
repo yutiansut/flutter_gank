@@ -50,6 +50,7 @@ flutter:
   assets:
     - images/splash.jpg
     - images/gank.png
+    - images/favorite_empty.png
   fonts:
       - family: IconFont
         fonts:

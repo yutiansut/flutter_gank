@@ -103,9 +103,18 @@ class _FavoritePageState extends State<FavoritePage>
           Offstage(
             offstage: !_isEmpty,
             child: Center(
-              child: Text(STRING_NO_FAVORITE,
-                  style: Theme.of(context).textTheme.body1),
-            ),
+                child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.asset("images/favorite_empty.png",
+                    width: 130, color: Color(0xFF00ACC1)),
+                Text(STRING_NO_FAVORITE,
+                    style: Theme.of(context)
+                        .textTheme
+                        .body2
+                        .copyWith(color: Theme.of(context).primaryColor))
+              ],
+            )),
           )
         ],
       ),
