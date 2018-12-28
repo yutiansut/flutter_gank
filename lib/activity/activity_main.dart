@@ -271,7 +271,7 @@ class _MainActivityState extends State<MainActivity>
   ///获取Leading icon.
   IconData getLeadingIcon() {
     if (_currentPageIndex == 0) {
-      return Icons.date_range;
+      return IconData(0xe8a6, fontFamily: "IconFont");
     } else if (_currentPageIndex == 1) {
       return Icons.add;
     } else if (_currentPageIndex == 2) {
