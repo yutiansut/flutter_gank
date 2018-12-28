@@ -2,8 +2,8 @@
 
 const STRING_DB_FAVORITE = "favorites";
 
-const FLUTTER_CHECK_UPDATE_PLUGIN_CHANNEL_NAME =
-    'com.lijnshanmx.checkupdate/FlutterCheckUpdatePlugin';
+const FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME =
+    'com.lijnshanmx/FlutterNativePlugin';
 
 const String STRING_GANK_NAME = "干货集中营";
 

@@ -32,7 +32,7 @@ class _MainActivityState extends State<MainActivity>
   bool _showHistoryDate = false;
   AnimationController _controller;
   Animation<double> _drawerContentsOpacity;
-  MethodChannel checkUpdatePlugin;
+  MethodChannel flutterNativePlugin;
   Animatable<Offset> _drawerDetailsTween;
 
   void _pageChange(int index) {
@@ -73,7 +73,7 @@ class _MainActivityState extends State<MainActivity>
     ).chain(CurveTween(
       curve: Curves.fastOutSlowIn,
     ));
-    checkUpdatePlugin = MethodChannel(FLUTTER_CHECK_UPDATE_PLUGIN_CHANNEL_NAME);
+    flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     _drawerDetailsPosition = _controller.drive(_drawerDetailsTween);
     _bottomTabs = <BottomNavigationBarItem>[
       new BottomNavigationBarItem(
@@ -98,7 +98,7 @@ class _MainActivityState extends State<MainActivity>
   ///调用native，检查更新
   Future<Null> _checkUpdate() async {
     if (Platform.isAndroid) {
-      await checkUpdatePlugin.invokeMethod('checkupdate');
+      await flutterNativePlugin.invokeMethod('checkupdate');
     }
   }
 
@@ -207,7 +207,7 @@ class _MainActivityState extends State<MainActivity>
                 fullscreenDialog: true,
               ));
         } else if (_currentPageIndex == 2) {
-          ///提交干货按钮
+          ///切换妹纸图列数按钮
           eventBus.fire(ChangeFuliColumnEvent());
         } else {
           ///关于页面

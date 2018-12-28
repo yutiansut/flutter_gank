@@ -2,6 +2,7 @@ package com.lijinshanmx.fluttergank.plugins;
 
 import android.app.Activity;
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.lijinshanmx.fluttergank.activity.MainActivity;
 import com.vector.update_app.utils.AppUpdateUtils;
 
@@ -11,13 +12,13 @@ import io.flutter.plugin.common.PluginRegistry;
 
 
 /**
- * FlutterUpdatePlugin
+ * FlutterNativePlugin
  */
-public class FlutterUpdatePlugin implements MethodChannel.MethodCallHandler {
-    public static String CHANNEL = "com.lijnshanmx.checkupdate/FlutterCheckUpdatePlugin";
+public class FlutterNativePlugin implements MethodChannel.MethodCallHandler {
+    public static String CHANNEL = "com.lijnshanmx/FlutterNativePlugin";
     private MainActivity mainActivity;
 
-    private FlutterUpdatePlugin(Activity activity) {
+    private FlutterNativePlugin(Activity activity) {
         mainActivity = (MainActivity) activity;
     }
 
@@ -25,8 +26,8 @@ public class FlutterUpdatePlugin implements MethodChannel.MethodCallHandler {
      * Plugin registration.
      */
     public static void registerWith(PluginRegistry.Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "com.lijnshanmx.checkupdate/FlutterCheckUpdatePlugin");
-        channel.setMethodCallHandler(new FlutterUpdatePlugin(registrar.activity()));
+        final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL);
+        channel.setMethodCallHandler(new FlutterNativePlugin(registrar.activity()));
     }
 
     @Override
@@ -36,6 +37,9 @@ public class FlutterUpdatePlugin implements MethodChannel.MethodCallHandler {
             result.success("Success");
         } else if (call.method.equals("getversion")) {
             result.success(AppUpdateUtils.getVersionName(mainActivity));
+        } else if (call.method.equals("openFeedbackActivity")) {
+            FeedbackAPI.openFeedbackActivity();
+            result.success("Success");
         } else {
             result.notImplemented();
         }

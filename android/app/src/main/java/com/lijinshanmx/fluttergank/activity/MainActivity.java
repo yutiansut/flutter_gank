@@ -4,8 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 
-import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
-import com.lijinshanmx.fluttergank.plugins.FlutterUpdatePlugin;
+import com.lijinshanmx.fluttergank.plugins.FlutterNativePlugin;
 import com.lijinshanmx.fluttergank.utils.OkGoUpdateHttpUtil;
 import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.utils.AppUpdateUtils;
@@ -23,7 +22,7 @@ public class MainActivity extends FlutterFragmentActivity {
             getWindow().setStatusBarColor(0);
         }
         GeneratedPluginRegistrant.registerWith(this);
-        FlutterUpdatePlugin.registerWith(registrarFor(FlutterUpdatePlugin.CHANNEL));
+        FlutterNativePlugin.registerWith(registrarFor(FlutterNativePlugin.CHANNEL));
 
     }
 
