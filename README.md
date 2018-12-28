@@ -27,7 +27,7 @@
 - [安卓](https://gank.io/api/download_apk)
 - iOS     
 
-<img src="https://ws1.sinaimg.cn/large/0065oQSqly1fymh7qhyacj308c0aumx6.jpg" style="width:160px">
+<img src="https://ws1.sinaimg.cn/large/0065oQSqly1fymh7qhyacj308c0aumx6.jpg" width = "160"  alt="download_apk" />
 
 ## 编译运行
 
