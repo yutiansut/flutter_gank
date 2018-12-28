@@ -52,6 +52,10 @@ dependencies {
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.android.support:support-annotations:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation  'com.umeng.umsdk:analytics:7.5.4'
-    implementation  'com.umeng.umsdk:common:1.5.4'
+    implementation 'com.umeng.umsdk:analytics:7.5.4'
+    implementation 'com.umeng.umsdk:common:1.5.4'
+    implementation 'com.aliyun.ams:alicloud-android-feedback:3.1.8'
+    implementation 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
+    implementation 'com.aliyun.ams:alicloud-android-ut:5.2.0'
+    implementation 'com.aliyun.ams:alicloud-android-utils:1.1.3'
 }

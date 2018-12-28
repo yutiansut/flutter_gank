@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.lijinshanmx.fluttergank.plugins.FlutterUpdatePlugin;
 import com.lijinshanmx.fluttergank.utils.OkGoUpdateHttpUtil;
 import com.vector.update_app.UpdateAppManager;
@@ -45,5 +46,4 @@ public class MainActivity extends FlutterFragmentActivity {
                 .build()
                 .update();
     }
-
 }
