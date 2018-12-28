@@ -13,7 +13,7 @@
 </p>
 
 # 简介
-「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://attachments-cdn.shimo.im/QOJYDCuIlko80nmg/app-release.apk)吧~。
+「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://gank.io/api/download_apk)吧~。
 
 ## 应用截图
 
@@ -70,8 +70,8 @@ $ flutter run
 - [lijinshan](https://github.com/lijinshanmx)
 
 ## Thanks
-感谢@JohnnyShieh的Java Gank项目,这里使用了其图标和主配色。
-感谢@peng8350的Flutter_gank项目,这里使用借鉴了其代码组织架构以及启动页的样式。
+感谢@[JohnnyShieh](https://github.com/JohnnyShieh)的Java Gank项目,这里使用了其图标和主配色。  
+感谢@[peng8350](https://github.com/peng8350)的Flutter_gank项目,这里使用借鉴了其代码组织架构以及启动页的样式。
 
 ## 贡献代码
 
