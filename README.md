@@ -24,10 +24,10 @@
 
 ## 下载
 
-- [安卓][1]
-- iOS 
+- [安卓](https://gank.io/api/download_apk)
+- iOS     
 
-[1]: https://gank.io/api/download_apk  
+<img src="https://ws1.sinaimg.cn/large/0065oQSqly1fymh7qhyacj308c0aumx6.jpg" style="width:160px">
 
 ## 编译运行
 
@@ -68,6 +68,10 @@ $ flutter run
 ## Developers
 
 - [lijinshan](https://github.com/lijinshanmx)
+
+## Thanks
+感谢@JohnnyShieh的Java Gank项目,这里使用了其图标和主配色。
+感谢@peng8350的Flutter_gank项目,这里使用借鉴了其代码组织架构以及启动页的样式。
 
 ## 贡献代码
 
