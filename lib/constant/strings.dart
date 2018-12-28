@@ -9,7 +9,7 @@ const String STRING_GANK_NAME = "干货集中营";
 
 const String STRING_GIRL = '妹子';
 
-const String STRING_ABOUTME = '关于我';
+const String STRING_ABOUT = '关于';
 
 const String STRING_GANK = "干货";
 
@@ -60,6 +60,23 @@ const String STRING_WHO = "昵称";
 const String STRING_CONFIRM = "确定";
 
 const String STRING_CANCEL = "取消";
+
+const String STRING_TITLE_DESC = "简介";
+
+const String STRING_SOURCE_CODE = "项目源码:";
+
+const String STRING_DEVELOPER = "开发者";
+
+const String STRING_CONTRIBUTION = "贡献";
+
+const String STRING_OPEN_SOURCE_LIBRARY = "开源库";
+
+const String STRING_JOIN = "🔥 欢迎加入~";
+
+
+const String STRING_GANK_DESC = '干货集中营是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能。\n\n还有漂亮的妹纸等你哦,快来体验😍吧~\n\n顺手点个Star，Gank需要您的支持💪!';
+
+const String STRING_GANK_CONTRIBUTION= '如果在使用过程中遇到问题，或者有好的想法，可以提issue或者直接pull request。\n\n成为开发者，给自己一个期待💪~';
 
 ///干货分类
 const List<String> GANK_ALL_CATEGORIES = <String>[

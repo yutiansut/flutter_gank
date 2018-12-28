@@ -17,9 +17,9 @@
 
 ## 应用截图
 
-| ![1](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbepzt7j30ps18yaxk.jpg) | ![2](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbqnnzrj30ps18ywwv.jpg) | ![3](https://ws1.sinaimg.cn/large/0065oQSqly1fylfc4r4mgj30ps18ye81.jpg) | ![4](https://ws1.sinaimg.cn/large/0065oQSqly1fylhxlnd24j30ps18ydx3.jpg) | ![5](https://ws1.sinaimg.cn/large/0065oQSqly1fylfcrrjvij30ps18y7f7.jpg) |
+| ![1](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbepzt7j30ps18yaxk.jpg) | ![2](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbqnnzrj30ps18ywwv.jpg) | ![3](https://ws1.sinaimg.cn/large/0065oQSqly1fylfc4r4mgj30ps18ye81.jpg) | ![4](https://ws1.sinaimg.cn/large/0065oQSqly1fylhxlnd24j30ps18ydx3.jpg) | ![5](https://ws1.sinaimg.cn/large/0065oQSqly1fymcgw2uaij30ps18yap9.jpg) |
 | :--: | :--: | :--: | :--: | :--: |
-| 首页 | 分类 | 妹纸 | 收藏 | 提交干货|
+| 首页 | 分类 | 妹纸 | 收藏 | 关于|
 
 
 ## 下载

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gank/activity/activity_about.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/net/gank_api.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_gank/page/page_fuli.dart';
 import 'package:flutter_gank/page/page_new.dart';
 import 'package:flutter_gank/page/page_search.dart';
 import 'package:flutter_gank/page/page_submit.dart';
-import 'package:flutter_gank/widget/gank_about.dart';
 
 class MainActivity extends StatefulWidget {
   @override
@@ -210,8 +210,10 @@ class _MainActivityState extends State<MainActivity>
           ///提交干货按钮
           eventBus.fire(ChangeFuliColumnEvent());
         } else {
-          ///关于按钮
-          showGankAboutDialog(context);
+          ///关于页面
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return AboutActivity();
+          }));
         }
       },
       child: Icon(
