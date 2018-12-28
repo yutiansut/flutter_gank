@@ -10,6 +10,6 @@ public class GankApplication extends FlutterApplication {
     public void onCreate() {
         super.onCreate();
         OkGo.getInstance().init(this);
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "5c1dc3dcb465f537ea000d4d");
+        UMConfigure.init(this, "5c1dc3dcb465f537ea000d4d", "gank", UMConfigure.DEVICE_TYPE_PHONE, null);
     }
 }

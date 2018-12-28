@@ -7,6 +7,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.umeng.analytics.MobclickAgent;
+
 import io.flutter.app.FlutterActivityDelegate;
 import io.flutter.app.FlutterActivityDelegate.ViewFactory;
 import io.flutter.app.FlutterActivityEvents;
@@ -68,6 +70,7 @@ public class FlutterFragmentActivity extends FragmentActivity implements Provide
     protected void onResume() {
         super.onResume();
         this.eventDelegate.onResume();
+        MobclickAgent.onResume(this);
     }
 
     protected void onDestroy() {
@@ -90,6 +93,7 @@ public class FlutterFragmentActivity extends FragmentActivity implements Provide
     protected void onPause() {
         super.onPause();
         this.eventDelegate.onPause();
+        MobclickAgent.onPause(this);
     }
 
     protected void onPostResume() {

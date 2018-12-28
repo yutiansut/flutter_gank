@@ -52,6 +52,6 @@ dependencies {
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.android.support:support-annotations:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation files('src/main/libs/umeng-analytics-7.5.4.jar')
-    implementation files('src/main/libs/umeng-common-1.5.4.jar')
+    implementation  'com.umeng.umsdk:analytics:7.5.4'
+    implementation  'com.umeng.umsdk:common:1.5.4'
 }
