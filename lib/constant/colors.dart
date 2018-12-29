@@ -10,4 +10,7 @@ const Color COLOR_BG = const Color.fromARGB(255, 249, 249, 249);
 const Color COLOR_DIVIDER = const Color.fromARGB(200, 180, 180, 180);
 
 ///首页分类标题背景
-const Color COLOR_TITLE_BG = Color(0xfffbfbfb);
+const Color COLOR_TITLE_BG = const Color(0xfffbfbfb);
+
+///干货历史文字颜色
+const Color COLOR_HISTORY_DATE = const Color(0xff9c9c9c);

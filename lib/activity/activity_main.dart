@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/activity/activity_about.dart';
+import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/net/gank_api.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_gank/page/page_fuli.dart';
 import 'package:flutter_gank/page/page_new.dart';
 import 'package:flutter_gank/page/page_search.dart';
 import 'package:flutter_gank/page/page_submit.dart';
+import 'package:flutter_gank/utils/time_utils.dart';
 
 class MainActivity extends StatefulWidget {
   @override
@@ -24,7 +26,6 @@ class _MainActivityState extends State<MainActivity>
   int _currentPageIndex = 0;
   double _elevation = 5;
   String _currentDate;
-  double _historyCardHeight = 50;
   List _historyData;
   List<BottomNavigationBarItem> _bottomTabs;
   PageController _pageController;
@@ -235,7 +236,7 @@ class _MainActivityState extends State<MainActivity>
           margin: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
           child: Container(
             color: Colors.white,
-            height: _historyCardHeight,
+            height: 50,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _historyData == null ? 0 : _historyData.length,
@@ -249,15 +250,62 @@ class _MainActivityState extends State<MainActivity>
                     },
                     child: Center(
                       child: Container(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                         color: Colors.white,
-                        child: Text(_historyData[i],
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: (_historyData[i] == _currentDate)
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.black),
-                            textAlign: TextAlign.center),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  getDay(_historyData[i]),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .body2
+                                      .copyWith(
+                                          fontSize: 18,
+                                          color: (_historyData[i] ==
+                                                  _currentDate)
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 3.0, bottom: 2),
+                                  child: Text(
+                                    getWeekDay(_historyData[i]),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .body2
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: (_historyData[i] ==
+                                                    _currentDate)
+                                                ? Theme.of(context).primaryColor
+                                                : COLOR_HISTORY_DATE),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 3.0, bottom: 2.0),
+                              child: Text(
+                                getMonth(_historyData[i]),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body2
+                                    .copyWith(
+                                        fontSize: 8,
+                                        color: (_historyData[i] == _currentDate)
+                                            ? Theme.of(context).primaryColor
+                                            : COLOR_HISTORY_DATE),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
