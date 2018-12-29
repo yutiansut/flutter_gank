@@ -7,7 +7,7 @@ const FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME =
 
 const String STRING_GANK_NAME = "干货集中营";
 
-const String STRING_GIRL = '妹子';
+const String STRING_GIRL = '妹纸';
 
 const String STRING_ABOUT = '关于';
 

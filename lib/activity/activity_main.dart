@@ -78,15 +78,15 @@ class _MainActivityState extends State<MainActivity>
     _drawerDetailsPosition = _controller.drive(_drawerDetailsTween);
     _bottomTabs = <BottomNavigationBarItem>[
       new BottomNavigationBarItem(
-        icon: Icon(Icons.home),
+        icon: Icon(IconData(0xe67f, fontFamily: "IconFont")),
         title: Text(STRING_GANK_NEW),
       ),
       new BottomNavigationBarItem(
-        icon: Icon(Icons.apps),
+        icon: Icon(IconData(0xe603, fontFamily: "IconFont")),
         title: Text(STRING_GANK_CATEGORY),
       ),
       new BottomNavigationBarItem(
-        icon: Icon(Icons.image),
+        icon: Icon(IconData(0xe637, fontFamily: "IconFont")),
         title: Text(STRING_GIRL),
       ),
       new BottomNavigationBarItem(
@@ -176,8 +176,7 @@ class _MainActivityState extends State<MainActivity>
         child: Container(
           margin: EdgeInsets.only(left: 10, right: 16),
           child: Icon(
-            Icons.search,
-            size: 26,
+            IconData(0xe783, fontFamily: "IconFont"),
             color: Colors.white,
           ),
         ),
@@ -321,11 +320,11 @@ class _MainActivityState extends State<MainActivity>
     if (_currentPageIndex == 0) {
       return IconData(0xe8a6, fontFamily: "IconFont");
     } else if (_currentPageIndex == 1) {
-      return Icons.add;
+      return IconData(0xe6db, fontFamily: "IconFont");
     } else if (_currentPageIndex == 2) {
-      return Icons.view_day;
+      return IconData(0xe63a, fontFamily: "IconFont");
     } else {
-      return Icons.settings;
+      return IconData(0xe72c, fontFamily: "IconFont");
     }
   }
 }

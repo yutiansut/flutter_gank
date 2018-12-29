@@ -36,7 +36,10 @@ class _SearchPageState extends State<SearchPage> with GankApi {
             )),
         actions: [
           IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(
+                IconData(0xe783, fontFamily: "IconFont"),
+                color: Colors.white,
+              ),
               onPressed: () {
                 _searchData();
               })
