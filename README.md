@@ -7,13 +7,14 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-52C434.svg">
-  <img src="https://img.shields.io/badge/version-1.0.0-red.svg">
+  <img src="https://img.shields.io/badge/version-1.0.1-52C434.svg">
+  <img src="https://img.shields.io/badge/flutterSdk-1.1.4-red.svg">
   <img src="https://img.shields.io/badge/language-dart-blue.svg">
   <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
 # 简介
-「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://gank.io/api/download_apk)吧~。
+「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](http://gank.io/static/apk/app-release-1.0.1.apk)吧~。
 
 ## 应用截图
 
@@ -24,10 +25,24 @@
 
 ## 下载
 
-- [安卓](https://gank.io/api/download_apk)
-- iOS     
+| 类型          | 二维码                                      |
+| ----------- | ---------------------------------------- |
+| **安卓下载**  | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fynmqb46amj308c08c748.jpg" width = "160"  alt="qr_apk" /> |
+| **IOS暂无下载** | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fynmxdifkmj306o05udgf.jpg" width = "160"  alt="qr_ios" /> |
 
-<img src="https://ws1.sinaimg.cn/large/0065oQSqly1fymh7qhyacj308c0aumx6.jpg" width = "160"  alt="download_apk" />
+> (╯‵□′)╯︵┻━┻，第三方太贵，没企业证书。哪位朋友有开发者账号，如果能帮忙上架App Store💪，真是感激不尽🙏~
+
+## 版本更新记录
+- 1.0.1  [2018-12-29]  
+  1、ui调整.  
+  2、添加用户反馈.  
+  3、添加设置页面.  
+  4、bug fix.  
+- 1.0.0  [2018-12-28]  
+  1、first release 版本.  
+  2、搭建了基础的项目框架结构.  
+  3、实现了最新，分类，妹纸图，搜索等基本功能.  
+  4、添加了APP在线更新.
 
 ## 编译运行
 
@@ -49,6 +64,8 @@ $ flutter run
 - 上线iOS版本
 
 ### 第三方框架
+> 当前 Flutter SDK 版本: 1.1.4 • channel dev
+
 项目中使用到的第三方library，感谢开源库作者们辛苦的付出~
 
 库 | 功能
@@ -67,7 +84,7 @@ $ flutter run
 
 ## Developers
 
-- [lijinshan](https://github.com/lijinshanmx)
+- [lijinshanmx](https://github.com/lijinshanmx)
 
 ## Thanks
 感谢@[JohnnyShieh](https://github.com/JohnnyShieh)的Java Gank项目,这里使用了其图标和主配色。  
