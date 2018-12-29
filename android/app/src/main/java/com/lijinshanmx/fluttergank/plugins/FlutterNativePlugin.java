@@ -4,6 +4,9 @@ import android.app.Activity;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.lijinshanmx.fluttergank.activity.MainActivity;
+import com.vector.update_app.UpdateAppBean;
+import com.vector.update_app.UpdateAppManager;
+import com.vector.update_app.UpdateCallback;
 import com.vector.update_app.utils.AppUpdateUtils;
 
 import io.flutter.plugin.common.MethodCall;
@@ -33,8 +36,19 @@ public class FlutterNativePlugin implements MethodChannel.MethodCallHandler {
     @Override
     public void onMethodCall(MethodCall call, MethodChannel.Result result) {
         if (call.method.equals("checkupdate")) {
-            mainActivity.checkUpdate();
-            result.success("Success");
+            mainActivity.checkUpdate(new UpdateCallback() {
+                @Override
+                protected void hasNewApp(UpdateAppBean updateApp, UpdateAppManager updateAppManager) {
+                    super.hasNewApp(updateApp, updateAppManager);
+                    result.success(true);
+                }
+
+                @Override
+                protected void noNewApp(String error) {
+                    result.success(false);
+                }
+
+            });
         } else if (call.method.equals("getversion")) {
             result.success(AppUpdateUtils.getVersionName(mainActivity));
         } else if (call.method.equals("openFeedbackActivity")) {

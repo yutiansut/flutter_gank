@@ -3,10 +3,12 @@ package com.lijinshanmx.fluttergank.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.lijinshanmx.fluttergank.plugins.FlutterNativePlugin;
 import com.lijinshanmx.fluttergank.utils.OkGoUpdateHttpUtil;
 import com.vector.update_app.UpdateAppManager;
+import com.vector.update_app.UpdateCallback;
 import com.vector.update_app.utils.AppUpdateUtils;
 
 import java.util.HashMap;
@@ -26,7 +28,7 @@ public class MainActivity extends FlutterFragmentActivity {
 
     }
 
-    public void checkUpdate() {
+    public void checkUpdate(UpdateCallback updateCallback) {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
         Map<String, String> params = new HashMap<>();
 
@@ -43,6 +45,6 @@ public class MainActivity extends FlutterFragmentActivity {
                 .setTargetPath(path)
                 .dismissNotificationProgress()
                 .build()
-                .update();
+                .checkNewApp(updateCallback);
     }
 }

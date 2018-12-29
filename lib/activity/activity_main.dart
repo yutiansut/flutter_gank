@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gank/activity/activity_about.dart';
+import 'package:flutter_gank/activity/activity_settings.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
@@ -212,7 +212,7 @@ class _MainActivityState extends State<MainActivity>
         } else {
           ///关于页面
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return AboutActivity();
+            return SettingActivity();
           }));
         }
       },

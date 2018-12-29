@@ -29,5 +29,9 @@ class DbUtils {
     await db.remove({'itemId': gankItem.itemId});
   }
 
+  Future clearDB() async {
+    await db.remove({});
+  }
+
   Future closeDB() async => await db.close();
 }
