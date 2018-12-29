@@ -7,13 +7,13 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-52C434.svg">
-  <img src="https://img.shields.io/badge/version-1.0.0-red.svg">
+  <img src="https://img.shields.io/badge/version-1.0.1-red.svg">
   <img src="https://img.shields.io/badge/language-dart-blue.svg">
   <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
 # 简介
-「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://gank.io/api/download_apk)吧~。
+「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](http://gank.io/static/apk/app-release-1.0.1.apk)吧~。
 
 ## 应用截图
 
@@ -24,10 +24,10 @@
 
 ## 下载
 
-- [安卓](https://gank.io/api/download_apk)
+- [安卓](http://gank.io/static/apk/app-release-1.0.1.apk)
 - iOS     
 
-<img src="https://ws1.sinaimg.cn/large/0065oQSqly1fymh7qhyacj308c0aumx6.jpg" width = "160"  alt="download_apk" />
+<img src="https://ws1.sinaimg.cn/large/0065oQSqly1fynklsc9x5j308c0auwei.jpg" width = "160"  alt="download_apk" />
 
 ## 编译运行
 
