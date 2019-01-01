@@ -20,8 +20,8 @@ String formatDateStr(String date) {
 
 String getWeekDay(String date) {
   DateTime dateTime = DateTime.parse(date);
-  var weekDay = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-  return '${weekDay[dateTime.weekday]}';
+  var weekDay = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+  return '${weekDay[dateTime.weekday - 1]}';
 }
 
 String getDay(date) {

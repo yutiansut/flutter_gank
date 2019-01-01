@@ -64,6 +64,12 @@ $ flutter run
 - 用户登录
 - 上线iOS版本
 
+## Developers
+
+- [lijinshanmx](https://github.com/lijinshanmx)  
+- [SwiftyWang](https://github.com/SwiftyWang)  
+
+
 ## FAQ
 
 - 运行提示:FormatException: Bad UTF-8 encoding  
@@ -78,6 +84,12 @@ $ flutter run
    /// Subclasses must implement [wantKeepAlive], and their [build] methods must  
    /// call `super.build` (the return value will always return null, and should be  
    /// ignored).    
+
+
+## Thanks
+感谢@[JohnnyShieh](https://github.com/JohnnyShieh)的Java Gank项目,这里使用了其图标和主配色。  
+感谢@[peng8350](https://github.com/peng8350)的Flutter_gank项目,这里使用借鉴了其代码组织架构以及启动页的样式。  
+
 
 ### 第三方框架
 > 当前 Flutter SDK 版本: 1.1.4 • channel dev
@@ -97,14 +109,6 @@ $ flutter run
 **pull_to_refresh**|**刷新组件**
 **cached_network_image**|**图片加载**
 
-
-## Developers
-
-- [lijinshanmx](https://github.com/lijinshanmx)
-
-## Thanks
-感谢@[JohnnyShieh](https://github.com/JohnnyShieh)的Java Gank项目,这里使用了其图标和主配色。  
-感谢@[peng8350](https://github.com/peng8350)的Flutter_gank项目,这里使用借鉴了其代码组织架构以及启动页的样式。
 
 ## 贡献代码
 
