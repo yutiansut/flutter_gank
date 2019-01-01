@@ -100,7 +100,8 @@ $ flutter run
 
 ## Developers
 
-- [lijinshanmx](https://github.com/lijinshanmx)
+- [lijinshanmx](https://github.com/lijinshanmx)  
+- [SwiftyWang](https://github.com/SwiftyWang)
 
 ## Thanks
 感谢@[JohnnyShieh](https://github.com/JohnnyShieh)的Java Gank项目,这里使用了其图标和主配色。  
