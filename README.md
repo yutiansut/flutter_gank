@@ -64,6 +64,21 @@ $ flutter run
 - 用户登录
 - 上线iOS版本
 
+## FAQ
+
+- 运行提示:FormatException: Bad UTF-8 encoding
+   编码问题，解决方法参考[Issue#2](https://github.com/lijinshanmx/flutter_gank/issues/2)
+- Tab切换页面或者调用Navigator.push会销毁重绘
+   解决方法：使用官方的AutomaticKeepAliveClientMixin，但是请注意：
+   在widget build函数中记得调用super函数: [super.build(context)](https://github.com/lijinshanmx/flutter_gank/commit/838ad9fa9c322b16672b2ddbbdefda2093af4e28);
+   官方注释：
+   /// A mixin with convenience methods for clients of [AutomaticKeepAlive]. Used
+   /// with [State] subclasses.
+   ///
+   /// Subclasses must implement [wantKeepAlive], and their [build] methods must
+   /// call `super.build` (the return value will always return null, and should be
+   /// ignored).  
+
 ### 第三方框架
 > 当前 Flutter SDK 版本: 1.1.4 • channel dev
 
