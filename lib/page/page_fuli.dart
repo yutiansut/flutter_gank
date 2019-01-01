@@ -40,6 +40,7 @@ class _FuliPageState extends State<FuliPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       color: Colors.white,
       child: Stack(

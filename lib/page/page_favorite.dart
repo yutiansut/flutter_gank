@@ -76,6 +76,7 @@ class _FavoritePageState extends State<FavoritePage>
 
   ///build 组件
   Container buildContainer(BuildContext context) {
+    super.build(context);
     return Container(
       color: Colors.white,
       child: Stack(

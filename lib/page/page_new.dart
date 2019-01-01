@@ -48,6 +48,7 @@ class NewPageState extends State<NewPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(
       children: <Widget>[
         ///content view
