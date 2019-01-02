@@ -7,6 +7,7 @@ class GankApi {
   static const String API_SEARCH = "http://gank.io/api/search/query";
   static const String API_TODAY = "http://gank.io/api/today";
   static const String API_HISTORY = "http://gank.io/api/day/history";
+  static const String API_HISTORY_CONTENT = "http://gank.io/api/history/content";
   static const String API_SUBMIT = "https://gank.io/api/add2gank";
 
   ///Dio client.
@@ -32,8 +33,8 @@ class GankApi {
     return response.data;
   }
 
-  ///获取所有的历史干货.
-  Future<List> getHistoryData() async {
+  ///获取所有的历史干货日期.
+  Future<List> getHistoryDateData() async {
     Response response = await dio.get(API_HISTORY);
     return response.data['results'];
   }
@@ -56,5 +57,11 @@ class GankApi {
     });
     Response response = await dio.post(API_SUBMIT, data: formData);
     return response.data;
+  }
+
+  ///获取所有的历史干货.
+  Future<List> getHistoryContentData(int page, {count = 20}) async {
+    Response response = await dio.get(API_HISTORY_CONTENT + '/$count/$page');
+    return response.data['results'];
   }
 }

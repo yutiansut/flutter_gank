@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gank/activity/activity_history.dart';
 import 'package:flutter_gank/activity/activity_settings.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
@@ -105,7 +106,7 @@ class _MainActivityState extends State<MainActivity>
 
   ///获取干货历史发布日期
   void _getHistoryData() async {
-    var historyData = await getHistoryData();
+    var historyData = await getHistoryDateData();
     setState(() {
       _historyData = historyData;
       _currentDate = _historyData[0];
@@ -238,76 +239,92 @@ class _MainActivityState extends State<MainActivity>
             height: 50,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: _historyData == null ? 0 : _historyData.length,
+                itemCount: _historyData == null ? 0 : 8,
                 itemBuilder: (context, i) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _currentDate = _historyData[i];
-                        eventBus.fire(RefreshNewPageEvent(_currentDate));
-                      });
-                    },
-                    child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        color: Colors.white,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  getDay(_historyData[i]),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .body2
-                                      .copyWith(
-                                          fontSize: 18,
-                                          color: (_historyData[i] ==
-                                                  _currentDate)
-                                              ? Theme.of(context).primaryColor
-                                              : Colors.black),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 3.0, bottom: 2),
-                                  child: Text(
-                                    getWeekDay(_historyData[i]),
+                  if (i == 7) {
+                    return IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HistoryActivity()));
+                        },
+                        icon: Icon(
+                          IconData(0xe68c, fontFamily: 'IconFont'),
+                          size: 28,
+                          color: Colors.black,
+                        ));
+                  } else {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _currentDate = _historyData[i];
+                          eventBus.fire(RefreshNewPageEvent(_currentDate));
+                        });
+                      },
+                      child: Center(
+                        child: Container(
+                          padding:
+                              const EdgeInsets.only(left: 10.0, right: 10.0),
+                          color: Colors.white,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Text(
+                                    getDay(_historyData[i]),
                                     style: Theme.of(context)
                                         .textTheme
                                         .body2
                                         .copyWith(
-                                            fontSize: 8,
+                                            fontSize: 18,
                                             color: (_historyData[i] ==
                                                     _currentDate)
                                                 ? Theme.of(context).primaryColor
-                                                : COLOR_HISTORY_DATE),
+                                                : Colors.black),
                                   ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 3.0, bottom: 2.0),
-                              child: Text(
-                                getMonth(_historyData[i]),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .body2
-                                    .copyWith(
-                                        fontSize: 8,
-                                        color: (_historyData[i] == _currentDate)
-                                            ? Theme.of(context).primaryColor
-                                            : COLOR_HISTORY_DATE),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 3.0, bottom: 2),
+                                    child: Text(
+                                      getWeekDay(_historyData[i]),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .body2
+                                          .copyWith(
+                                              fontSize: 8,
+                                              color: (_historyData[i] ==
+                                                      _currentDate)
+                                                  ? Theme.of(context)
+                                                      .primaryColor
+                                                  : COLOR_HISTORY_DATE),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 3.0, bottom: 2.0),
+                                child: Text(
+                                  getMonth(_historyData[i]),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .body2
+                                      .copyWith(
+                                          fontSize: 8,
+                                          color: (_historyData[i] ==
+                                                  _currentDate)
+                                              ? Theme.of(context).primaryColor
+                                              : COLOR_HISTORY_DATE),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 }),
           ),
         ),

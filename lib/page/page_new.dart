@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/model/gank_item.dart';
-import 'package:flutter_gank/model/today_item.dart';
+import 'package:flutter_gank/model/detail_item.dart';
 import 'package:flutter_gank/net/gank_api.dart';
 import 'package:flutter_gank/widget/gank_list_item.dart';
 import 'package:flutter_gank/widget/gank_list_title.dart';
@@ -117,7 +117,7 @@ class NewPageState extends State<NewPage>
     } else {
       todayJson = await getSpecialDayData(_date);
     }
-    var todayItem = TodayItem.fromJson(todayJson);
+    var todayItem = DetailItem.fromJson(todayJson);
     setState(() {
       _gankItems = todayItem.gankItems;
       _girlImage = todayItem.girlImage;

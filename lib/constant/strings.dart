@@ -128,6 +128,8 @@ const String STRING_LOGIN_TIP = '请输入Github账号密码或者浏览器中�
 
 const String STRING_SUPPORT_LATER = '即将支持~';
 
+const String STRING_HISTORY_DATA = '干货历史';
+
 
 ///干货分类
 const List<String> GANK_ALL_CATEGORIES = <String>[
