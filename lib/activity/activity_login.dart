@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/constant/colors.dart';
@@ -41,6 +42,7 @@ class _LoginActivityState extends State<LoginActivity>
 
   MethodChannel flutterNativePlugin;
   String _userName, _password;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,21 +74,23 @@ class _LoginActivityState extends State<LoginActivity>
                     size: 30,
                   )),
             )),
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
+            Align(
+              alignment: FractionalOffset.bottomCenter,
               child: Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      STRING_LOGIN_TIP,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.0,
-                          fontFamily: "WorkSansMedium"),
-                    )),
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  STRING_LOGIN_TIP,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.0,
+                      fontFamily: "WorkSansMedium"),
+                ),
+              ),
+            ),
+            Offstage(
+              offstage: !isLoading,
+              child: Center(
+                child: CupertinoActivityIndicator(),
               ),
             )
           ],
@@ -238,6 +242,9 @@ class _LoginActivityState extends State<LoginActivity>
                       ),
                     ),
                     onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
                       bool isSuccess = await login(_userName, _password);
                       await _handleLogin(isSuccess, context);
                     }),
@@ -296,6 +303,9 @@ class _LoginActivityState extends State<LoginActivity>
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
               onTap: () async {
+                setState(() {
+                  isLoading = true;
+                });
                 await flutterNativePlugin.invokeMethod(
                     'oAuthInBrowser', {'url': GithubApi.browserOAuth2Url});
               },
@@ -318,6 +328,9 @@ class _LoginActivityState extends State<LoginActivity>
   }
 
   Future _handleLogin(bool isSuccess, BuildContext context) async {
+    setState(() {
+      isLoading = false;
+    });
     if (isSuccess) {
       Fluttertoast.showToast(
           msg: STRING_LOGIN_SUCCESS,

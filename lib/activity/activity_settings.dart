@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/activity/activity_about.dart';
 import 'package:flutter_gank/activity/activity_login.dart';
+import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/gank_app.dart';
@@ -148,6 +149,35 @@ class _SettingActivityState extends State<SettingActivity>
                 color: Colors.white,
                 child: GestureDetector(
                   onTap: () async {
+                    Fluttertoast.showToast(
+                        msg: STRING_SUPPORT_LATER,
+                        backgroundColor: Colors.black,
+                        gravity: ToastGravity.CENTER,
+                        textColor: Colors.white);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          STRING_SYNC_FAVORITES,
+                          style: Theme.of(context).textTheme.body1,
+                        ),
+                      ),
+                      Icon(Icons.chevron_right, color: const Color(0xffc7c7ca))
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, right: 30),
+                child: Divider(height: 0, color: COLOR_DIVIDER),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 14),
+                height: 50,
+                color: Colors.white,
+                child: GestureDetector(
+                  onTap: () async {
                     await clearDB();
                     Fluttertoast.showToast(
                         msg: STRING_CLEAR_FAVORITES_SUCCESS,
@@ -217,6 +247,10 @@ class _SettingActivityState extends State<SettingActivity>
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, right: 30),
+                child: Divider(height: 0, color: COLOR_DIVIDER),
+              ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 14),
                 height: 50,
@@ -249,6 +283,10 @@ class _SettingActivityState extends State<SettingActivity>
                     ],
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, right: 30),
+                child: Divider(height: 0, color: COLOR_DIVIDER),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 14),
@@ -296,6 +334,10 @@ class _SettingActivityState extends State<SettingActivity>
                     ],
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, right: 30),
+                child: Divider(height: 0, color: COLOR_DIVIDER),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 14),
@@ -368,7 +410,7 @@ class _SettingActivityState extends State<SettingActivity>
                     style: Theme.of(context)
                         .textTheme
                         .body2
-                        .copyWith(color: const Color(0xff888888)),
+                        .copyWith(color: Colors.black),
                   ),
                 ),
               )

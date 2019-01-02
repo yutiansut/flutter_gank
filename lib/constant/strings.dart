@@ -82,9 +82,11 @@ const String STRING_CLEAR_CACHE_SUCCESS = "清理缓存成功";
 
 const String STRING_CLEAR_FAVORITES = "清理收藏";
 
+const String STRING_SYNC_FAVORITES = "同步收藏";
+
 const String STRING_FEED_BACK = "用户反馈";
 
-const String STRING_CHECK_UPDATE = "版本更新";
+const String STRING_CHECK_UPDATE = "检查更新";
 
 const String STRING_CLEAR_FAVORITES_SUCCESS = "清理收藏成功";
 
@@ -123,6 +125,9 @@ const String STRING_USERNAME_HINT = '请输入用户名或邮箱';
 const String STRING_PASSWORD_HINT = '请输入密码';
 
 const String STRING_LOGIN_TIP = '请输入Github账号密码或者浏览器中授权登录';
+
+const String STRING_SUPPORT_LATER = '即将支持~';
+
 
 ///干货分类
 const List<String> GANK_ALL_CATEGORIES = <String>[
