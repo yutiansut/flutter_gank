@@ -1,9 +1,11 @@
 package com.lijinshanmx.fluttergank.plugins;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.lijinshanmx.fluttergank.activity.MainActivity;
+import com.lijinshanmx.fluttergank.utils.GankUtils;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.UpdateCallback;
@@ -54,6 +56,11 @@ public class FlutterNativePlugin implements MethodChannel.MethodCallHandler {
         } else if (call.method.equals("openFeedbackActivity")) {
             FeedbackAPI.openFeedbackActivity();
             result.success("Success");
+        } else if (call.method.equals("oAuthInBrowser")) {
+            String url = call.argument("url");
+            if (!TextUtils.isEmpty(url)) {
+                GankUtils.openInBrowser(mainActivity, url);
+            }
         } else {
             result.notImplemented();
         }

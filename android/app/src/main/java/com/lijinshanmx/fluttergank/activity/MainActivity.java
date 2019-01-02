@@ -1,9 +1,10 @@
 package com.lijinshanmx.fluttergank.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.Toast;
 
 import com.lijinshanmx.fluttergank.plugins.FlutterNativePlugin;
 import com.lijinshanmx.fluttergank.utils.OkGoUpdateHttpUtil;
@@ -14,9 +15,13 @@ import com.vector.update_app.utils.AppUpdateUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.flutter.plugin.common.BasicMessageChannel;
+import io.flutter.plugin.common.StringCodec;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterFragmentActivity {
+    final String PUSH_CHANNEL = "com.lijnshanmx/OAuthPush";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +30,18 @@ public class MainActivity extends FlutterFragmentActivity {
         }
         GeneratedPluginRegistrant.registerWith(this);
         FlutterNativePlugin.registerWith(registrarFor(FlutterNativePlugin.CHANNEL));
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Uri uri = intent.getData();
+        if (uri != null) {
+            String code = uri.getQueryParameter("code");
+            String state = uri.getQueryParameter("state");
+            BasicMessageChannel messageChannel = new BasicMessageChannel<>(getFlutterView(), PUSH_CHANNEL, StringCodec.INSTANCE);
+            messageChannel.send("{\"code\":\"" + code + "\",\"state\":\"" + state + "\"}");
+        }
     }
 
     public void checkUpdate(UpdateCallback updateCallback) {

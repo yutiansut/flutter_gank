@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gank/activity/activity_splash.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
+import 'package:flutter_gank/model/user_model.dart';
 import 'package:flutter_gank/utils/db_utils.dart';
+import 'package:flutter_gank/utils/user_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GankApp extends StatefulWidget {
@@ -21,6 +23,7 @@ class GankApp extends StatefulWidget {
 
 class GankAppState extends State<GankApp> with DbUtils {
   Color _primaryColor = PRIMARY_COLOR;
+  User currentUser;
 
   void changeThemeColor(Color color) {
     SharedPreferences.getInstance().then((preferences) {
@@ -35,6 +38,7 @@ class GankAppState extends State<GankApp> with DbUtils {
   void initState() {
     super.initState();
     openDB();
+    loginUser();
   }
 
   @override
@@ -59,5 +63,9 @@ class GankAppState extends State<GankApp> with DbUtils {
           )),
       home: SplashActivity(),
     );
+  }
+
+  void loginUser() async {
+    currentUser = await UserUtils.getUser();
   }
 }

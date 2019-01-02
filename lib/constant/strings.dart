@@ -5,6 +5,9 @@ const STRING_DB_FAVORITE = "favorites";
 const FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME =
     'com.lijnshanmx/FlutterNativePlugin';
 
+const FLUTTER_MESSAGE_CHANNEL_NAME =
+    'com.lijnshanmx/OAuthPush';
+
 const String STRING_GANK_NAME = "干货集中营";
 
 const String STRING_GIRL = '妹纸';
@@ -98,6 +101,28 @@ const String STRING_GANK_DESC = '干货集中营是一款注重体验的 Gank.io
 const String STRING_GANK_CONTRIBUTION= '如果在使用过程中遇到问题，或者有好的想法，可以提issue或者直接pull request。\n\n成为开发者，给自己一个期待💪~';
 
 const String STRING_BE_DEVELOPER_TIP= '如果你愿意和我一起维护Gank，可以联系我或者直接提交代码，我Review后会直接合并到master，所以你有什么新奇的想法、超前的功能，记得PR哦~';
+
+const String STRING_LOGIN_SUCCESS = '登录成功';
+
+const String STRING_LOGIN_FAILED = '登录失败，请重试~';
+
+const String STRING_LOGOUT_SUCCESS = '退出成功';
+
+const String STRING_STAR_SUCCESS = '关注成功';
+
+const String STRING_STAR_FAILED = '关注失败';
+
+const String STRING_LOGOUT= '退出登录';
+
+const String STRING_PLEASE_LOGIN= '请先登录';
+
+const String STRING_NO_DESC = '此人很懒，什么都没写~';
+
+const String STRING_USERNAME_HINT = '请输入用户名或邮箱';
+
+const String STRING_PASSWORD_HINT = '请输入密码';
+
+const String STRING_LOGIN_TIP = '请输入Github账号密码或者浏览器中授权登录';
 
 ///干货分类
 const List<String> GANK_ALL_CATEGORIES = <String>[
