@@ -43,9 +43,7 @@ class _FavoritePageState extends State<FavoritePage>
     setState(() {
       _isLoading = false;
       _gankItems = gankItems;
-      if (_gankItems.length == 0) {
-        _isEmpty = true;
-      }
+      _isEmpty = _gankItems.length == 0;
     });
   }
 
@@ -54,9 +52,7 @@ class _FavoritePageState extends State<FavoritePage>
     List<GankItem> gankItems = await _getFavoritesData();
     setState(() {
       _gankItems = gankItems;
-      if (_gankItems.length == 0) {
-        _isEmpty = true;
-      }
+      _isEmpty = _gankItems.length == 0;
       _refreshController.sendBack(true, RefreshStatus.completed);
     });
   }
