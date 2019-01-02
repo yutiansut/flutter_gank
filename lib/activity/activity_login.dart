@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/model/user_model.dart';
@@ -38,11 +39,6 @@ class _LoginActivityState extends State<LoginActivity>
   TextEditingController signupConfirmPasswordController =
       new TextEditingController();
 
-  Color left = Colors.black;
-  Color right = Colors.white;
-  Color start = const Color(0xFF00ACC1);
-  Color end = const Color(0xFF217CE9);
-
   MethodChannel flutterNativePlugin;
   String _userName, _password;
 
@@ -52,7 +48,7 @@ class _LoginActivityState extends State<LoginActivity>
       body: Container(
         decoration: new BoxDecoration(
           gradient: new LinearGradient(
-              colors: [start, end],
+              colors: [PRIMARY_COLOR, COLOR_GRADIENT_END],
               begin: const FractionalOffset(0.0, 0.0),
               end: const FractionalOffset(1.0, 1.0),
               stops: [0.0, 1.0],
@@ -210,18 +206,18 @@ class _LoginActivityState extends State<LoginActivity>
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: start,
+                      color: PRIMARY_COLOR,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                     BoxShadow(
-                      color: end,
+                      color: COLOR_GRADIENT_END,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                   ],
                   gradient: new LinearGradient(
-                      colors: [end, start],
+                      colors: [COLOR_GRADIENT_END, PRIMARY_COLOR],
                       begin: const FractionalOffset(0.2, 0.2),
                       end: const FractionalOffset(1.0, 1.0),
                       stops: [0.0, 1.0],
@@ -229,7 +225,7 @@ class _LoginActivityState extends State<LoginActivity>
                 ),
                 child: MaterialButton(
                     highlightColor: Colors.transparent,
-                    splashColor: end,
+                    splashColor: COLOR_GRADIENT_END,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 42.0),

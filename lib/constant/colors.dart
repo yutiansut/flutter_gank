@@ -14,3 +14,6 @@ const Color COLOR_TITLE_BG = const Color(0xfffbfbfb);
 
 ///干货历史文字颜色
 const Color COLOR_HISTORY_DATE = const Color(0xff9c9c9c);
+
+///登录页渐变终止色
+const Color COLOR_GRADIENT_END = const Color(0xFF217CE9);

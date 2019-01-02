@@ -45,6 +45,15 @@ class _SettingActivityState extends State<SettingActivity>
         });
       }
     });
+    eventBus.on<LogOutEvent>().listen((event) {
+      if (mounted) {
+        //更新全局User状态
+        GankApp.of(context).currentUser = null;
+        setState(() {
+          currentUser = null;
+        });
+      }
+    });
   }
 
   void _initVersion() {
@@ -328,10 +337,7 @@ class _SettingActivityState extends State<SettingActivity>
                     onTap: () async {
                       bool result = await UserUtils.removeUser();
                       if (result) {
-                        GankApp.of(context).currentUser = null;
-                        setState(() {
-                          currentUser = null;
-                        });
+                        eventBus.fire(LogOutEvent());
                         Fluttertoast.showToast(
                             msg: STRING_LOGOUT_SUCCESS,
                             backgroundColor: Colors.black,

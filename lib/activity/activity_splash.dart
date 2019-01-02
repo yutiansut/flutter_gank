@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/activity/activity_main.dart';
 import 'package:flutter_gank/constant/strings.dart';
@@ -10,22 +12,47 @@ class SplashActivity extends StatefulWidget {
 
 class _SplashActivityState extends State<SplashActivity>
     with SingleTickerProviderStateMixin, DbUtils {
-  AnimationController _controller;
+  Timer _timer;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("images/splash.jpg"), fit: BoxFit.cover)),
-        alignment: Alignment.center,
-        child: ScaleTransition(
-            scale: _controller,
-            alignment: Alignment.center,
-            child: Text(STRING_GANK_NAME,
-                style: TextStyle(
-                    inherit: true, color: Colors.white70, fontSize: 18.0))),
+        child: Stack(
+          children: <Widget>[
+            Align(
+              alignment: FractionalOffset.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Image.asset(
+                    'images/gank.png',
+                    width: 100,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 60),
+                    child: Text(STRING_GANK_NAME,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontFamily: "WorkSansSemiBold")),
+                  )
+                ],
+              ),
+            ),
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: Text('${DateTime.now().year}@gank.io',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14.0,
+                        fontFamily: "WorkSansMedium")),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -33,18 +60,17 @@ class _SplashActivityState extends State<SplashActivity>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        vsync: this,
-        lowerBound: 1.0,
-        upperBound: 2.0,
-        value: 1.0,
-        duration: const Duration(milliseconds: 2500));
-
-    _controller.animateTo(2.0).then((value) {
+    _timer = Timer(const Duration(milliseconds: 1500), () {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return MainActivity();
       }));
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
