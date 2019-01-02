@@ -7,7 +7,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-52C434.svg">
-  <img src="https://img.shields.io/badge/version-1.0.1-52C434.svg">
+  <img src="https://img.shields.io/badge/version-1.0.2-52C434.svg">
   <img src="https://img.shields.io/badge/flutterSdk-1.1.4-red.svg">
   <img src="https://img.shields.io/badge/language-dart2-blue.svg">
   <img src="https://img.shields.io/badge/license-MIT-orange.svg">
@@ -34,6 +34,11 @@
 > 哪位朋友有开发者账号，如果能帮忙上架App Store💪，真是感激不尽🙏~
 
 ## 版本更新记录
+- 1.0.2  [2018-01-03]  
+  1、ui调整.  
+  2、添加Github登录.  
+  3、添加历史干货页面.  
+  4、bug fix. 
 - 1.0.1  [2018-12-29]  
   1、ui调整.  
   2、添加用户反馈.  
