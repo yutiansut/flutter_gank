@@ -18,9 +18,9 @@
 
 ## 应用截图
 
-| ![1](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbepzt7j30ps18yaxk.jpg) | ![2](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbqnnzrj30ps18ywwv.jpg) | ![3](https://ws1.sinaimg.cn/large/0065oQSqly1fylfc4r4mgj30ps18ye81.jpg) | ![4](https://ws1.sinaimg.cn/large/0065oQSqly1fylhxlnd24j30ps18ydx3.jpg) | ![5](https://ws1.sinaimg.cn/large/0065oQSqly1fymcgw2uaij30ps18yap9.jpg) |
+| ![1](https://ws1.sinaimg.cn/large/0065oQSqly1fyt98vkcuxj30ps18yh9c.jpg) | ![2](https://ws1.sinaimg.cn/large/0065oQSqly1fylfbqnnzrj30ps18ywwv.jpg) | ![3](https://ws1.sinaimg.cn/large/0065oQSqly1fylfc4r4mgj30ps18ye81.jpg) | ![4](https://ws1.sinaimg.cn/large/0065oQSqly1fylhxlnd24j30ps18ydx3.jpg) | ![5](https://ws1.sinaimg.cn/large/0065oQSqly1fyt99whhpij30ps18yhdt.jpg) |
 | :--: | :--: | :--: | :--: | :--: |
-| 首页 | 分类 | 妹纸 | 收藏 | 关于|
+| 首页 | 分类 | 妹纸 | 收藏 | 干货历史|
 
 
 ## 下载
@@ -34,17 +34,17 @@
 > 哪位朋友有开发者账号，如果能帮忙上架App Store💪，真是感激不尽🙏~
 
 ## 版本更新记录
-- 1.0.2  [2018-01-03]  
+### V1.0.2  [2018-01-03]  
   1、ui调整.  
   2、添加Github登录.  
   3、添加历史干货页面.  
   4、bug fix. 
-- 1.0.1  [2018-12-29]  
+### V1.0.1  [2018-12-29]  
   1、ui调整.  
   2、添加用户反馈.  
   3、添加设置页面.  
   4、bug fix.  
-- 1.0.0  [2018-12-28]  
+### V1.0.0  [2018-12-28]  
   1、first release 版本.  
   2、搭建了基础的项目框架结构.  
   3、实现了最新，分类，妹纸图，搜索等基本功能.  
@@ -53,7 +53,7 @@
 ## 编译运行
 
 ```bash
-$ flutter run
+$ flutter run [--release]
 ```
 
 ## 功能
@@ -93,8 +93,9 @@ $ flutter run
 
 
 ## Thanks
-感谢@[JohnnyShieh](https://github.com/JohnnyShieh)的Java Gank项目,这里使用了其图标和主配色。  
-感谢@[peng8350](https://github.com/peng8350)的Flutter_gank项目,这里使用借鉴了其代码组织架构以及启动页的样式。  
+
+[所有的开源的人](https://github.com)  
+[干货集中营](http://gank.io/)    
 
 
 ### 第三方框架
