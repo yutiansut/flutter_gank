@@ -4,6 +4,7 @@ import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/model/gank_item.dart';
 import 'package:flutter_gank/utils/db_utils.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GankWebView extends StatefulWidget {
   final GankItem gankItem;
@@ -58,6 +59,13 @@ class _GankWebViewState extends State<GankWebView> with DbUtils {
                   });
                 }
                 eventBus.fire(RefreshDBEvent());
+              }),
+          IconButton(
+              icon: Icon(Icons.language),
+              onPressed: () async {
+                if (await canLaunch(widget.gankItem.url)) {
+                  launch(widget.gankItem.url);
+                }
               })
         ],
       ),
