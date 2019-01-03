@@ -61,7 +61,7 @@ class _FavoritePageState extends State<FavoritePage>
   Future<List<GankItem>> _getFavoritesData() async {
     var results = await find({});
     return results
-        .map<GankItem>((json) => GankItem.fromJson(json, isDbJson: true))
+        .map<GankItem>((json) => GankItem.fromJson(json))
         .toList();
   }
 

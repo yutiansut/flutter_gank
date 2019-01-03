@@ -13,9 +13,10 @@ class GankItem {
 
   GankItem.title(this.isTitle, this.category);
 
-  GankItem.fromJson(Map<String, dynamic> json,
-      {String category, bool isDbJson = false}) {
-    this.itemId = isDbJson ? json['itemId'] : json['_id'];
+  GankItem.fromJson(Map<String, dynamic> json, {String category}) {
+    ///取id，其实对应的是gank mongo数据库中的id值，搜索获取的id名称为ganhuo_id，所以这里直接使用？？来取.
+    ///为什么有一个itemId，这个是为了存本地objectDb中，避免与它自己的_id冲突.
+    this.itemId = json['itemId'] ?? json['_id'] ?? json['ganhuo_id'];
     this.category = category;
     setField(json);
   }
