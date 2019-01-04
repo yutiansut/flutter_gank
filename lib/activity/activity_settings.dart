@@ -8,11 +8,12 @@ import 'package:flutter_gank/activity/activity_login.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
-import 'package:flutter_gank/gank_app.dart';
+import 'package:flutter_gank/manager/user_manager.dart';
 import 'package:flutter_gank/model/user_model.dart';
 import 'package:flutter_gank/net/github_api.dart';
+import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/utils/db_utils.dart';
-import 'package:flutter_gank/utils/user_utils.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,7 +31,6 @@ class _SettingActivityState extends State<SettingActivity>
   @override
   void initState() {
     super.initState();
-    currentUser = GankApp.of(context).currentUser;
     _registerEventBus();
     _initVersion();
   }
@@ -40,7 +40,6 @@ class _SettingActivityState extends State<SettingActivity>
       if (mounted) {
         User user = event.user;
         //更新全局User状态
-        GankApp.of(context).currentUser = user;
         setState(() {
           currentUser = user;
         });
@@ -49,7 +48,6 @@ class _SettingActivityState extends State<SettingActivity>
     eventBus.on<LogOutEvent>().listen((event) {
       if (mounted) {
         //更新全局User状态
-        GankApp.of(context).currentUser = null;
         setState(() {
           currentUser = null;
         });
@@ -257,19 +255,7 @@ class _SettingActivityState extends State<SettingActivity>
                 color: Colors.white,
                 child: GestureDetector(
                   onTap: () async {
-                    if (GankApp.of(context).currentUser != null) {
-                      bool isSuccess = await starFlutterGank(
-                          GankApp.of(context).currentUser.token);
-                      Fluttertoast.showToast(
-                          msg: isSuccess
-                              ? STRING_STAR_SUCCESS
-                              : STRING_STAR_FAILED,
-                          backgroundColor: Colors.black,
-                          gravity: ToastGravity.CENTER,
-                          textColor: Colors.white);
-                    } else {
-                      launch('https://github.com/lijinshanmx/flutter_gank');
-                    }
+                    launch('https://github.com/lijinshanmx/flutter_gank');
                   },
                   child: Row(
                     children: <Widget>[
@@ -377,15 +363,13 @@ class _SettingActivityState extends State<SettingActivity>
                   color: Colors.white,
                   child: GestureDetector(
                     onTap: () async {
-                      bool result = await UserUtils.removeUser();
-                      if (result) {
-                        eventBus.fire(LogOutEvent());
-                        Fluttertoast.showToast(
-                            msg: STRING_LOGOUT_SUCCESS,
-                            backgroundColor: Colors.black,
-                            gravity: ToastGravity.CENTER,
-                            textColor: Colors.white);
-                      }
+                      UserManager.logout(StoreProvider.of<AppState>(context));
+                      eventBus.fire(LogOutEvent());
+                      Fluttertoast.showToast(
+                          msg: STRING_LOGOUT_SUCCESS,
+                          backgroundColor: Colors.black,
+                          gravity: ToastGravity.CENTER,
+                          textColor: Colors.white);
                     },
                     child: Row(
                       children: <Widget>[

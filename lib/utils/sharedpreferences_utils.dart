@@ -11,13 +11,18 @@ class SPUtils {
     spf.setStringList(key, value);
   }
 
+  static save(String key, value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
   static get(String key) async {
-    SharedPreferences spf = await SharedPreferences.getInstance();
-    return spf.get(key);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.get(key);
   }
 
   static remove(String key) async {
-    SharedPreferences spf = await SharedPreferences.getInstance();
-    spf.remove(key);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(key);
   }
 }

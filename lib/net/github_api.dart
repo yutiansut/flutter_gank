@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_gank/manager/user_manager.dart';
 import 'package:flutter_gank/model/user_model.dart';
-import 'package:flutter_gank/utils/user_utils.dart';
 
 class GithubApi {
   static const String GANK_CLIENT_ID = '750419fa775225670b05';
@@ -21,7 +21,7 @@ class GithubApi {
 
   Dio dio = new Dio();
 
-  Future<bool> login(String userName, String password) async {
+  Future<User> login(String userName, String password) async {
     try {
       var response = await dio.post("https://api.github.com/authorizations",
           data: {
@@ -42,7 +42,7 @@ class GithubApi {
       return await getUserInfo(token);
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -66,26 +66,17 @@ class GithubApi {
     return _getToken(response.data);
   }
 
-  Future<bool> getUserInfo(String accessToken) async {
+  Future<User> getUserInfo(String accessToken) async {
     try {
       var response = await dio
           .get("https://api.github.com/user?access_token=$accessToken");
       var userInfo = response.data;
-      User user = User(
-          userInfo['login'],
-          userInfo['id'],
-          userInfo['avatar_url'],
-          userInfo['url'],
-          userInfo['email'],
-          userInfo['bio'],
-          userInfo['location'],
-          userInfo['blog'],
-          userInfo['name'],
-          accessToken);
-      await UserUtils.saveUser(user);
-      return true;
+      userInfo['token'] = accessToken;
+      User user = User.fromJson(userInfo);
+      await UserManager.saveUserToLocalStorage(user);
+      return user;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 

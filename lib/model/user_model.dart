@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class User {
   String login;
   int id;
@@ -10,25 +12,37 @@ class User {
   String name;
   String token;
 
-  User(this.login, this.id, this.avatarUrl, this.url, this.email, this.bio,
-      this.location, this.blog, this.name, this.token);
+  User.empty();
+
+  User.fromJson(Map userMap) {
+    login = userMap['login'];
+    id = userMap['id'];
+    avatarUrl = userMap['avatar_url'];
+    url = userMap['url'];
+    email = userMap['email'];
+    bio = userMap['bio'];
+    location = userMap['location'];
+    blog = userMap['blog'];
+    name = userMap['name'];
+    token = userMap['token'];
+  }
+
+  String toJson() {
+    Map<String, dynamic> userMap = new Map();
+    userMap['login'] = login;
+    userMap['id'] = id;
+    userMap['avatar_url'] = avatarUrl;
+    userMap['url'] = url;
+    userMap['email'] = email;
+    userMap['bio'] = bio;
+    userMap['location'] = location;
+    userMap['blog'] = blog;
+    userMap['name'] = name;
+    userMap['token'] = token;
+    return json.encode(userMap);
+  }
 
   String get userDesc => bio ?? blog ?? email;
 
   String get userName => name ?? login;
-
-  Map toMap() {
-    Map<String, dynamic> map = new Map();
-    map['login'] = login;
-    map['id'] = id;
-    map['avatar_url'] = avatarUrl;
-    map['url'] = url;
-    map['email'] = email;
-    map['bio'] = bio;
-    map['location'] = location;
-    map['blog'] = blog;
-    map['name'] = name;
-    map['token'] = token;
-    return map;
-  }
 }

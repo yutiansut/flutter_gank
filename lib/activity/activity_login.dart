@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
-import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_gank/model/user_model.dart';
 import 'package:flutter_gank/net/github_api.dart';
-import 'package:flutter_gank/utils/user_utils.dart';
+import 'package:flutter_gank/redux/app_state.dart';
+import 'package:flutter_gank/redux/user_reducer.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginActivity extends StatefulWidget {
+  static const String ROUTER_NAME = 'login';
+
   LoginActivity({Key key}) : super(key: key);
 
   @override
@@ -46,7 +49,7 @@ class _LoginActivityState extends State<LoginActivity>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: Container(
         decoration: new BoxDecoration(
           gradient: new LinearGradient(
@@ -112,6 +115,11 @@ class _LoginActivityState extends State<LoginActivity>
     super.initState();
     flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     platform.setMessageHandler(_handlePlatformMessage);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   Future<String> _handlePlatformMessage(String message) async {
@@ -245,8 +253,10 @@ class _LoginActivityState extends State<LoginActivity>
                       setState(() {
                         isLoading = true;
                       });
-                      bool isSuccess = await login(_userName, _password);
-                      await _handleLogin(isSuccess, context);
+                      User user = await login(_userName, _password);
+                      StoreProvider.of<AppState>(context)
+                          .dispatch(new UpdateUserAction(user));
+                      await _handleLogin(user, context);
                     }),
               ),
             ],
@@ -327,18 +337,16 @@ class _LoginActivityState extends State<LoginActivity>
     );
   }
 
-  Future _handleLogin(bool isSuccess, BuildContext context) async {
+  Future _handleLogin(User user, BuildContext context) async {
     setState(() {
       isLoading = false;
     });
-    if (isSuccess) {
+    if (user != null) {
       Fluttertoast.showToast(
           msg: STRING_LOGIN_SUCCESS,
           backgroundColor: Colors.black,
           gravity: ToastGravity.CENTER,
           textColor: Colors.white);
-      User user = await UserUtils.getUser();
-      eventBus.fire(LoginEvent(user));
       Navigator.of(context).pop();
     } else {
       Fluttertoast.showToast(

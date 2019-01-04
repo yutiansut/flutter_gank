@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/activity/activity_about.dart';
 import 'package:flutter_gank/activity/activity_history.dart';
-import 'package:flutter_gank/activity/activity_login.dart';
 import 'package:flutter_gank/activity/activity_settings.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
-import 'package:flutter_gank/gank_app.dart';
+import 'package:flutter_gank/manager/user_manager.dart';
 import 'package:flutter_gank/net/gank_api.dart';
 import 'package:flutter_gank/net/github_api.dart';
 import 'package:flutter_gank/page/page_category.dart';
@@ -19,13 +18,16 @@ import 'package:flutter_gank/page/page_fuli.dart';
 import 'package:flutter_gank/page/page_new.dart';
 import 'package:flutter_gank/page/page_search.dart';
 import 'package:flutter_gank/page/page_submit.dart';
+import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/utils/time_utils.dart';
 import 'package:flutter_gank/widget/gank_drawer.dart';
 import 'package:flutter_gank/widget/icon_font.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainActivity extends StatefulWidget {
+  static const String ROUTER_NAME = 'main';
+
   @override
   _MainActivityState createState() => _MainActivityState();
 }
@@ -124,7 +126,7 @@ class _MainActivityState extends State<MainActivity>
   }
 
   ///调用native，检查更新
-  Future<Null> _checkUpdate() async {
+  void _checkUpdate() async {
     if (Platform.isAndroid) {
       await flutterNativePlugin.invokeMethod('checkupdate');
     }
@@ -166,43 +168,42 @@ class _MainActivityState extends State<MainActivity>
       widthPercent: 0.75,
       child: Column(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName:
-                Text(GankApp.of(context).currentUser?.userName ?? '请先登录'),
-            accountEmail: Text(GankApp.of(context).currentUser?.userDesc ??
-                '~~(>_<)~~ 什么也没有~'),
-            currentAccountPicture: GestureDetector(
-                onTap: () {
-                  if (GankApp.of(context).currentUser == null) {
-                    _gotoActivity(context, LoginActivity());
-                  }
-                },
-                child: Container(
-                  width: 55,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    border: new Border.all(color: Colors.white, width: 1.0),
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipOval(
-                    child: GankApp.of(context).currentUser?.avatarUrl == null ||
-                            GankApp.of(context).currentUser.avatarUrl.isEmpty
-                        ? Image.asset('images/gank.png')
-                        : CachedNetworkImage(
-                            imageUrl:
-                                GankApp.of(context).currentUser.avatarUrl),
-                  ),
-                )),
-            margin: EdgeInsets.zero,
-            onDetailsPressed: GankApp.of(context).currentUser == null
-                ? null
-                : () {
+          StoreBuilder<AppState>(
+            builder: (context, store) => UserAccountsDrawerHeader(
+                  accountName: Text(store.state.userInfo?.userName ?? '请先登录'),
+                  accountEmail: Text(
+                      store.state.userInfo?.userDesc ?? '~~(>_<)~~ 什么也没有~'),
+                  currentAccountPicture: GestureDetector(
+                      onTap: () {
+                        if (store.state.userInfo != null) {
+                          Navigator.of(context).pushNamed('login');
+                        }
+                      },
+                      child: Container(
+                        width: 55,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          border:
+                              new Border.all(color: Colors.white, width: 1.0),
+                          shape: BoxShape.circle,
+                        ),
+                        child: ClipOval(
+                          child: store.state.userInfo?.avatarUrl == null ||
+                                  store.state.userInfo.avatarUrl.isEmpty
+                              ? Image.asset('images/gank.png')
+                              : CachedNetworkImage(
+                                  imageUrl: store.state.userInfo.avatarUrl),
+                        ),
+                      )),
+                  margin: EdgeInsets.zero,
+                  onDetailsPressed: () {
                     _showDrawerContents = !_showDrawerContents;
                     if (_showDrawerContents)
                       _controllerDrawer.reverse();
                     else
                       _controllerDrawer.forward();
                   },
+                ),
           ),
           MediaQuery.removePadding(
             context: context,
@@ -284,21 +285,9 @@ class _MainActivityState extends State<MainActivity>
                                 color: Color(0xff737373),
                               ),
                               title: Text('点个赞'),
-                              onTap: () async {
-                                if (GankApp.of(context).currentUser != null) {
-                                  bool isSuccess = await starFlutterGank(
-                                      GankApp.of(context).currentUser.token);
-                                  Fluttertoast.showToast(
-                                      msg: isSuccess
-                                          ? STRING_STAR_SUCCESS
-                                          : STRING_STAR_FAILED,
-                                      backgroundColor: Colors.black,
-                                      gravity: ToastGravity.CENTER,
-                                      textColor: Colors.white);
-                                } else {
-                                  launch(
-                                      'https://github.com/lijinshanmx/flutter_gank');
-                                }
+                              onTap: () {
+                                launch(
+                                    'https://github.com/lijinshanmx/flutter_gank');
                               },
                             ),
                             ListTile(
@@ -331,11 +320,16 @@ class _MainActivityState extends State<MainActivity>
                                   ),
                                   title: Text('同步收藏')),
                               ListTile(
-                                  leading: Icon(
-                                    IconFont(0xe65b),
-                                    color: Color(0xff737373),
-                                  ),
-                                  title: Text(STRING_LOGOUT)),
+                                leading: Icon(
+                                  IconFont(0xe65b),
+                                  color: Color(0xff737373),
+                                ),
+                                title: Text(STRING_LOGOUT),
+                                onTap: () {
+                                  UserManager.logout(
+                                      StoreProvider.of<AppState>(context));
+                                },
+                              ),
                             ],
                           ),
                         ),
