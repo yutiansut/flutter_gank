@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/model/user_model.dart';
+import 'package:flutter_gank/common/model/github_user.dart';
 
-import 'theme_reducer.dart';
-import 'user_reducer.dart';
+import 'package:flutter_gank/redux/reducer_theme.dart';
+import 'package:flutter_gank/redux/reducer_user.dart';
 /**
  * Redux全局State
  * Created by lijinshan
