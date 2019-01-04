@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/model/user_model.dart';
-import 'package:flutter_gank/net/github_api.dart';
+import 'package:flutter_gank/api//github_api.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/redux/user_reducer.dart';
 import 'package:flutter_redux/flutter_redux.dart';

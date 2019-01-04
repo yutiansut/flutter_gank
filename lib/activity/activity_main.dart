@@ -8,10 +8,12 @@ import 'package:flutter_gank/activity/activity_history.dart';
 import 'package:flutter_gank/activity/activity_settings.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
-import 'package:flutter_gank/event/event_bus.dart';
+import 'package:flutter_gank/event/event_change_column.dart';
+import 'package:flutter_gank/event/event_refresh_new.dart';
+import 'package:flutter_gank/manager/app_manager.dart';
 import 'package:flutter_gank/manager/user_manager.dart';
-import 'package:flutter_gank/net/gank_api.dart';
-import 'package:flutter_gank/net/github_api.dart';
+import 'package:flutter_gank/api//gank_api.dart';
+import 'package:flutter_gank/api//github_api.dart';
 import 'package:flutter_gank/page/page_category.dart';
 import 'package:flutter_gank/page/page_favorite.dart';
 import 'package:flutter_gank/page/page_fuli.dart';
@@ -34,7 +36,6 @@ class MainActivity extends StatefulWidget {
 
 class _MainActivityState extends State<MainActivity>
     with TickerProviderStateMixin, GankApi, GithubApi {
-  GlobalKey<NewPageState> _homeNewGlobalKey;
   int _currentPageIndex = 0;
   double _elevation = 5;
   String _currentDate;
@@ -71,7 +72,6 @@ class _MainActivityState extends State<MainActivity>
 
   ///初始化数据
   void initData() {
-    _homeNewGlobalKey = new GlobalKey();
     _pageController = new PageController(initialPage: 0);
     _controllerHistoryDate = AnimationController(
       vsync: this,
@@ -175,7 +175,7 @@ class _MainActivityState extends State<MainActivity>
                       store.state.userInfo?.userDesc ?? '~~(>_<)~~ 什么也没有~'),
                   currentAccountPicture: GestureDetector(
                       onTap: () {
-                        if (store.state.userInfo != null) {
+                        if (store.state.userInfo == null) {
                           Navigator.of(context).pushNamed('login');
                         }
                       },
@@ -361,7 +361,7 @@ class _MainActivityState extends State<MainActivity>
           onPageChanged: _pageChange,
           controller: _pageController,
           children: <Widget>[
-            NewPage(_homeNewGlobalKey),
+            NewPage(),
             CategoryPage(),
             FuliPage(),
             FavoritePage()
@@ -412,7 +412,7 @@ class _MainActivityState extends State<MainActivity>
               ));
         } else if (_currentPageIndex == 2) {
           ///切换妹纸图列数按钮
-          eventBus.fire(ChangeFuliColumnEvent());
+          AppManager.eventBus.fire(ChangeFuliColumnEvent());
         } else {
           ///关于页面
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
@@ -443,7 +443,8 @@ class _MainActivityState extends State<MainActivity>
                     onTap: () {
                       setState(() {
                         _currentDate = _historyData[i];
-                        eventBus.fire(RefreshNewPageEvent(_currentDate));
+                        AppManager.eventBus
+                            .fire(RefreshNewPageEvent(_currentDate));
                       });
                     },
                     child: Center(

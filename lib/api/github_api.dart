@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_gank/manager/user_manager.dart';
 import 'package:flutter_gank/model/user_model.dart';
+import 'package:flutter_gank/net/http_manager.dart';
+import 'package:flutter_gank/net/http_response.dart';
 
 class GithubApi {
   static const String GANK_CLIENT_ID = '750419fa775225670b05';
@@ -19,25 +20,23 @@ class GithubApi {
   static String browserOAuth2Url =
       'https://github.com/login/oauth/authorize?client_id=${GithubApi.GANK_CLIENT_ID}&scope=${GANK_OAUTH2_SCOPE.join(',')}&state=${DateTime.now().millisecondsSinceEpoch}';
 
-  Dio dio = new Dio();
-
   Future<User> login(String userName, String password) async {
     try {
-      var response = await dio.post("https://api.github.com/authorizations",
-          data: {
-            "client_id": GANK_CLIENT_ID,
-            "client_secret": GANK_CLIENT_SECRET,
-            "note": note,
-            "noteUrl": noteUrl,
-            "scopes": GANK_OAUTH2_SCOPE
-          },
-          options: Options(
-            headers: {
-              "Authorization":
-                  "Basic ${base64Encode(utf8.encode("$userName:$password"))}",
-              "cache-control": "no-cache"
-            },
-          ));
+      var response =
+          await HttpManager.fetch("https://api.github.com/authorizations",
+              params: {
+                "client_id": GANK_CLIENT_ID,
+                "client_secret": GANK_CLIENT_SECRET,
+                "note": note,
+                "noteUrl": noteUrl,
+                "scopes": GANK_OAUTH2_SCOPE
+              },
+              header: {
+                "Authorization":
+                    "Basic ${base64Encode(utf8.encode("$userName:$password"))}",
+                "cache-control": "no-cache"
+              },
+              method: 'post');
       String token = response.data['token'];
       return await getUserInfo(token);
     } catch (e) {
@@ -57,8 +56,9 @@ class GithubApi {
   }
 
   Future<String> getAccessToken(String code) async {
-    var response = await dio.get('https://github.com/login/oauth/access_token',
-        data: {
+    var response = await HttpManager.fetch(
+        'https://github.com/login/oauth/access_token',
+        params: {
           'client_id': GANK_CLIENT_ID,
           'client_secret': GANK_CLIENT_SECRET,
           'code': code
@@ -68,8 +68,8 @@ class GithubApi {
 
   Future<User> getUserInfo(String accessToken) async {
     try {
-      var response = await dio
-          .get("https://api.github.com/user?access_token=$accessToken");
+      var response = await HttpManager.fetch(
+          "https://api.github.com/user?access_token=$accessToken");
       var userInfo = response.data;
       userInfo['token'] = accessToken;
       User user = User.fromJson(userInfo);
@@ -81,8 +81,9 @@ class GithubApi {
   }
 
   Future<bool> starFlutterGank(String accessToken) async {
-    var response = await dio.put(
-        "https://api.github.com/user/starred/lijinshanmx/flutter_gank?access_token=$accessToken");
-    return response.statusCode == 204;
+    HttpResponse response = await HttpManager.fetch(
+        "https://api.github.com/user/starred/lijinshanmx/flutter_gank?access_token=$accessToken",
+        method: 'put');
+    return response.code == 204;
   }
 }

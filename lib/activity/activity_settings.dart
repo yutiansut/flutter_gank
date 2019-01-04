@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/activity/activity_about.dart';
-import 'package:flutter_gank/activity/activity_login.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
-import 'package:flutter_gank/event/event_bus.dart';
+import 'package:flutter_gank/event/event_refresh_db.dart';
+import 'package:flutter_gank/manager/app_manager.dart';
 import 'package:flutter_gank/manager/user_manager.dart';
 import 'package:flutter_gank/model/user_model.dart';
-import 'package:flutter_gank/net/github_api.dart';
+import 'package:flutter_gank/api//github_api.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/utils/db_utils.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -31,28 +30,7 @@ class _SettingActivityState extends State<SettingActivity>
   @override
   void initState() {
     super.initState();
-    _registerEventBus();
     _initVersion();
-  }
-
-  void _registerEventBus() {
-    eventBus.on<LoginEvent>().listen((event) {
-      if (mounted) {
-        User user = event.user;
-        //更新全局User状态
-        setState(() {
-          currentUser = user;
-        });
-      }
-    });
-    eventBus.on<LogOutEvent>().listen((event) {
-      if (mounted) {
-        //更新全局User状态
-        setState(() {
-          currentUser = null;
-        });
-      }
-    });
   }
 
   void _initVersion() {
@@ -75,71 +53,6 @@ class _SettingActivityState extends State<SettingActivity>
           color: const Color(0xfff0f0f0),
           child: ListView(
             children: <Widget>[
-              Container(
-                height: 80,
-                padding: EdgeInsets.symmetric(horizontal: 18),
-                color: Colors.white,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () async {
-                          if (currentUser == null) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => LoginActivity()));
-                          }
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              currentUser?.name ??
-                                  currentUser?.login ??
-                                  STRING_PLEASE_LOGIN,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .title
-                                  .copyWith(fontSize: 20),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 6.0),
-                              child: Text(
-                                currentUser?.bio ??
-                                    currentUser?.blog ??
-                                    STRING_NO_DESC,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .body1
-                                    .copyWith(
-                                        fontSize: 12, color: Color(0xff818181)),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ClipOval(
-                        child: currentUser?.avatarUrl == null ||
-                                currentUser.avatarUrl.isEmpty
-                            ? Image.asset(
-                                'images/gank.png',
-                                width: 55,
-                                height: 55,
-                              )
-                            : CachedNetworkImage(
-                                imageUrl: currentUser.avatarUrl,
-                                height: 55,
-                                width: 55,
-                              ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
               Container(
                 margin: EdgeInsets.only(top: 15),
                 padding: EdgeInsets.symmetric(horizontal: 14),
@@ -182,7 +95,7 @@ class _SettingActivityState extends State<SettingActivity>
                         backgroundColor: Colors.black,
                         gravity: ToastGravity.CENTER,
                         textColor: Colors.white);
-                    eventBus.fire(RefreshDBEvent());
+                    AppManager.eventBus.fire(RefreshDBEvent());
                   },
                   child: Row(
                     children: <Widget>[
@@ -364,7 +277,6 @@ class _SettingActivityState extends State<SettingActivity>
                   child: GestureDetector(
                     onTap: () async {
                       UserManager.logout(StoreProvider.of<AppState>(context));
-                      eventBus.fire(LogOutEvent());
                       Fluttertoast.showToast(
                           msg: STRING_LOGOUT_SUCCESS,
                           backgroundColor: Colors.black,

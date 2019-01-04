@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/event/event_bus.dart';
+import 'package:flutter_gank/event/event_refresh_db.dart';
+import 'package:flutter_gank/manager/app_manager.dart';
 import 'package:flutter_gank/model/gank_item.dart';
 import 'package:flutter_gank/utils/db_utils.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -58,7 +59,7 @@ class _GankWebViewState extends State<GankWebView> with DbUtils {
                     _favorite = true;
                   });
                 }
-                eventBus.fire(RefreshDBEvent());
+                AppManager.eventBus.fire(RefreshDBEvent());
               }),
           IconButton(
               icon: Icon(Icons.language),

@@ -2,13 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/constant/strings.dart';
+import 'package:flutter_gank/event/event_change_column.dart';
+import 'package:flutter_gank/manager/app_manager.dart';
 import 'package:flutter_gank/model/gank_item.dart';
-import 'package:flutter_gank/net/gank_api.dart';
+import 'package:flutter_gank/api//gank_api.dart';
 import 'package:flutter_gank/widget/gank_photo_view.dart';
 import 'package:flutter_gank/widget/indicator_factory.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_gank/event/event_bus.dart';
 import 'package:flutter_parallax/flutter_parallax.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FuliPage extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _FuliPageState extends State<FuliPage>
   @override
   void initState() {
     super.initState();
-    eventBus.on<ChangeFuliColumnEvent>().listen((event) {
+    AppManager.eventBus.on<ChangeFuliColumnEvent>().listen((event) {
       if (mounted) {
         setState(() {
           isOneColumn = !isOneColumn;

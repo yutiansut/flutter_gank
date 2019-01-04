@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/model/gank_item.dart';
-import 'package:flutter_gank/net/gank_api.dart';
+import 'package:flutter_gank/api//gank_api.dart';
 import 'package:flutter_gank/widget/gank_list_item.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

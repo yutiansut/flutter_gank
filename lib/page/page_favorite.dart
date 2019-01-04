@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/constant/strings.dart';
-import 'package:flutter_gank/event/event_bus.dart';
+import 'package:flutter_gank/event/event_refresh_db.dart';
+import 'package:flutter_gank/manager/app_manager.dart';
 import 'package:flutter_gank/model/gank_item.dart';
 import 'package:flutter_gank/utils/db_utils.dart';
 import 'package:flutter_gank/widget/gank_list_item.dart';
@@ -24,7 +25,7 @@ class _FavoritePageState extends State<FavoritePage>
   void initState() {
     super.initState();
     _refreshController = new RefreshController();
-    eventBus.on<RefreshDBEvent>().listen((event) {
+    AppManager.eventBus.on<RefreshDBEvent>().listen((event) {
       if (mounted) {
         ///刷新本地收藏，注意:mounted变量判断是否已挂载当前widget.
         _refreshFavorites();
@@ -60,9 +61,7 @@ class _FavoritePageState extends State<FavoritePage>
   ///从本地数据库获取收藏数据
   Future<List<GankItem>> _getFavoritesData() async {
     var results = await find({});
-    return results
-        .map<GankItem>((json) => GankItem.fromJson(json))
-        .toList();
+    return results.map<GankItem>((json) => GankItem.fromJson(json)).toList();
   }
 
   @override

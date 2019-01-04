@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter_gank/config/gank_config.dart';
 import 'package:flutter_gank/manager/user_manager.dart';
 import 'package:flutter_gank/model/user_model.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_gank/utils/sharedpreferences_utils.dart';
 import 'package:redux/redux.dart';
 
 class AppManager {
+  static EventBus eventBus = EventBus();
+
   static Future initApp(Store store) async {
     ///初始化用户信息
     User localUser = await UserManager.getUserFromLocalStorage();

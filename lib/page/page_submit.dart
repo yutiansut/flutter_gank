@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/constant/strings.dart';
-import 'package:flutter_gank/net/gank_api.dart';
+import 'package:flutter_gank/api//gank_api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SubmitPage extends StatefulWidget {

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/event/event_bus.dart';
-import 'package:flutter_gank/model/gank_item.dart';
+import 'package:flutter_gank/event/event_refresh_new.dart';
+import 'package:flutter_gank/manager/app_manager.dart';
 import 'package:flutter_gank/model/detail_item.dart';
-import 'package:flutter_gank/net/gank_api.dart';
+import 'package:flutter_gank/model/gank_item.dart';
+import 'package:flutter_gank/api//gank_api.dart';
 import 'package:flutter_gank/widget/gank_list_item.dart';
 import 'package:flutter_gank/widget/gank_list_title.dart';
 import 'package:flutter_gank/widget/gank_photo_view.dart';
@@ -14,8 +15,6 @@ import "package:pull_to_refresh/pull_to_refresh.dart";
 class NewPage extends StatefulWidget {
   @override
   NewPageState createState() => NewPageState();
-
-  NewPage(Key key) : super(key: key);
 }
 
 class NewPageState extends State<NewPage>
@@ -29,7 +28,7 @@ class NewPageState extends State<NewPage>
   @override
   void initState() {
     super.initState();
-    eventBus.on<RefreshNewPageEvent>().listen((event) {
+    AppManager.eventBus.on<RefreshNewPageEvent>().listen((event) {
       if (mounted) {
         _date = event.date;
         getNewData(date: _date);
