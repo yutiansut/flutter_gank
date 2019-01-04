@@ -6,7 +6,7 @@ class UserUtils {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('login', user.login);
     await prefs.setInt('id', user.id);
-    await prefs.setString('avatar_url', user.avatar_url);
+    await prefs.setString('avatar_url', user.avatarUrl);
     await prefs.setString('url', user.url);
     await prefs.setString('email', user.email);
     await prefs.setString('bio', user.bio);

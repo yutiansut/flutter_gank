@@ -125,15 +125,15 @@ class _SettingActivityState extends State<SettingActivity>
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: ClipOval(
-                        child: currentUser?.avatar_url == null ||
-                                currentUser.avatar_url.isEmpty
+                        child: currentUser?.avatarUrl == null ||
+                                currentUser.avatarUrl.isEmpty
                             ? Image.asset(
                                 'images/gank.png',
                                 width: 55,
                                 height: 55,
                               )
                             : CachedNetworkImage(
-                                imageUrl: currentUser.avatar_url,
+                                imageUrl: currentUser.avatarUrl,
                                 height: 55,
                                 width: 55,
                               ),

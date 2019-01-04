@@ -1,13 +1,18 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gank/activity/activity_about.dart';
 import 'package:flutter_gank/activity/activity_history.dart';
+import 'package:flutter_gank/activity/activity_login.dart';
 import 'package:flutter_gank/activity/activity_settings.dart';
 import 'package:flutter_gank/constant/colors.dart';
 import 'package:flutter_gank/constant/strings.dart';
 import 'package:flutter_gank/event/event_bus.dart';
+import 'package:flutter_gank/gank_app.dart';
 import 'package:flutter_gank/net/gank_api.dart';
+import 'package:flutter_gank/net/github_api.dart';
 import 'package:flutter_gank/page/page_category.dart';
 import 'package:flutter_gank/page/page_favorite.dart';
 import 'package:flutter_gank/page/page_fuli.dart';
@@ -15,6 +20,10 @@ import 'package:flutter_gank/page/page_new.dart';
 import 'package:flutter_gank/page/page_search.dart';
 import 'package:flutter_gank/page/page_submit.dart';
 import 'package:flutter_gank/utils/time_utils.dart';
+import 'package:flutter_gank/widget/gank_drawer.dart';
+import 'package:flutter_gank/widget/icon_font.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainActivity extends StatefulWidget {
   @override
@@ -22,7 +31,7 @@ class MainActivity extends StatefulWidget {
 }
 
 class _MainActivityState extends State<MainActivity>
-    with TickerProviderStateMixin, GankApi {
+    with TickerProviderStateMixin, GankApi, GithubApi {
   GlobalKey<NewPageState> _homeNewGlobalKey;
   int _currentPageIndex = 0;
   double _elevation = 5;
@@ -30,16 +39,17 @@ class _MainActivityState extends State<MainActivity>
   List _historyData;
   List<BottomNavigationBarItem> _bottomTabs;
   PageController _pageController;
-  Animation<Offset> _drawerDetailsPosition;
+  Animation<Offset> _historyDateDetailsPosition, _drawerDetailsPosition;
   bool _showHistoryDate = false;
-  AnimationController _controller;
-  Animation<double> _drawerContentsOpacity;
+  bool _showDrawerContents = true;
+  AnimationController _controllerHistoryDate, _controllerDrawer;
+  Animation<double> _historyDateContentsOpacity, _drawerContentsOpacity;
+  Animatable<Offset> _historyDateDetailsTween, _drawerDetailsTween;
   MethodChannel flutterNativePlugin;
-  Animatable<Offset> _drawerDetailsTween;
 
   void _pageChange(int index) {
     if (_showHistoryDate && _currentPageIndex != 0) {
-      _controller.reverse();
+      _controllerHistoryDate.reverse();
       _showHistoryDate = !_showHistoryDate;
     }
     setState(() {
@@ -61,22 +71,38 @@ class _MainActivityState extends State<MainActivity>
   void initData() {
     _homeNewGlobalKey = new GlobalKey();
     _pageController = new PageController(initialPage: 0);
-    _controller = AnimationController(
+    _controllerHistoryDate = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _drawerContentsOpacity = CurvedAnimation(
-      parent: ReverseAnimation(_controller),
+    _controllerDrawer = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _historyDateContentsOpacity = CurvedAnimation(
+      parent: ReverseAnimation(_controllerHistoryDate),
       curve: Curves.fastOutSlowIn,
     );
+    _drawerContentsOpacity = CurvedAnimation(
+      parent: ReverseAnimation(_controllerDrawer),
+      curve: Curves.fastOutSlowIn,
+    );
+    _historyDateDetailsTween = Tween<Offset>(
+      begin: const Offset(0.0, -1.0),
+      end: Offset.zero,
+    ).chain(CurveTween(
+      curve: Curves.fastOutSlowIn,
+    ));
     _drawerDetailsTween = Tween<Offset>(
       begin: const Offset(0.0, -1.0),
       end: Offset.zero,
     ).chain(CurveTween(
       curve: Curves.fastOutSlowIn,
     ));
+    _historyDateDetailsPosition =
+        _controllerHistoryDate.drive(_historyDateDetailsTween);
+    _drawerDetailsPosition = _controllerDrawer.drive(_drawerDetailsTween);
     flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
-    _drawerDetailsPosition = _controller.drive(_drawerDetailsTween);
     _bottomTabs = <BottomNavigationBarItem>[
       new BottomNavigationBarItem(
         icon: Icon(IconData(0xe67f, fontFamily: "IconFont")),
@@ -126,11 +152,210 @@ class _MainActivityState extends State<MainActivity>
         _pageChange(index);
       },
     );
+
     return Scaffold(
+      drawer: _buildGankDrawer(context),
       appBar: _buildAppBar(context),
       body: _buildStack(),
       bottomNavigationBar: botNavBar,
     );
+  }
+
+  GankDrawer _buildGankDrawer(BuildContext context) {
+    return GankDrawer(
+      widthPercent: 0.75,
+      child: Column(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName:
+                Text(GankApp.of(context).currentUser?.userName ?? '请先登录'),
+            accountEmail: Text(GankApp.of(context).currentUser?.userDesc ??
+                '~~(>_<)~~ 什么也没有~'),
+            currentAccountPicture: GestureDetector(
+                onTap: () {
+                  if (GankApp.of(context).currentUser == null) {
+                    _gotoActivity(context, LoginActivity());
+                  }
+                },
+                child: Container(
+                  width: 55,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    border: new Border.all(color: Colors.white, width: 1.0),
+                    shape: BoxShape.circle,
+                  ),
+                  child: ClipOval(
+                    child: GankApp.of(context).currentUser?.avatarUrl == null ||
+                            GankApp.of(context).currentUser.avatarUrl.isEmpty
+                        ? Image.asset('images/gank.png')
+                        : CachedNetworkImage(
+                            imageUrl:
+                                GankApp.of(context).currentUser.avatarUrl),
+                  ),
+                )),
+            margin: EdgeInsets.zero,
+            onDetailsPressed: GankApp.of(context).currentUser == null
+                ? null
+                : () {
+                    _showDrawerContents = !_showDrawerContents;
+                    if (_showDrawerContents)
+                      _controllerDrawer.reverse();
+                    else
+                      _controllerDrawer.forward();
+                  },
+          ),
+          MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: Expanded(
+              child: ListView(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      // The initial contents of the drawer.
+                      FadeTransition(
+                        opacity: _drawerContentsOpacity,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: ListTile(
+                                leading: Icon(
+                                  IconFont(0xe655),
+                                  color: Color(0xff737373),
+                                ),
+                                title: Text('搜索干货'),
+                                onTap: () {
+                                  _gotoActivity(context, SearchPage());
+                                },
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                IconFont(0xe8a6),
+                                color: Color(0xff737373),
+                              ),
+                              title: Text('历史干货'),
+                              onTap: () {
+                                _gotoActivity(context, HistoryActivity());
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                IconFont(0xe62c),
+                                color: Color(0xff737373),
+                              ),
+                              title: Text('提交干货'),
+                              onTap: () {
+                                _gotoActivity(context, SubmitPage());
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Divider(
+                                height: 0,
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                IconFont(0xe621),
+                                color: Color(0xff737373),
+                              ),
+                              title: Text('设置'),
+                              onTap: () {
+                                _gotoActivity(context, SettingActivity());
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                IconFont(0xe710),
+                                color: Color(0xff737373),
+                              ),
+                              title: Text('关于'),
+                              onTap: () {
+                                _gotoActivity(context, AboutActivity());
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                IconFont(0xe6ab),
+                                color: Color(0xff737373),
+                              ),
+                              title: Text('点个赞'),
+                              onTap: () async {
+                                if (GankApp.of(context).currentUser != null) {
+                                  bool isSuccess = await starFlutterGank(
+                                      GankApp.of(context).currentUser.token);
+                                  Fluttertoast.showToast(
+                                      msg: isSuccess
+                                          ? STRING_STAR_SUCCESS
+                                          : STRING_STAR_FAILED,
+                                      backgroundColor: Colors.black,
+                                      gravity: ToastGravity.CENTER,
+                                      textColor: Colors.white);
+                                } else {
+                                  launch(
+                                      'https://github.com/lijinshanmx/flutter_gank');
+                                }
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                IconFont(0xe61a),
+                                color: Color(0xff737373),
+                              ),
+                              title: Text('反馈'),
+                              onTap: () {
+                                flutterNativePlugin
+                                    .invokeMethod('openFeedbackActivity');
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      // The drawer's "details" view.
+                      SlideTransition(
+                        position: _drawerDetailsPosition,
+                        child: FadeTransition(
+                          opacity: ReverseAnimation(_drawerContentsOpacity),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              ListTile(
+                                  leading: Icon(
+                                    IconFont(0xe619),
+                                    color: Color(0xff737373),
+                                  ),
+                                  title: Text('同步收藏')),
+                              ListTile(
+                                  leading: Icon(
+                                    IconFont(0xe65b),
+                                    color: Color(0xff737373),
+                                  ),
+                                  title: Text(STRING_LOGOUT)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _gotoActivity(BuildContext context, Widget activity) {
+    Navigator.of(context).pop();
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return activity;
+    }));
   }
 
   ///build Scaffold Body.
@@ -158,44 +383,28 @@ class _MainActivityState extends State<MainActivity>
     return AppBar(
       elevation: _elevation,
       centerTitle: true,
-      leading: _buildLeading(context),
       title: Offstage(
           offstage: _currentPageIndex != 0, child: Text(_currentDate ?? '')),
-      actions: _buildActions(context),
+      actions: <Widget>[_buildActions(context)],
     );
   }
 
-  ///标题栏右边按钮
-  List<Widget> _buildActions(BuildContext context) {
-    return [
-      GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return SearchPage();
-          }));
-        },
-        child: Container(
-          margin: EdgeInsets.only(left: 10, right: 16),
-          child: Icon(
-            IconData(0xe783, fontFamily: "IconFont"),
-            color: Colors.white,
-          ),
-        ),
-      )
-    ];
-  }
-
   ///标题栏左侧按钮
-  GestureDetector _buildLeading(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+  IconButton _buildActions(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        getActionsIcon(),
+        size: 22,
+        color: Colors.white,
+      ),
+      onPressed: () {
         if (_currentPageIndex == 0) {
           ///干货历史按钮
           _showHistoryDate = !_showHistoryDate;
           if (_showHistoryDate)
-            _controller.forward();
+            _controllerHistoryDate.forward();
           else
-            _controller.reverse();
+            _controllerHistoryDate.reverse();
           setState(() {
             _elevation = _showHistoryDate ? 0 : 5;
           });
@@ -217,20 +426,15 @@ class _MainActivityState extends State<MainActivity>
           }));
         }
       },
-      child: Icon(
-        getLeadingIcon(),
-        size: 22,
-        color: Colors.white,
-      ),
     );
   }
 
   ///历史日期动画widget.
   SlideTransition _buildHistorySlideTransition() {
     return SlideTransition(
-      position: _drawerDetailsPosition,
+      position: _historyDateDetailsPosition,
       child: FadeTransition(
-        opacity: ReverseAnimation(_drawerContentsOpacity),
+        opacity: ReverseAnimation(_historyDateContentsOpacity),
         child: Card(
           elevation: 5,
           margin: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
@@ -239,92 +443,76 @@ class _MainActivityState extends State<MainActivity>
             height: 50,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: _historyData == null ? 0 : 8,
+                itemCount: _historyData == null ? 0 : _historyData.length,
                 itemBuilder: (context, i) {
-                  if (i == 7) {
-                    return IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HistoryActivity()));
-                        },
-                        icon: Icon(
-                          IconData(0xe68c, fontFamily: 'IconFont'),
-                          size: 28,
-                          color: Colors.black,
-                        ));
-                  } else {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _currentDate = _historyData[i];
-                          eventBus.fire(RefreshNewPageEvent(_currentDate));
-                        });
-                      },
-                      child: Center(
-                        child: Container(
-                          padding:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
-                          color: Colors.white,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Text(
-                                    getDay(_historyData[i]),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .body2
-                                        .copyWith(
-                                            fontSize: 18,
-                                            color: (_historyData[i] ==
-                                                    _currentDate)
-                                                ? Theme.of(context).primaryColor
-                                                : Colors.black),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 3.0, bottom: 2),
-                                    child: Text(
-                                      getWeekDay(_historyData[i]),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .body2
-                                          .copyWith(
-                                              fontSize: 8,
-                                              color: (_historyData[i] ==
-                                                      _currentDate)
-                                                  ? Theme.of(context)
-                                                      .primaryColor
-                                                  : COLOR_HISTORY_DATE),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 3.0, bottom: 2.0),
-                                child: Text(
-                                  getMonth(_historyData[i]),
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _currentDate = _historyData[i];
+                        eventBus.fire(RefreshNewPageEvent(_currentDate));
+                      });
+                    },
+                    child: Center(
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        color: Colors.white,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  getDay(_historyData[i]),
                                   style: Theme.of(context)
                                       .textTheme
                                       .body2
                                       .copyWith(
-                                          fontSize: 8,
+                                          fontSize: 18,
                                           color: (_historyData[i] ==
                                                   _currentDate)
                                               ? Theme.of(context).primaryColor
-                                              : COLOR_HISTORY_DATE),
+                                              : Colors.black),
                                 ),
-                              )
-                            ],
-                          ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 3.0, bottom: 2),
+                                  child: Text(
+                                    getWeekDay(_historyData[i]),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .body2
+                                        .copyWith(
+                                            fontSize: 8,
+                                            color: (_historyData[i] ==
+                                                    _currentDate)
+                                                ? Theme.of(context).primaryColor
+                                                : COLOR_HISTORY_DATE),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 3.0, bottom: 2.0),
+                              child: Text(
+                                getMonth(_historyData[i]),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body2
+                                    .copyWith(
+                                        fontSize: 8,
+                                        color: (_historyData[i] == _currentDate)
+                                            ? Theme.of(context).primaryColor
+                                            : COLOR_HISTORY_DATE),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                    );
-                  }
+                    ),
+                  );
                 }),
           ),
         ),
@@ -333,7 +521,7 @@ class _MainActivityState extends State<MainActivity>
   }
 
   ///获取Leading icon.
-  IconData getLeadingIcon() {
+  IconData getActionsIcon() {
     if (_currentPageIndex == 0) {
       return IconData(0xe8a6, fontFamily: "IconFont");
     } else if (_currentPageIndex == 1) {
@@ -341,7 +529,7 @@ class _MainActivityState extends State<MainActivity>
     } else if (_currentPageIndex == 2) {
       return IconData(0xe63a, fontFamily: "IconFont");
     } else {
-      return IconData(0xe72c, fontFamily: "IconFont");
+      return IconData(0xe619, fontFamily: "IconFont");
     }
   }
 }
