@@ -36,7 +36,7 @@ public class FlutterNativePlugin implements MethodChannel.MethodCallHandler {
     }
 
     @Override
-    public void onMethodCall(MethodCall call, MethodChannel.Result result) {
+    public void onMethodCall(MethodCall call, final MethodChannel.Result result) {
         if (call.method.equals("checkupdate")) {
             mainActivity.checkUpdate(new UpdateCallback() {
                 @Override
