@@ -69,7 +69,10 @@ $ flutter run [--release]
 - [x] 用户登录(github)
 - [x] 收藏同步到服务器
 - [x] 重构代码【正在进行中ing】
-- [ ] 上线iOS版本
+- [ ] 多主题切换
+- [ ] 多语言支持
+- [ ] 实现桌面版Flutter Gank，具体可参考[flutter-desktop-embedding](https://github.com/google/flutter-desktop-embedding)
+- [ ] 上线iOS版本【首先得需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】
 
 ## Developers
 
