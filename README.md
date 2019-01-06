@@ -3,7 +3,7 @@
     <img alt="gank.io" src="https://ws1.sinaimg.cn/large/0065oQSqly1fyli3kk857j305c05cjrc.jpg" width="140">
   </a>
 </p>
-<p align="center">干货集中营「官方版」<a href="https://gank.io/app/gank">https://gank.io/app/gank</a></p>
+<p align="center">干货集中营「官方版」</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-52C434.svg">
@@ -14,7 +14,7 @@
 </p>
 
 # 简介
-「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://raw.githubusercontent.com/lijinshanmx/flutter_gank/master/apks/app-release-latest.apk)吧~,官网地址: [https://gank.io/app/gank](https://gank.io/app/gank)
+「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://raw.githubusercontent.com/lijinshanmx/flutter_gank/master/apks/app-release-latest.apk)吧~
 
 ## 应用截图
 
