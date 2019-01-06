@@ -33,6 +33,16 @@
 > (╯‵□′)╯︵┻━┻，第三方太贵，没企业证书。  
 > 哪位朋友有开发者账号，如果能帮忙上架App Store💪，真是感激不尽🙏~
 
+## Todo
+
+- [x] 用户登录(github)
+- [x] 收藏同步到服务器
+- [x] 重构代码【正在进行中ing】
+- [ ] 多主题切换
+- [ ] 多语言支持
+- [ ] 实现桌面版Flutter Gank，具体可参考[flutter-desktop-embedding](https://github.com/google/flutter-desktop-embedding)
+- [ ] 上线iOS版本【首先得需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】
+
 ## 版本更新记录
 ### V1.0.2  [2018-01-03]  
   1、ui调整.  
@@ -64,11 +74,6 @@ $ flutter run [--release]
 - 提交干货
 - **妹子图**
 
-## Todo
-
-- [x] 用户登录(github)
-- [ ] 收藏同步到服务器
-- [ ] 上线iOS版本
 
 ## Developers
 
