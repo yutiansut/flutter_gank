@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/common/constant/colors.dart';
+import 'package:flutter_gank/common/constant/locale/string_base.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/ui/widget/widget_expand_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class CommonUtils {
+  static StringBase getLocale(BuildContext context) {
+    return GankLocalizations.of(context).currentLocalized;
+  }
+
   static List<Color> getThemeListColor() {
     return [
       AppColors.PRIMARY_DEFAULT_COLOR, //默认色
@@ -89,5 +95,15 @@ class CommonUtils {
     CommonUtils.showCommitOptionDialog(context, list, (index) {
       AppManager.switchThemeData(context, index);
     }, colorList: CommonUtils.getThemeListColor());
+  }
+
+  static showLanguageDialog(BuildContext context) {
+    List<String> list = [
+      CommonUtils.getLocale(context).languageZh,
+      CommonUtils.getLocale(context).languageEn
+    ];
+    CommonUtils.showCommitOptionDialog(context, list, (index) {
+      AppManager.changeLocale(context, index);
+    }, height: 105.0);
   }
 }

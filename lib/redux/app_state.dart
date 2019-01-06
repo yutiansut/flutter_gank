@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/common/model/github_user.dart';
 
-import 'package:flutter_gank/redux/reducer_theme.dart';
-import 'package:flutter_gank/redux/reducer_user.dart';
+import 'package:flutter_gank/redux/redux_theme.dart';
+import 'package:flutter_gank/redux/redux_user.dart';
+import 'package:flutter_gank/redux/redux_locale.dart';
 /**
  * Redux全局State
  * Created by lijinshan
@@ -32,7 +33,7 @@ class AppState {
 ///我们自定义了 appReducer 用于创建 store
 AppState appReducer(AppState state, action) {
   return AppState(
-    userInfo: combineUserReducer(state.userInfo, action),
-    themeData: combineThemeDataReducer(state.themeData, action),
-  );
+      userInfo: combineUserReducer(state.userInfo, action),
+      themeData: combineThemeDataReducer(state.themeData, action),
+      locale: combineLocaleReducer(state.locale, action));
 }

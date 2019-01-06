@@ -1,4 +1,3 @@
-import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
 
 class GankPost {
@@ -12,11 +11,11 @@ class GankPost {
             json['category']?.map<String>((c) => c.toString())?.toList() {
     var results = json['results'];
     results.forEach((name, value) {
-      if (name != STRING_GANK_WELFARE) {
+      if (name != '福利') {
         itemDataMap[name] = _createGankItemListFromJson(name, value);
       }
     });
-    girlImage = json['results'][STRING_GANK_WELFARE][0]['url'];
+    girlImage = json['results']['福利'][0]['url'];
   }
 
   List<GankItem> _createGankItemListFromJson(String name, List value) {

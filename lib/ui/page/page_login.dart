@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gank/api//api_github.dart';
 import 'package:flutter_gank/common/constant/colors.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   final BasicMessageChannel<String> platform =
       const BasicMessageChannel<String>(
-          FLUTTER_MESSAGE_CHANNEL_NAME, const StringCodec());
+          Strings.FLUTTER_MESSAGE_CHANNEL_NAME, const StringCodec());
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
   final FocusNode myFocusNodePasswordLogin = FocusNode();
@@ -53,7 +54,10 @@ class _LoginPageState extends State<LoginPage>
         builder: (context, themeData) => Container(
               decoration: new BoxDecoration(
                 gradient: new LinearGradient(
-                    colors: [themeData.primaryColor, AppColors.COLOR_GRADIENT_END],
+                    colors: [
+                      themeData.primaryColor,
+                      AppColors.COLOR_GRADIENT_END
+                    ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 1.0),
                     stops: [0.0, 1.0],
@@ -82,7 +86,7 @@ class _LoginPageState extends State<LoginPage>
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        STRING_LOGIN_TIP,
+                        GankLocalizations.of(context).currentLocalized.loginTip,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 10.0,
@@ -114,7 +118,8 @@ class _LoginPageState extends State<LoginPage>
   @override
   void initState() {
     super.initState();
-    flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+    flutterNativePlugin =
+        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     platform.setMessageHandler(_handlePlatformMessage);
   }
 
@@ -173,7 +178,9 @@ class _LoginPageState extends State<LoginPage>
                               color: Colors.black,
                               size: 22.0,
                             ),
-                            hintText: STRING_USERNAME_HINT,
+                            hintText: GankLocalizations.of(context)
+                                .currentLocalized
+                                .userNameHint,
                             hintStyle: TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                           ),
@@ -205,7 +212,9 @@ class _LoginPageState extends State<LoginPage>
                               size: 22.0,
                               color: Colors.black,
                             ),
-                            hintText: STRING_PASSWORD_HINT,
+                            hintText: GankLocalizations.of(context)
+                                .currentLocalized
+                                .passWordHint,
                             hintStyle: TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                           ),
@@ -232,7 +241,10 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ],
                   gradient: new LinearGradient(
-                      colors: [AppColors.COLOR_GRADIENT_END, themeData.primaryColor],
+                      colors: [
+                        AppColors.COLOR_GRADIENT_END,
+                        themeData.primaryColor
+                      ],
                       begin: const FractionalOffset(0.2, 0.2),
                       end: const FractionalOffset(1.0, 1.0),
                       stops: [0.0, 1.0],

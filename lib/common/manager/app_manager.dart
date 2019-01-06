@@ -11,8 +11,9 @@ import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/sp_utils.dart';
 import 'package:flutter_gank/config/gank_config.dart';
 import 'package:flutter_gank/redux/app_state.dart';
-import 'package:flutter_gank/redux/reducer_theme.dart';
-import 'package:flutter_gank/redux/reducer_user.dart';
+import 'package:flutter_gank/redux/redux_locale.dart';
+import 'package:flutter_gank/redux/redux_theme.dart';
+import 'package:flutter_gank/redux/redux_user.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
@@ -36,6 +37,12 @@ class AppManager {
         await AppManager.switchThemeData(context, int.parse(themeIndex));
       }
 
+      ///切换语言
+      String localeIndex = await SPUtils.get(GankConfig.LOCALE);
+      if (localeIndex != null && localeIndex.length != 0) {
+        await AppManager.changeLocale(context, int.parse(localeIndex));
+      }
+
       ///初始化收藏数据库
       await FavoriteManager.init();
       return true;
@@ -52,13 +59,13 @@ class AppManager {
     return StoreProvider.of<AppState>(context).state.themeData;
   }
 
-  static checkUpdate() async {
+  static checkUpdate(context) async {
     MethodChannel flutterNativePlugin =
-        MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     var hasNewVersion = await flutterNativePlugin.invokeMethod('checkupdate');
     if (!hasNewVersion) {
       Fluttertoast.showToast(
-          msg: STRING_ALREADY_NEW_VERSION,
+          msg: CommonUtils.getLocale(context).alreadyNewVersion,
           backgroundColor: Colors.black,
           gravity: ToastGravity.CENTER,
           textColor: Colors.white);
@@ -70,9 +77,9 @@ class AppManager {
     if (user != null && user.isLogin) {
       bool success = await GithubApi.starFlutterGank(user.token);
       if (success) {
-        CommonUtils.showToast(STRING_STAR_SUCCESS);
+        CommonUtils.showToast(CommonUtils.getLocale(context).starSuccess);
       } else {
-        CommonUtils.showToast(STRING_STAR_FAILED);
+        CommonUtils.showToast(CommonUtils.getLocale(context).starFailed);
       }
     } else {
       launch('https://github.com/lijinshanmx/flutter_gank');
@@ -86,5 +93,20 @@ class AppManager {
     themeData = new ThemeData(primaryColor: colors[index]);
     await SPUtils.save(GankConfig.THEME_COLOR, index.toString());
     store.dispatch(new RefreshThemeDataAction(themeData));
+  }
+
+  static changeLocale(context, int index) async {
+    Store<AppState> store = StoreProvider.of<AppState>(context);
+    Locale locale = store.state.platformLocale;
+    switch (index) {
+      case 0:
+        locale = Locale('zh', 'CH');
+        break;
+      case 1:
+        locale = Locale('en', 'US');
+        break;
+    }
+    store.dispatch(RefreshLocaleAction(locale));
+    await SPUtils.save(GankConfig.LOCALE, index.toString());
   }
 }

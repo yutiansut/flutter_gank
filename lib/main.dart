@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/common/constant/colors.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations_delegate.dart';
+import 'package:flutter_gank/common/localization/gank_localizations_wrapper.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/ui/page/page_about.dart';
 import 'package:flutter_gank/ui/page/page_home.dart';
 import 'package:flutter_gank/ui/page/page_login.dart';
 import 'package:flutter_gank/ui/page/page_search.dart';
 import 'package:flutter_gank/ui/page/page_splash.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -24,6 +26,7 @@ class GankApp extends StatelessWidget {
         primaryColor: AppColors.PRIMARY_DEFAULT_COLOR,
         platform: TargetPlatform.android,
       ),
+      locale: Locale('zh', 'CH'),
     ),
   );
 
@@ -34,10 +37,17 @@ class GankApp extends StatelessWidget {
       child: StoreBuilder<AppState>(
         builder: (context, store) {
           return MaterialApp(
-            title: STRING_GANK_NAME,
             theme: store.state.themeData,
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GankLocalizationsDelegate.delegate,
+            ],
+            locale: store.state.locale,
+            supportedLocales: [store.state.locale],
             routes: {
-              SplashPage.ROUTER_NAME: (context) => SplashPage(),
+              SplashPage.ROUTER_NAME: (context) =>
+                  GankLocalizationsWrapper(child: SplashPage()),
               HomePage.ROUTER_NAME: (context) => HomePage(),
               LoginPage.ROUTER_NAME: (context) => LoginPage(),
               SearchPage.ROUTER_NAME: (context) => SearchPage(),

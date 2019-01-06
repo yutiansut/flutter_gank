@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/api//api_gank.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/time_utils.dart';
 import 'package:flutter_gank/ui/page/page_detail.dart';
 import 'package:flutter_gank/ui/widget/indicator_factory.dart';
@@ -30,7 +30,7 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(STRING_HISTORY_DATA),
+        title: Text(CommonUtils.getLocale(context).historyData),
         centerTitle: true,
       ),
       body: Stack(

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
-import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
+import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -26,7 +26,9 @@ class _SearchPageState extends State<SearchPage> {
               keyboardType: TextInputType.text,
               style: TextStyle(color: Colors.white, fontSize: 16.0),
               decoration: InputDecoration(
-                hintText: STRING_PLEASE_INPUT_SEARCH,
+                hintText: GankLocalizations.of(context)
+                    .currentLocalized
+                    .pleaseInputSearch,
                 hintStyle: TextStyle(color: Colors.white54),
                 border: InputBorder.none,
               ),
@@ -56,7 +58,9 @@ class _SearchPageState extends State<SearchPage> {
   void _searchData() async {
     if (_search == null || _search.isEmpty) {
       Fluttertoast.showToast(
-          msg: STRING_PLEASE_INPUT_SEARCH_KEYWORDS,
+          msg: GankLocalizations.of(context)
+              .currentLocalized
+              .pleaseInputSearchKeywords,
           backgroundColor: Colors.black,
           gravity: ToastGravity.CENTER,
           textColor: Colors.white);
@@ -71,7 +75,9 @@ class _SearchPageState extends State<SearchPage> {
       _searchResults = result;
       if (_searchResults.length <= 0) {
         Fluttertoast.showToast(
-            msg: STRING_SEARCH_RESULT_EMPTY,
+            msg: GankLocalizations.of(context)
+                .currentLocalized
+                .searchResultEmpty,
             backgroundColor: Colors.black,
             gravity: ToastGravity.CENTER,
             textColor: Colors.white);

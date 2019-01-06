@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
-import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/api//api_gank.dart';
-import 'package:flutter_gank/ui/widget/widget_list_item.dart';
+import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/ui/widget/indicator_factory.dart';
+import 'package:flutter_gank/ui/widget/widget_list_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GankListCategory extends StatefulWidget {
@@ -78,7 +77,7 @@ class _GankListCategoryState extends State<GankListCategory>
 
   void _getCategoryData({bool loadMore = false}) async {
     var categoryData = await GankApi.getCategoryData(
-        widget.category == STRING_GANK_ALL ? "all" : widget.category, _page);
+        widget.category == "全部" ? "all" : widget.category, _page);
     var gankItems = categoryData['results']
         .map<GankItem>((itemJson) =>
             GankItem.fromJson(itemJson, category: widget.category))

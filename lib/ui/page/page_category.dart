@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/ui/widget/widget_list_category.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _CategoryPageState extends State<CategoryPage>
   void initState() {
     super.initState();
     _controller =
-        TabController(vsync: this, length: GANK_ALL_CATEGORIES.length);
+        TabController(vsync: this, length: Strings.GANK_ALL_CATEGORY_KEYS.length);
   }
 
   @override
@@ -40,13 +41,17 @@ class _CategoryPageState extends State<CategoryPage>
                 isScrollable: true,
                 labelColor: Theme.of(context).primaryColor,
                 indicatorColor: Theme.of(context).primaryColor,
-                tabs: GANK_ALL_CATEGORIES.map<Widget>((page) {
+                tabs: GankLocalizations.of(context)
+                    .currentLocalized
+                    .gankAllCategories
+                    .map<Widget>((page) {
                   return Tab(text: page);
                 }).toList())),
         Expanded(
           child: TabBarView(
               controller: _controller,
-              children: GANK_ALL_CATEGORIES.map<Widget>((String page) {
+              children:
+                  Strings.GANK_ALL_CATEGORY_KEYS.map<Widget>((String page) {
                 return GankListCategory(page);
               }).toList()),
         ),

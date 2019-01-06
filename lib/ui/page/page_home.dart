@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = new PageController(initialPage: 0);
-    flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+    flutterNativePlugin =
+        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     _getHistoryData();
     _checkUpdate();
     _registerEventListener();

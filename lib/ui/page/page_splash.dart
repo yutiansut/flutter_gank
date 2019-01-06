@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/ui/page/page_home.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
-import 'package:flutter_gank/redux/app_state.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
+import 'package:flutter_gank/ui/page/page_home.dart';
 
 class SplashPage extends StatefulWidget {
   static const String ROUTER_NAME = '/';
@@ -49,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 60),
-                    child: Text(STRING_GANK_NAME,
+                    child: Text(CommonUtils.getLocale(context).gankName,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18.0,

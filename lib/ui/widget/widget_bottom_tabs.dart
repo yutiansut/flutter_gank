@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/ui/widget/widget_icon_font.dart';
 
 class BottomTabs extends StatefulWidget {
@@ -21,25 +22,27 @@ class _BottomTabsState extends State<BottomTabs> {
       ///最新
       BottomNavigationBarItem(
         icon: Icon(IconFont(0xe67f)),
-        title: Text(STRING_GANK_NEW),
+        title: Text(CommonUtils.getLocale(context).gankNew),
       ),
 
       ///分类
       BottomNavigationBarItem(
         icon: Icon(IconFont(0xe603)),
-        title: Text(STRING_GANK_CATEGORY),
+        title:
+            Text(GankLocalizations.of(context).currentLocalized.gankCategory),
       ),
 
       ///妹纸
       BottomNavigationBarItem(
         icon: Icon(IconFont(0xe637)),
-        title: Text(STRING_GIRL),
+        title: Text(CommonUtils.getLocale(context).girl),
       ),
 
       ///收藏
       BottomNavigationBarItem(
         icon: Icon(Icons.favorite),
-        title: Text(STRING_GANK_FAVORITE),
+        title:
+            Text(GankLocalizations.of(context).currentLocalized.gankFavorite),
       ),
     ];
     return BottomNavigationBar(

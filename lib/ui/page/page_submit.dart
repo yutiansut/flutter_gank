@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SubmitPage extends StatefulWidget {
@@ -25,16 +26,19 @@ class SubmitPageState extends State<SubmitPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content:
-                  Text(STRING_ABANDON_SUBMIT_CONFIRM, style: dialogTextStyle),
+              content: Text(
+                  GankLocalizations.of(context)
+                      .currentLocalized
+                      .abandonSubmitConfirm,
+                  style: dialogTextStyle),
               actions: <Widget>[
                 FlatButton(
-                    child: const Text(STRING_CONFIRM),
+                    child: Text(CommonUtils.getLocale(context).confirm),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     }),
                 FlatButton(
-                  child: const Text(STRING_CANCEL),
+                  child: Text(CommonUtils.getLocale(context).cancel),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
@@ -52,7 +56,7 @@ class SubmitPageState extends State<SubmitPage> {
         FixedExtentScrollController(initialItem: _selectedItemIndex);
     return Scaffold(
       appBar: AppBar(
-          title: Text(STRING_SUBMIT_GANHUO),
+          title: Text(CommonUtils.getLocale(context).submitGanHuo),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -60,7 +64,12 @@ class SubmitPageState extends State<SubmitPage> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     var result = await GankApi.submitData(
-                        _url, _desc, _who, SUBMIT_TYPE[_selectedItemIndex]);
+                        _url,
+                        _desc,
+                        _who,
+                        GankLocalizations.of(context)
+                            .currentLocalized
+                            .submitType[_selectedItemIndex]);
                     Fluttertoast.showToast(
                         msg: result['msg'],
                         backgroundColor: Colors.black,
@@ -81,8 +90,8 @@ class SubmitPageState extends State<SubmitPage> {
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 alignment: Alignment.bottomLeft,
                 child: TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: STRING_URL,
+                    decoration: InputDecoration(
+                        labelText: CommonUtils.getLocale(context).url,
                         hintText: '请输入干货的网址',
                         filled: true),
                     validator: (val) {
@@ -95,8 +104,8 @@ class SubmitPageState extends State<SubmitPage> {
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 alignment: Alignment.bottomLeft,
                 child: TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: STRING_DESC,
+                    decoration: InputDecoration(
+                        labelText: CommonUtils.getLocale(context).desc,
                         hintText: '请输入干货的简要描述',
                         filled: true),
                     validator: (val) {
@@ -109,8 +118,8 @@ class SubmitPageState extends State<SubmitPage> {
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 alignment: Alignment.bottomLeft,
                 child: TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: STRING_WHO,
+                    decoration: InputDecoration(
+                        labelText: CommonUtils.getLocale(context).who,
                         hintText: '请输入干货的署名',
                         filled: true),
                     validator: (val) {
@@ -129,10 +138,16 @@ class SubmitPageState extends State<SubmitPage> {
                 onSelectedItemChanged: (int index) {
                   setState(() => _selectedItemIndex = index);
                 },
-                children:
-                    List<Widget>.generate(SUBMIT_TYPE.length, (int index) {
+                children: List<Widget>.generate(
+                    GankLocalizations.of(context)
+                        .currentLocalized
+                        .submitType
+                        .length, (int index) {
                   return Center(
-                    child: Text(SUBMIT_TYPE[index],
+                    child: Text(
+                        GankLocalizations.of(context)
+                            .currentLocalized
+                            .submitType[index],
                         style: Theme.of(context).textTheme.body1),
                   );
                 }),

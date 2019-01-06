@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/api//api_gank.dart';
 import 'package:flutter_gank/common/event/event_change_column.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
-import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/ui/page/page_gallery.dart';
 import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:flutter_parallax/flutter_parallax.dart';
@@ -121,10 +121,10 @@ class _WelfarePageState extends State<WelfarePage>
   }
 
   void _getCategoryData({bool loadMore = false}) async {
-    var categoryData = await GankApi.getCategoryData(STRING_GANK_WELFARE, _page);
+    var categoryData = await GankApi.getCategoryData('福利', _page);
     var gankItems = categoryData['results']
-        .map<GankItem>((itemJson) =>
-            GankItem.fromJson(itemJson, category: STRING_GANK_WELFARE))
+        .map<GankItem>((itemJson) => GankItem.fromJson(itemJson,
+            category: CommonUtils.getLocale(context).gankWelfare))
         .toList();
     if (loadMore) {
       _refreshController.sendBack(false, RefreshStatus.idle);

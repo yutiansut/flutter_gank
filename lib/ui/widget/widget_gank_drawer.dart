@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
@@ -36,7 +37,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
     super.initState();
 
     ///native插件初始化
-    flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+    flutterNativePlugin =
+        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
 
     ///初始化动画相关
     _controllerDrawer = AnimationController(
@@ -123,7 +125,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                   IconFont(0xe655),
                                   color: Color(0xff737373),
                                 ),
-                                title: Text('搜索干货'),
+                                title: Text(CommonUtils.getLocale(context)
+                                    .searchGanHuo),
                                 onTap: () {
                                   _gotoActivity(context, SearchPage());
                                 },
@@ -134,7 +137,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                 IconFont(0xe8a6),
                                 color: Color(0xff737373),
                               ),
-                              title: Text('历史干货'),
+                              title: Text(
+                                  CommonUtils.getLocale(context).historyGanHuo),
                               onTap: () {
                                 _gotoActivity(context, HistoryPage());
                               },
@@ -144,7 +148,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                 IconFont(0xe62c),
                                 color: Color(0xff737373),
                               ),
-                              title: Text('提交干货'),
+                              title: Text(
+                                  CommonUtils.getLocale(context).submitGanHuo),
                               onTap: () {
                                 _gotoActivity(context, SubmitPage());
                               },
@@ -160,7 +165,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                 IconFont(0xe621),
                                 color: Color(0xff737373),
                               ),
-                              title: Text('设置'),
+                              title:
+                                  Text(CommonUtils.getLocale(context).settings),
                               onTap: () {
                                 _gotoActivity(context, SettingPage());
                               },
@@ -170,7 +176,7 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                 IconFont(0xe710),
                                 color: Color(0xff737373),
                               ),
-                              title: Text('关于'),
+                              title: Text(CommonUtils.getLocale(context).about),
                               onTap: () {
                                 _gotoActivity(context, AboutPage());
                               },
@@ -180,7 +186,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                 IconFont(0xe6ab),
                                 color: Color(0xff737373),
                               ),
-                              title: Text('点个赞'),
+                              title:
+                                  Text(CommonUtils.getLocale(context).starGank),
                               onTap: () {
                                 AppManager.starFlutterGank(context);
                               },
@@ -190,7 +197,8 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                 IconFont(0xe61a),
                                 color: Color(0xff737373),
                               ),
-                              title: Text('反馈'),
+                              title: Text(
+                                  CommonUtils.getLocale(context).feedBackShort),
                               onTap: () {
                                 flutterNativePlugin
                                     .invokeMethod('openFeedbackActivity');
@@ -216,7 +224,18 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                   onTap: () {
                                     CommonUtils.showThemeDialog(context);
                                   },
-                                  title: Text('设置主题')),
+                                  title: Text(CommonUtils.getLocale(context)
+                                      .themeSetting)),
+                              ListTile(
+                                  leading: Icon(
+                                    IconFont(0xe64a),
+                                    color: Color(0xff737373),
+                                  ),
+                                  onTap: () {
+                                    CommonUtils.showLanguageDialog(context);
+                                  },
+                                  title: Text(CommonUtils.getLocale(context)
+                                      .languageSetting)),
                               ListTile(
                                   leading: Icon(
                                     IconFont(0xe619),
@@ -225,13 +244,16 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                                   onTap: () {
                                     FavoriteManager.syncFavorites(context);
                                   },
-                                  title: Text('同步收藏')),
+                                  title: Text(CommonUtils.getLocale(context)
+                                      .syncFavorites)),
                               ListTile(
                                 leading: Icon(
                                   IconFont(0xe65b),
                                   color: Color(0xff737373),
                                 ),
-                                title: Text(STRING_LOGOUT),
+                                title: Text(GankLocalizations.of(context)
+                                    .currentLocalized
+                                    .logout),
                                 onTap: () {
                                   UserManager.logout(context, callback: () {
                                     _controllerDrawer.reverse();

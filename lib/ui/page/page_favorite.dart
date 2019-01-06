@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/event/event_refresh_db.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
-import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
+import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
@@ -108,11 +108,13 @@ class _FavoritePageState extends State<FavoritePage>
                     children: <Widget>[
                       Image.asset("images/favorite_empty.png",
                           width: 130, color: themeData.primaryColor),
-                      Text(STRING_NO_FAVORITE,
-                          style: Theme.of(context)
-                              .textTheme
-                              .body2
-                              .copyWith(color: themeData.primaryColor, fontFamily: 'WorkSansMedium'))
+                      Text(
+                          GankLocalizations.of(context)
+                              .currentLocalized
+                              .noFavorite,
+                          style: Theme.of(context).textTheme.body2.copyWith(
+                              color: themeData.primaryColor,
+                              fontFamily: 'WorkSansMedium'))
                     ],
                   )),
             ),

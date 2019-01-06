@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
@@ -11,7 +12,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-
   @override
   Widget build(BuildContext context) {
     TextStyle linkTextStyle = Theme.of(context).textTheme.body1.copyWith(
@@ -21,7 +21,7 @@ class _AboutPageState extends State<AboutPage> {
     TextStyle linkTitleStyle = Theme.of(context).textTheme.body1;
     return Scaffold(
       appBar: AppBar(
-        title: Text(STRING_ABOUT),
+        title: Text(CommonUtils.getLocale(context).about),
         centerTitle: true,
       ),
       body: ListView(
@@ -31,13 +31,13 @@ class _AboutPageState extends State<AboutPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(STRING_TITLE_DESC,
+                Text(CommonUtils.getLocale(context).titleDesc,
                     style: Theme.of(context).textTheme.title),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Divider(height: 0.0),
                 ),
-                Text(STRING_GANK_DESC,
+                Text(CommonUtils.getLocale(context).gankDesc,
                     style: Theme.of(context).textTheme.body1),
                 Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
@@ -46,7 +46,9 @@ class _AboutPageState extends State<AboutPage> {
                       Padding(
                         padding: const EdgeInsets.only(right: 4.0),
                         child: Text(
-                          STRING_SOURCE_CODE,
+                          GankLocalizations.of(context)
+                              .currentLocalized
+                              .sourceCode,
                           style: linkTitleStyle,
                         ),
                       ),
@@ -69,7 +71,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(STRING_DEVELOPER,
+                  child: Text(CommonUtils.getLocale(context).developer,
                       style: Theme.of(context).textTheme.title),
                 ),
                 Padding(
@@ -106,7 +108,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(STRING_JOIN,
+                  child: Text(CommonUtils.getLocale(context).join,
                       style: Theme.of(context)
                           .textTheme
                           .body1
@@ -114,18 +116,27 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(STRING_CONTRIBUTION,
+                  child: Text(
+                      GankLocalizations.of(context)
+                          .currentLocalized
+                          .contribution,
                       style: Theme.of(context).textTheme.title),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Divider(height: 0.0),
                 ),
-                Text(STRING_GANK_CONTRIBUTION,
+                Text(
+                    GankLocalizations.of(context)
+                        .currentLocalized
+                        .gankContribution,
                     style: Theme.of(context).textTheme.body1),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(STRING_OPEN_SOURCE_LIBRARY,
+                  child: Text(
+                      GankLocalizations.of(context)
+                          .currentLocalized
+                          .openSourceLibrary,
                       style: Theme.of(context).textTheme.title),
                 ),
                 Padding(

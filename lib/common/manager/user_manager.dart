@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/api/api_github.dart';
-import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/model/github_user.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/sp_utils.dart';
 import 'package:flutter_gank/config/gank_config.dart';
 import 'package:flutter_gank/redux/app_state.dart';
-import 'package:flutter_gank/redux/reducer_user.dart';
+import 'package:flutter_gank/redux/redux_user.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
@@ -38,14 +38,18 @@ class UserManager {
       StoreProvider.of<AppState>(context).dispatch(new UpdateUserAction(user));
       if (user != null) {
         Fluttertoast.showToast(
-            msg: STRING_LOGIN_SUCCESS,
+            msg: GankLocalizations.of(context)
+                .currentLocalized
+                .loginSuccess,
             backgroundColor: Colors.black,
             gravity: ToastGravity.CENTER,
             textColor: Colors.white);
         Navigator.of(context).pop();
       } else {
         Fluttertoast.showToast(
-            msg: STRING_LOGIN_FAILED,
+            msg: GankLocalizations.of(context)
+                .currentLocalized
+                .loginFailed,
             backgroundColor: Colors.black,
             gravity: ToastGravity.CENTER,
             textColor: Colors.white);
@@ -53,7 +57,9 @@ class UserManager {
       if (callback != null) callback(true);
     } catch (e) {
       Fluttertoast.showToast(
-          msg: STRING_LOGIN_FAILED,
+          msg: GankLocalizations.of(context)
+              .currentLocalized
+              .loginFailed,
           backgroundColor: Colors.black,
           gravity: ToastGravity.CENTER,
           textColor: Colors.white);
@@ -84,7 +90,9 @@ class UserManager {
                       onPressed: () async {
                         if (callback != null) callback();
                         await UserManager._logout(store);
-                        CommonUtils.showToast(STRING_LOGOUT_SUCCESS);
+                        CommonUtils.showToast(GankLocalizations.of(context)
+                            .currentLocalized
+                            .logoutSuccess);
                         Navigator.pop(context);
                       })
                 ]));

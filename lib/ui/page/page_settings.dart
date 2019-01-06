@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/common/constant/colors.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
+import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
 import 'package:flutter_gank/common/model/github_user.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/navigator_utils.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -33,7 +35,8 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   void _initVersion() {
-    flutterNativePlugin = MethodChannel(FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+    flutterNativePlugin =
+        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     flutterNativePlugin.invokeMethod('getversion').then((v) {
       setState(() {
         _version = v;
@@ -45,7 +48,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(STRING_SETTING),
+          title: Text(CommonUtils.getLocale(context).settings),
           centerTitle: true,
         ),
         body: Container(
@@ -54,9 +57,35 @@ class _SettingPageState extends State<SettingPage> {
             children: <Widget>[
               ListTile(
                 onTap: () {
+                  CommonUtils.showThemeDialog(context);
+                },
+                title: Text(CommonUtils.getLocale(context).themeSetting,
+                    style: Theme.of(context).textTheme.body1),
+                trailing:
+                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, right: 30),
+                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
+              ),
+              ListTile(
+                onTap: () {
+                  CommonUtils.showLanguageDialog(context);
+                },
+                title: Text(CommonUtils.getLocale(context).languageSetting,
+                    style: Theme.of(context).textTheme.body1),
+                trailing:
+                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
+              ),
+              Container(
+                color: const Color(0xfff0f0f0),
+                height: 10,
+              ),
+              ListTile(
+                onTap: () {
                   FavoriteManager.syncFavorites(context);
                 },
-                title: Text(STRING_SYNC_FAVORITES,
+                title: Text(CommonUtils.getLocale(context).syncFavorites,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -69,7 +98,7 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () async {
                   FavoriteManager.clearFavorites(context);
                 },
-                title: Text(STRING_CLEAR_FAVORITES,
+                title: Text(CommonUtils.getLocale(context).clearFavorites,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -82,7 +111,8 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () async {
                   flutterNativePlugin.invokeMethod('openFeedbackActivity');
                 },
-                title: Text(STRING_FEED_BACK,
+                title: Text(
+                    GankLocalizations.of(context).currentLocalized.feedBack,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -94,12 +124,15 @@ class _SettingPageState extends State<SettingPage> {
               ListTile(
                 onTap: () async {
                   Fluttertoast.showToast(
-                      msg: STRING_BE_DEVELOPER_TIP,
+                      msg: GankLocalizations.of(context)
+                          .currentLocalized
+                          .beDeveloperTip,
                       backgroundColor: Colors.black,
                       gravity: ToastGravity.CENTER,
                       textColor: Colors.white);
                 },
-                title: Text(STRING_BE_DEVELOPER,
+                title: Text(
+                    GankLocalizations.of(context).currentLocalized.beDeveloper,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -112,7 +145,8 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () async {
                   AppManager.starFlutterGank(context);
                 },
-                title: Text(STRING_SOURCE_STAR,
+                title: Text(
+                    GankLocalizations.of(context).currentLocalized.sourceStar,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -125,7 +159,7 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () async {
                   launch('https://github.com/lijinshanmx/flutter_gank/issues');
                 },
-                title: Text(STRING_SOURCE_ISSUE_PR,
+                title: Text(CommonUtils.getLocale(context).sourceIssuePR,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -138,7 +172,7 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () async {
                   NavigatorUtils.goAbout(context);
                 },
-                title: Text(STRING_ABOUT,
+                title: Text(CommonUtils.getLocale(context).about,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -149,9 +183,10 @@ class _SettingPageState extends State<SettingPage> {
               ),
               ListTile(
                 onTap: () async {
-                  AppManager.checkUpdate();
+                  AppManager.checkUpdate(context);
                 },
-                title: Text(STRING_CHECK_UPDATE,
+                title: Text(
+                    GankLocalizations.of(context).currentLocalized.checkUpdate,
                     style: Theme.of(context).textTheme.body1),
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
@@ -171,7 +206,10 @@ class _SettingPageState extends State<SettingPage> {
                             onTap: () async {
                               UserManager.logout(context);
                             },
-                            title: Text(STRING_LOGOUT,
+                            title: Text(
+                                GankLocalizations.of(context)
+                                    .currentLocalized
+                                    .logout,
                                 style: Theme.of(context).textTheme.body1),
                             trailing: Icon(Icons.chevron_right,
                                 color: const Color(0xffc7c7ca)),
