@@ -30,18 +30,20 @@
 | **安卓下载**  | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fywl59574cj308c08c0sp.jpg" width = "160"  alt="qr_apk" /> |
 | **IOS暂无下载** | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fynmxdifkmj306o05udgf.jpg" width = "160"  alt="qr_ios" /> |
 
-> (╯‵□′)╯︵┻━┻，第三方太贵，没企业证书。  
 > 哪位朋友有开发者账号，如果能帮忙上架App Store💪，真是感激不尽🙏~
 
 ## Todo
 
-- [x] 用户登录(github)
-- [x] 收藏同步到服务器
+- [x] 用户登录(Github,现已支持密码和浏览器登录两种方式)
+- [x] 收藏同步到云端【现已支持:上传本地到云端，下载云端到本地】
+- [x] 多主题切换【目前有10种主题色:海棠红,鸢尾蓝,孔雀绿,柠檬黄,藤萝紫,暮云灰,虾壳青,牡丹粉,筍皮棕】
+- [x] 多语言支持【中文和英文，英文未翻译完全】
 - [x] 重构代码【正在进行中ing】
-- [x] 多主题切换
-- [ ] 多语言支持
+- [ ] 英文翻译完善
+- [ ] 收藏支持本地和云端合并、支持恢复指定日期的收藏备份。
 - [ ] 实现桌面版Flutter Gank，具体可参考[flutter-desktop-embedding](https://github.com/google/flutter-desktop-embedding)
-- [ ] 上线iOS版本【首先得需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】
+- [ ] iOS端代码PR【首需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】】
+- [ ] 上线iOS版本【优先级低~】
 
 ## 版本更新记录
 ### V1.0.2  [2018-01-03]  
