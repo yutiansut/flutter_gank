@@ -27,7 +27,7 @@
 
 | 类型          | 二维码                                      |
 | ----------- | ---------------------------------------- |
-| **安卓下载**  | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fysu0ekchyj308c08c748.jpg" width = "160"  alt="qr_apk" /> |
+| **安卓下载**  | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fywl59574cj308c08c0sp.jpg" width = "160"  alt="qr_apk" /> |
 | **IOS暂无下载** | <img src="https://ws1.sinaimg.cn/large/0065oQSqly1fynmxdifkmj306o05udgf.jpg" width = "160"  alt="qr_ios" /> |
 
 > (╯‵□′)╯︵┻━┻，第三方太贵，没企业证书。  
