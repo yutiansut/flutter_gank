@@ -40,6 +40,8 @@
 - [x] 多语言支持【中文和英文，英文未翻译完全】
 - [x] 重构代码【正在进行中ing】
 - [ ] 英文翻译完善
+- [ ] 网络缓存实现
+- [ ] 搜索页功能完善
 - [ ] 收藏支持本地和云端合并、支持恢复指定日期的收藏备份。
 - [ ] 实现桌面版Flutter Gank，具体可参考[flutter-desktop-embedding](https://github.com/google/flutter-desktop-embedding)
 - [ ] iOS端代码PR【首需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】】
