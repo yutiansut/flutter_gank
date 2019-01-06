@@ -67,7 +67,8 @@ $ flutter run [--release]
 ## Todo
 
 - [x] 用户登录(github)
-- [ ] 收藏同步到服务器
+- [x] 收藏同步到服务器
+- [x] 重构代码【正在进行中ing】
 - [ ] 上线iOS版本
 
 ## Developers
