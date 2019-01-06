@@ -7,6 +7,8 @@ import 'package:flutter_gank/api//api_github.dart';
 import 'package:flutter_gank/common/constant/colors.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
+import 'package:flutter_gank/redux/app_state.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class LoginPage extends StatefulWidget {
   static const String ROUTER_NAME = 'login';
@@ -46,54 +48,57 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: new BoxDecoration(
-          gradient: new LinearGradient(
-              colors: [PRIMARY_COLOR, COLOR_GRADIENT_END],
-              begin: const FractionalOffset(0.0, 0.0),
-              end: const FractionalOffset(1.0, 1.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.clamp),
-        ),
-        child: Stack(
-          children: <Widget>[
-            ListView(
-              children: <Widget>[_buildSignIn(context)],
-            ),
-            SafeArea(
-                child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, top: 10.0),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.chevron_left,
-                    color: Colors.white,
-                    size: 30,
+      body: StoreConnector<AppState, ThemeData>(
+        converter: (store) => store.state.themeData,
+        builder: (context, themeData) => Container(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                    colors: [themeData.primaryColor, AppColors.COLOR_GRADIENT_END],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 1.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
+              child: Stack(
+                children: <Widget>[
+                  ListView(
+                    children: <Widget>[_buildSignIn(context, themeData)],
+                  ),
+                  SafeArea(
+                      child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                          size: 30,
+                        )),
                   )),
-            )),
-            Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  STRING_LOGIN_TIP,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10.0,
-                      fontFamily: "WorkSansMedium"),
-                ),
+                  Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        STRING_LOGIN_TIP,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.0,
+                            fontFamily: "WorkSansMedium"),
+                      ),
+                    ),
+                  ),
+                  Offstage(
+                    offstage: !isLoading,
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  )
+                ],
               ),
             ),
-            Offstage(
-              offstage: !isLoading,
-              child: Center(
-                child: CupertinoActivityIndicator(),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
@@ -127,7 +132,7 @@ class _LoginPageState extends State<LoginPage>
     }, code: pushData['code']);
   }
 
-  Widget _buildSignIn(BuildContext context) {
+  Widget _buildSignIn(BuildContext context, ThemeData themeData) {
     return Container(
       padding: EdgeInsets.only(top: 150.0),
       child: Column(
@@ -216,18 +221,18 @@ class _LoginPageState extends State<LoginPage>
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: PRIMARY_COLOR,
+                      color: themeData.primaryColor,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                     BoxShadow(
-                      color: COLOR_GRADIENT_END,
+                      color: AppColors.COLOR_GRADIENT_END,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                   ],
                   gradient: new LinearGradient(
-                      colors: [COLOR_GRADIENT_END, PRIMARY_COLOR],
+                      colors: [AppColors.COLOR_GRADIENT_END, themeData.primaryColor],
                       begin: const FractionalOffset(0.2, 0.2),
                       end: const FractionalOffset(1.0, 1.0),
                       stops: [0.0, 1.0],
@@ -235,7 +240,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 child: MaterialButton(
                     highlightColor: Colors.transparent,
-                    splashColor: COLOR_GRADIENT_END,
+                    splashColor: AppColors.COLOR_GRADIENT_END,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 42.0),

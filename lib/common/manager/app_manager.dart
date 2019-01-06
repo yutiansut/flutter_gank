@@ -11,6 +11,7 @@ import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/sp_utils.dart';
 import 'package:flutter_gank/config/gank_config.dart';
 import 'package:flutter_gank/redux/app_state.dart';
+import 'package:flutter_gank/redux/reducer_theme.dart';
 import 'package:flutter_gank/redux/reducer_user.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,9 +21,10 @@ import 'package:url_launcher/url_launcher.dart';
 class AppManager {
   static EventBus eventBus = EventBus();
 
-  static initApp(Store store) async {
+  static initApp(BuildContext context) async {
     ///初始化用户信息
     try {
+      Store<AppState> store = StoreProvider.of(context);
       User localUser = await UserManager.getUserFromLocalStorage();
       if (localUser != null) {
         store.dispatch(UpdateUserAction(localUser));
@@ -31,7 +33,7 @@ class AppManager {
       ///读取主题
       String themeIndex = await SPUtils.get(GankConfig.THEME_COLOR);
       if (themeIndex != null && themeIndex.isNotEmpty) {
-        CommonUtils.pushTheme(store, int.parse(themeIndex));
+        await AppManager.switchThemeData(context, int.parse(themeIndex));
       }
 
       ///初始化收藏数据库
@@ -75,5 +77,14 @@ class AppManager {
     } else {
       launch('https://github.com/lijinshanmx/flutter_gank');
     }
+  }
+
+  static switchThemeData(context, int index) async {
+    Store store = StoreProvider.of<AppState>(context);
+    ThemeData themeData;
+    List<Color> colors = CommonUtils.getThemeListColor();
+    themeData = new ThemeData(primaryColor: colors[index]);
+    await SPUtils.save(GankConfig.THEME_COLOR, index.toString());
+    store.dispatch(new RefreshThemeDataAction(themeData));
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
+import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/ui/page/page_about.dart';
 import 'package:flutter_gank/ui/page/page_history.dart';
@@ -68,7 +69,7 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                       store.state.userInfo?.userDesc ?? '~~(>_<)~~ 什么也没有~'),
                   currentAccountPicture: GestureDetector(
                       onTap: () {
-                        if (!(store.state?.userInfo?.isLogin ?? false)) {
+                        if (!(store.state.userInfo?.isLogin ?? false)) {
                           Navigator.of(context).pushNamed('login');
                         }
                       },
@@ -89,7 +90,7 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                         ),
                       )),
                   margin: EdgeInsets.zero,
-                  onDetailsPressed: store.state?.userInfo?.isLogin ?? false
+                  onDetailsPressed: store.state.userInfo?.isLogin ?? false
                       ? () {
                           _showDrawerContents = !_showDrawerContents;
                           if (_showDrawerContents)
@@ -207,6 +208,15 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
+                              ListTile(
+                                  leading: Icon(
+                                    IconFont(0xe69a),
+                                    color: Color(0xff737373),
+                                  ),
+                                  onTap: () {
+                                    CommonUtils.showThemeDialog(context);
+                                  },
+                                  title: Text('设置主题')),
                               ListTile(
                                   leading: Icon(
                                     IconFont(0xe619),

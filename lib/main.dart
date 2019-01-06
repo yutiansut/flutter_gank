@@ -21,7 +21,7 @@ class GankApp extends StatelessWidget {
     initialState: new AppState(
       userInfo: null,
       themeData: new ThemeData(
-        primaryColor: PRIMARY_COLOR,
+        primaryColor: AppColors.PRIMARY_DEFAULT_COLOR,
         platform: TargetPlatform.android,
       ),
     ),

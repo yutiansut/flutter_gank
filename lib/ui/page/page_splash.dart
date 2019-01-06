@@ -25,8 +25,7 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
     hadInit = true;
-    Store<AppState> store = StoreProvider.of(context);
-    AppManager.initApp(store).then((_) {
+    AppManager.initApp(context).then((_) {
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pushReplacementNamed(context, HomePage.ROUTER_NAME);
       });

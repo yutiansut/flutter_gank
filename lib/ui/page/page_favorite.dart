@@ -5,8 +5,10 @@ import 'package:flutter_gank/common/event/event_refresh_db.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
+import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -98,19 +100,22 @@ class _FavoritePageState extends State<FavoritePage>
           ),
           Offstage(
             offstage: !_isEmpty,
-            child: Center(
-                child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Image.asset("images/favorite_empty.png",
-                    width: 130, color: Color(0xFF00ACC1)),
-                Text(STRING_NO_FAVORITE,
-                    style: Theme.of(context)
-                        .textTheme
-                        .body2
-                        .copyWith(color: Theme.of(context).primaryColor))
-              ],
-            )),
+            child: StoreConnector<AppState, ThemeData>(
+              converter: (store) => store.state.themeData,
+              builder: (context, themeData) => Center(
+                      child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Image.asset("images/favorite_empty.png",
+                          width: 130, color: themeData.primaryColor),
+                      Text(STRING_NO_FAVORITE,
+                          style: Theme.of(context)
+                              .textTheme
+                              .body2
+                              .copyWith(color: themeData.primaryColor, fontFamily: 'WorkSansMedium'))
+                    ],
+                  )),
+            ),
           )
         ],
       ),

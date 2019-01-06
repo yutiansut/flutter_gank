@@ -63,7 +63,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: COLOR_DIVIDER),
+                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
               ),
               ListTile(
                 onTap: () async {
@@ -106,7 +106,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: COLOR_DIVIDER),
+                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
               ),
               ListTile(
                 onTap: () async {
@@ -119,7 +119,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: COLOR_DIVIDER),
+                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
               ),
               ListTile(
                 onTap: () async {
@@ -145,7 +145,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: COLOR_DIVIDER),
+                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
               ),
               ListTile(
                 onTap: () async {
@@ -156,9 +156,10 @@ class _SettingPageState extends State<SettingPage> {
                 trailing:
                     Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
               ),
-              StoreBuilder<AppState>(
-                builder: (context, store) => Offstage(
-                      offstage: store.state.userInfo == null,
+              StoreConnector<AppState, User>(
+                converter: (store) => store.state.userInfo,
+                builder: (context, userInfo) => Offstage(
+                      offstage: userInfo == null,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[

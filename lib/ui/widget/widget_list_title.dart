@@ -15,7 +15,7 @@ class _GankItemTitleState extends State<GankItemTitle> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: COLOR_TITLE_BG,
+        color: AppColors.COLOR_TITLE_BG,
         border: Border(
           bottom: BorderSide(width: 0.0, color: Theme.of(context).dividerColor),
         ),
