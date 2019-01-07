@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gank/common/constant/colors.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
@@ -51,191 +50,153 @@ class _SettingPageState extends State<SettingPage> {
           title: Text(CommonUtils.getLocale(context).settings),
           centerTitle: true,
         ),
-        body: Container(
-          color: Colors.white,
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                onTap: () {
-                  CommonUtils.showThemeDialog(context);
-                },
-                title: Text(CommonUtils.getLocale(context).themeSetting,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
-              ),
-              ListTile(
-                onTap: () {
-                  CommonUtils.showLanguageDialog(context);
-                },
-                title: Text(CommonUtils.getLocale(context).languageSetting,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Container(
-                color: const Color(0xfff0f0f0),
-                height: 10,
-              ),
-              ListTile(
-                onTap: () {
-                  FavoriteManager.syncFavorites(context);
-                },
-                title: Text(CommonUtils.getLocale(context).syncFavorites,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
-              ),
-              ListTile(
-                onTap: () async {
-                  FavoriteManager.clearFavorites(context);
-                },
-                title: Text(CommonUtils.getLocale(context).clearFavorites,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Container(
-                color: const Color(0xfff0f0f0),
-                height: 10,
-              ),
-              ListTile(
-                onTap: () async {
-                  flutterNativePlugin.invokeMethod('openFeedbackActivity');
-                },
-                title: Text(
-                    GankLocalizations.of(context).currentLocalized.feedBack,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Container(
-                color: const Color(0xfff0f0f0),
-                height: 10,
-              ),
-              ListTile(
-                onTap: () async {
-                  Fluttertoast.showToast(
-                      msg: GankLocalizations.of(context)
+        body: Stack(
+          children: <Widget>[
+            ListView(
+              children: <Widget>[
+                ListTile(
+                  onTap: () {
+                    CommonUtils.showThemeDialog(context);
+                  },
+                  title: Text(CommonUtils.getLocale(context).themeSetting,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () {
+                    CommonUtils.showLanguageDialog(context);
+                  },
+                  title: Text(CommonUtils.getLocale(context).languageSetting,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () {
+                    FavoriteManager.syncFavorites(context);
+                  },
+                  title: Text(CommonUtils.getLocale(context).syncFavorites,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () async {
+                    FavoriteManager.clearFavorites(context);
+                  },
+                  title: Text(CommonUtils.getLocale(context).clearFavorites,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () async {
+                    flutterNativePlugin.invokeMethod('openFeedbackActivity');
+                  },
+                  title: Text(
+                      GankLocalizations.of(context).currentLocalized.feedBack,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () async {
+                    Fluttertoast.showToast(
+                        msg: GankLocalizations.of(context)
+                            .currentLocalized
+                            .beDeveloperTip,
+                        backgroundColor: Colors.black,
+                        gravity: ToastGravity.CENTER,
+                        textColor: Colors.white);
+                  },
+                  title: Text(
+                      GankLocalizations.of(context)
                           .currentLocalized
-                          .beDeveloperTip,
-                      backgroundColor: Colors.black,
-                      gravity: ToastGravity.CENTER,
-                      textColor: Colors.white);
-                },
-                title: Text(
-                    GankLocalizations.of(context).currentLocalized.beDeveloper,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
-              ),
-              ListTile(
-                onTap: () async {
-                  AppManager.starFlutterGank(context);
-                },
-                title: Text(
-                    GankLocalizations.of(context).currentLocalized.sourceStar,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
-              ),
-              ListTile(
-                onTap: () async {
-                  launch('https://github.com/lijinshanmx/flutter_gank/issues');
-                },
-                title: Text(CommonUtils.getLocale(context).sourceIssuePR,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Container(
-                color: const Color(0xfff0f0f0),
-                height: 10,
-              ),
-              ListTile(
-                onTap: () async {
-                  NavigatorUtils.goAbout(context);
-                },
-                title: Text(CommonUtils.getLocale(context).about,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 14, right: 30),
-                child: Divider(height: 0, color: AppColors.COLOR_DIVIDER),
-              ),
-              ListTile(
-                onTap: () async {
-                  AppManager.checkUpdate(context);
-                },
-                title: Text(
-                    GankLocalizations.of(context).currentLocalized.checkUpdate,
-                    style: Theme.of(context).textTheme.body1),
-                trailing:
-                    Icon(Icons.chevron_right, color: const Color(0xffc7c7ca)),
-              ),
-              StoreConnector<AppState, User>(
-                converter: (store) => store.state.userInfo,
-                builder: (context, userInfo) => Offstage(
-                      offstage: userInfo == null,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                            color: const Color(0xfff0f0f0),
-                            height: 10,
+                          .beDeveloper,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () async {
+                    AppManager.starFlutterGank(context);
+                  },
+                  title: Text(
+                      GankLocalizations.of(context).currentLocalized.sourceStar,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () async {
+                    launch(
+                        'https://github.com/lijinshanmx/flutter_gank/issues');
+                  },
+                  title: Text(CommonUtils.getLocale(context).sourceIssuePR,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                ListTile(
+                  onTap: () async {
+                    NavigatorUtils.goAbout(context);
+                  },
+                  title: Text(CommonUtils.getLocale(context).about,
+                      style: Theme.of(context).textTheme.body1),
+                  trailing: Icon(Icons.chevron_right, color: Colors.black),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 80),
+                  child: ListTile(
+                    onTap: () async {
+                      AppManager.checkUpdate(context);
+                    },
+                    title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(CommonUtils.getLocale(context).checkUpdate,
+                            style: Theme.of(context).textTheme.body1),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'v${_version ?? '1.0.0'}(${Platform.isAndroid ? 'Android' : 'iOS'})',
+                            style: Theme.of(context)
+                                .textTheme
+                                .body2
+                                .copyWith(fontSize: 10, color: Colors.black),
                           ),
-                          ListTile(
-                            onTap: () async {
-                              UserManager.logout(context);
-                            },
-                            title: Text(
-                                GankLocalizations.of(context)
-                                    .currentLocalized
-                                    .logout,
-                                style: Theme.of(context).textTheme.body1),
-                            trailing: Icon(Icons.chevron_right,
-                                color: const Color(0xffc7c7ca)),
-                          ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-              ),
-              Container(
-                color: const Color(0xfff0f0f0),
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 30),
-                child: Center(
-                  child: Text(
-                    'v${_version ?? '1.0.0'}(Build for platform: ${Platform.isAndroid ? 'android' : 'iOS'})',
-                    style: Theme.of(context)
-                        .textTheme
-                        .body2
-                        .copyWith(color: Colors.black),
+                    trailing: Icon(Icons.chevron_right, color: Colors.black),
                   ),
                 ),
-              )
-            ],
-          ),
+              ],
+            ),
+            StoreConnector<AppState, User>(
+              converter: (store) => store.state.userInfo,
+              builder: (context, userInfo) => Offstage(
+                    offstage: userInfo == null,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        margin: EdgeInsets.all(16.0),
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        child: RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          onPressed: () async {
+                            UserManager.logout(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.black, width: 3.0),
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
+                          child: Text(CommonUtils.getLocale(context).logout,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .title
+                                  .copyWith(color: Colors.white)),
+                        ),
+                      ),
+                    ),
+                  ),
+            ),
+          ],
         ));
   }
 }
