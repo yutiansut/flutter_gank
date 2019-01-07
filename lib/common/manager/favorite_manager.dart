@@ -27,9 +27,9 @@ class FavoriteManager {
   static init() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path =
-        join(documentsDirectory.path, "${AppStrings.STRING_DB_FAVORITE}.db");
+        join(documentsDirectory.path, "${AppStrings.STRING_DB_FAVORITE}");
     db = ObjectDB(path);
-    return await db.open();
+    await db.open();
   }
 
   static insert(GankItem gankItem) async {

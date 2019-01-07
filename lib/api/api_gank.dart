@@ -47,7 +47,7 @@ class GankApi {
     return response.data['results'];
   }
 
-  ///提交干货[url:干货地址,desc:干货描述,type:干货类型,debug:true为测试提交，false为正式提交]
+  ///提交干货[url:干货地址,desc:干货描述,type:干货类型,debug:true为测试提交，false为正式提交
   static submitData(url, desc, who, type, {debug = false}) async {
     FormData formData = FormData.from({
       'url': url,

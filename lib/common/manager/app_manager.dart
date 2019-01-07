@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gank/api/api_github.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/event/event_show_history_date.dart';
+import 'package:flutter_gank/common/manager/cache_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
 import 'package:flutter_gank/common/model/github_user.dart';
@@ -43,8 +44,11 @@ class AppManager {
         await AppManager.changeLocale(context, int.parse(localeIndex));
       }
 
-      ///初始化收藏数据库
+      ///初始化收藏
       await FavoriteManager.init();
+
+      /// 初始化缓存
+      await CacheManager.init();
       return true;
     } catch (e) {
       return false;
@@ -82,7 +86,7 @@ class AppManager {
         CommonUtils.showToast(CommonUtils.getLocale(context).starFailed);
       }
     } else {
-      launch('https://github.com/lijinshanmx/flutter_gank');
+      launch(AppStrings.STRING_GANK_SOURCE);
     }
   }
 
