@@ -16,7 +16,7 @@
 # 简介
 「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://raw.githubusercontent.com/lijinshanmx/flutter_gank/master/apks/app-release-latest.apk)吧~,官网地址:[https://gank.io/app/gank](https://gank.io/app/gank)  
 
-桌面版flutter_gank,也在开发中，具体进度可在[flutter_gank_desktop](https://github.com/lijinshanmx/flutter_gank_desktop)项目中查看，目前仅仅是能运行成功,演示视频地址:[flutter_gank_desktop.mp4](https://attachments-cdn.shimo.im/JdEiVii4EOgYpZ6e/flutter_gank_desktop.mp4),运行环境为MacBookPro,后期会适配Windows，linux系统.
+桌面版flutter_gank,也在开发中，具体进度可在[flutter_gank_desktop](https://github.com/lijinshanmx/flutter_gank_desktop)项目中查看，目前仅仅是能运行成功,演示视频地址:[flutter_gank_desktop.mp4](https://dn-shimo-attachment.qbox.me/JdEiVii4EOgYpZ6e/flutter_gank_desktop.mp4),运行环境为MacBookPro,后期会适配Windows，linux系统.
 
 ## 应用截图
 
@@ -49,7 +49,7 @@
 - [ ] 备份应用程序配置到云端，比如主题色，语言配置等
 - [x] 实现桌面版Flutter Gank，【**已能简单运行，各个插件还需要继续优化**】,具体可参考[flutter-desktop-embedding](https://github.com/google/flutter-desktop-embedding)
 - 点击下方图片，查看视频详情
-- <a href='https://attachments-cdn.shimo.im/JdEiVii4EOgYpZ6e/flutter_gank_desktop.mp4'><img alt="gank.io" src="https://ws1.sinaimg.cn/large/0065oQSqly1fyyjvmh5yfj30jk0yotih.jpg" width="300"></a>
+- <a href='https://dn-shimo-attachment.qbox.me/JdEiVii4EOgYpZ6e/flutter_gank_desktop.mp4'><img alt="gank.io" src="https://ws1.sinaimg.cn/large/0065oQSqly1fyyjvmh5yfj30jk0yotih.jpg" width="300"></a>
 - [ ] iOS端代码PR【首需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】】   
 - [ ] 上线iOS版本【优先级低~】
 
