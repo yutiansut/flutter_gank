@@ -1,4 +1,4 @@
-import 'package:flutter_gank/common/constant/locale/string_base.dart';
+import 'package:flutter_gank/common/constant/locale/locale_base.dart';
 
 @override
 String syncMethodMerge = "Merge Favorites and sync";
@@ -58,7 +58,7 @@ class StringZh extends StringBase {
   @override
   String cancel = "取消";
   @override
-  String titleDesc = "简介";
+  String introduction = "简介";
   @override
   String sourceCode = "项目源码:";
   @override
@@ -175,4 +175,33 @@ class StringZh extends StringBase {
   String syncMethodMerge = "合并云端和本地收藏";
   @override
   String languageSetting = "设置语言";
+  @override
+  String officialWebSite = "官网地址:";
+  @override
+  String downloadFavoritesSuccess = "下载备份成功~";
+  @override
+  String downloadFavoritesFail = "下载备份失败~";
+  @override
+  String serverHasNoFavorites = "云端没有收藏备份~";
+  @override
+  String uploadFavoritesSuccess = "上传本地备份成功~";
+  @override
+  String uploadFavoritesFail = "上传本地备份失败~";
+  @override
+  String tips = "提示";
+  @override
+  String confirmClearFavorites = "确定要清空本地收藏吗?";
+  @override
+  List<String> themeColorList = [
+    '默认色',
+    '海棠红',
+    '鸢尾蓝',
+    '孔雀绿',
+    '柠檬黄',
+    '藤萝紫',
+    '暮云灰',
+    '虾壳青',
+    '牡丹粉',
+    '筍皮棕',
+  ];
 }

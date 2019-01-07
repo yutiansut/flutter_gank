@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gank/common/constant/locale/string_base.dart';
-import 'package:flutter_gank/common/constant/locale/string_en.dart';
-import 'package:flutter_gank/common/constant/locale/string_zh.dart';
+import 'package:flutter_gank/common/constant/locale/locale_base.dart';
+import 'package:flutter_gank/common/constant/locale/locale_en.dart';
+import 'package:flutter_gank/common/constant/locale/locale_zh.dart';
 
 ///自定义多语言实现
 class GankLocalizations {

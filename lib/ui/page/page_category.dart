@@ -16,7 +16,7 @@ class _CategoryPageState extends State<CategoryPage>
   void initState() {
     super.initState();
     _controller =
-        TabController(vsync: this, length: Strings.GANK_ALL_CATEGORY_KEYS.length);
+        TabController(vsync: this, length: AppStrings.GANK_ALL_CATEGORY_KEYS.length);
   }
 
   @override
@@ -51,7 +51,7 @@ class _CategoryPageState extends State<CategoryPage>
           child: TabBarView(
               controller: _controller,
               children:
-                  Strings.GANK_ALL_CATEGORY_KEYS.map<Widget>((String page) {
+                  AppStrings.GANK_ALL_CATEGORY_KEYS.map<Widget>((String page) {
                 return GankListCategory(page);
               }).toList()),
         ),

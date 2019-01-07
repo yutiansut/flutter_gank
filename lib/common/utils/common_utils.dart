@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/common/constant/colors.dart';
-import 'package:flutter_gank/common/constant/locale/string_base.dart';
+import 'package:flutter_gank/common/constant/locale/locale_base.dart';
 import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/ui/widget/widget_expand_button.dart';
@@ -46,17 +46,17 @@ class CommonUtils {
         context: context,
         builder: (BuildContext context) {
           return Center(
-            child: new Container(
+            child: Container(
               width: width,
               height: height,
-              padding: new EdgeInsets.all(4.0),
-              margin: new EdgeInsets.all(20.0),
-              decoration: new BoxDecoration(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              margin: EdgeInsets.all(4.0),
+              decoration: BoxDecoration(
                 color: Colors.white,
                 //用一个BoxDecoration装饰器提供背景图片
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
-              child: new ListView.builder(
+              child: ListView.builder(
                   itemCount: commitMaps.length,
                   itemBuilder: (context, index) {
                     return ExpandButton(
@@ -80,19 +80,8 @@ class CommonUtils {
   }
 
   static showThemeDialog(BuildContext context) {
-    List<String> list = [
-      '默认色',
-      '海棠红',
-      '鸢尾蓝',
-      '孔雀绿',
-      '柠檬黄',
-      '藤萝紫',
-      '暮云灰',
-      '虾壳青',
-      '牡丹粉',
-      '筍皮棕',
-    ];
-    CommonUtils.showCommitOptionDialog(context, list, (index) {
+    CommonUtils.showCommitOptionDialog(
+        context, CommonUtils.getLocale(context).themeColorList, (index) {
       AppManager.switchThemeData(context, index);
     }, colorList: CommonUtils.getThemeListColor());
   }
@@ -104,6 +93,6 @@ class CommonUtils {
     ];
     CommonUtils.showCommitOptionDialog(context, list, (index) {
       AppManager.changeLocale(context, index);
-    }, height: 105.0);
+    }, height: 97.0);
   }
 }

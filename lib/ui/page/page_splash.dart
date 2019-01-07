@@ -37,28 +37,18 @@ class _SplashPageState extends State<SplashPage> {
           children: <Widget>[
             Align(
               alignment: FractionalOffset.center,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Image.asset(
-                    'images/gank.png',
-                    width: 100,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 60),
-                    child: Text(CommonUtils.getLocale(context).gankName,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontFamily: "WorkSansSemiBold")),
-                  )
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 150.0),
+                child: Image.asset(
+                  'images/gank.png',
+                  width: 100,
+                ),
               ),
             ),
             Align(
               alignment: FractionalOffset.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.all(14.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text('${DateTime.now().year}@gank.io',
                     style: TextStyle(
                         color: Colors.black,

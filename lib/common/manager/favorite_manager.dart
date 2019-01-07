@@ -27,7 +27,7 @@ class FavoriteManager {
   static init() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path =
-        join(documentsDirectory.path, "${Strings.STRING_DB_FAVORITE}.db");
+        join(documentsDirectory.path, "${AppStrings.STRING_DB_FAVORITE}.db");
     db = ObjectDB(path);
     return await db.open();
   }
@@ -52,16 +52,17 @@ class FavoriteManager {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-                title: Text('提示'),
-                content: Text('确定要清空本地收藏吗?'),
+                title: Text(CommonUtils.getLocale(context).tips),
+                content:
+                    Text(CommonUtils.getLocale(context).confirmClearFavorites),
                 actions: <Widget>[
                   FlatButton(
-                      child: const Text('取消'),
+                      child: Text(CommonUtils.getLocale(context).cancel),
                       onPressed: () {
                         Navigator.pop(context);
                       }),
                   FlatButton(
-                      child: const Text('确定'),
+                      child: Text(CommonUtils.getLocale(context).confirm),
                       onPressed: () async {
                         await FavoriteManager._clearFavorites();
                         Fluttertoast.showToast(
@@ -84,7 +85,7 @@ class FavoriteManager {
       User user = StoreProvider.of<AppState>(context).state.userInfo;
       if (user == null) {
         NavigatorUtils.goLogin(context);
-        return '请先登录';
+        return CommonUtils.getLocale(context).pleaseLogin;
       }
       var userGists = await GithubApi.listUserGists(user.login, user.token);
       String favoriteGistId;
@@ -99,37 +100,41 @@ class FavoriteManager {
       }
       var favoriteJson = json.encode(await find({}));
       GithubApi.editFlutterGankGist(user.token, favoriteGistId, favoriteJson);
-      return '上传本地备份成功~';
+      return CommonUtils.getLocale(context).uploadFavoritesSuccess;
     } catch (e) {
-      return '上传本地备份失败~';
+      return CommonUtils.getLocale(context).uploadFavoritesFail;
     }
   }
 
   static downloadFavoritesFromServer(BuildContext context) async {
-    User user = StoreProvider.of<AppState>(context).state.userInfo;
-    if (user == null) {
-      NavigatorUtils.goLogin(context);
-      return '请先登录';
-    }
-    var userGists = await GithubApi.listUserGists(user.login, user.token);
-    String favoriteGistId;
-    for (var gist in userGists) {
-      if (gist['files'].containsKey('favorites.json')) {
-        favoriteGistId = gist['id'];
-        break;
+    try {
+      User user = StoreProvider.of<AppState>(context).state.userInfo;
+      if (user == null) {
+        NavigatorUtils.goLogin(context);
+        return CommonUtils.getLocale(context).pleaseLogin;
       }
-    }
-    if (favoriteGistId != null) {
-      var favoritesJson =
-          json.decode(await GithubApi.getUserGist(user.token, favoriteGistId));
-      _clearFavorites();
-      for (var gankItemJson in favoritesJson) {
-        insert(GankItem.fromJson(gankItemJson));
+      var userGists = await GithubApi.listUserGists(user.login, user.token);
+      String favoriteGistId;
+      for (var gist in userGists) {
+        if (gist['files'].containsKey('favorites.json')) {
+          favoriteGistId = gist['id'];
+          break;
+        }
       }
-      AppManager.eventBus.fire(RefreshDBEvent());
-      return '下载备份成功~';
-    } else {
-      return '云端没有收藏备份~';
+      if (favoriteGistId != null) {
+        var favoritesJson = json
+            .decode(await GithubApi.getUserGist(user.token, favoriteGistId));
+        _clearFavorites();
+        for (var gankItemJson in favoritesJson) {
+          insert(GankItem.fromJson(gankItemJson));
+        }
+        AppManager.eventBus.fire(RefreshDBEvent());
+        return CommonUtils.getLocale(context).downloadFavoritesSuccess;
+      } else {
+        return CommonUtils.getLocale(context).serverHasNoFavorites;
+      }
+    } catch (e) {
+      return CommonUtils.getLocale(context).downloadFavoritesFail;
     }
   }
 
@@ -164,7 +169,8 @@ class FavoriteManager {
                       text: CommonUtils.getLocale(context).syncMethodMerge,
                       onPressed: () {
                         Navigator.pop(context);
-                        CommonUtils.showToast('即将支持~');
+                        CommonUtils.showToast(
+                            CommonUtils.getLocale(context).supportLater);
                       },
                       color: AppManager.getThemeData(context).primaryColor),
                 ]));

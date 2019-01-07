@@ -61,7 +61,7 @@ class AppManager {
 
   static checkUpdate(context) async {
     MethodChannel flutterNativePlugin =
-        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+        MethodChannel(AppStrings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     var hasNewVersion = await flutterNativePlugin.invokeMethod('checkupdate');
     if (!hasNewVersion) {
       Fluttertoast.showToast(

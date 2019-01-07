@@ -35,7 +35,7 @@ class _SettingPageState extends State<SettingPage> {
 
   void _initVersion() {
     flutterNativePlugin =
-        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+        MethodChannel(AppStrings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     flutterNativePlugin.invokeMethod('getversion').then((v) {
       setState(() {
         _version = v;

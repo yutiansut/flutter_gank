@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   final BasicMessageChannel<String> platform =
       const BasicMessageChannel<String>(
-          Strings.FLUTTER_MESSAGE_CHANNEL_NAME, const StringCodec());
+          AppStrings.FLUTTER_MESSAGE_CHANNEL_NAME, const StringCodec());
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
   final FocusNode myFocusNodePasswordLogin = FocusNode();
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage>
   void initState() {
     super.initState();
     flutterNativePlugin =
-        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+        MethodChannel(AppStrings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
     platform.setMessageHandler(_handlePlatformMessage);
   }
 

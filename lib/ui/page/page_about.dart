@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/common/localization/gank_localizations.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
+import 'package:flutter_gank/ui/widget/widget_link_text_span.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _AboutPageState extends State<AboutPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(CommonUtils.getLocale(context).titleDesc,
+                Text(CommonUtils.getLocale(context).introduction,
                     style: Theme.of(context).textTheme.title),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -46,9 +47,7 @@ class _AboutPageState extends State<AboutPage> {
                       Padding(
                         padding: const EdgeInsets.only(right: 4.0),
                         child: Text(
-                          GankLocalizations.of(context)
-                              .currentLocalized
-                              .sourceCode,
+                          CommonUtils.getLocale(context).sourceCode,
                           style: linkTitleStyle,
                         ),
                       ),
@@ -64,6 +63,33 @@ class _AboutPageState extends State<AboutPage> {
                               ..onTap = () {
                                 launch(
                                     'https://github.com/lijinshanmx/flutter_gank');
+                              })
+                      ]))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Text(
+                          CommonUtils.getLocale(context).officialWebSite,
+                          style: linkTitleStyle,
+                        ),
+                      ),
+                      RichText(
+                          text: TextSpan(children: <TextSpan>[
+                        TextSpan(
+                            style: Theme.of(context).textTheme.body1.copyWith(
+                                color: Theme.of(context).accentColor,
+                                fontSize: 15,
+                                decoration: TextDecoration.underline),
+                            text: "https://gank.io/app/gank",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                launch('https://gank.io/app/gank');
                               })
                       ]))
                     ],
@@ -143,49 +169,49 @@ class _AboutPageState extends State<AboutPage> {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Divider(height: 0.0),
                 ),
-                buildLinkText(
+                LinkTextSpan(
                     'cached_network_image',
                     'https://github.com/renefloor/flutter_cached_network_image',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'flutter_webview_plugin',
                     'https://github.com/dart-flitter/flutter_webview_plugin',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'flutter_toast',
                     'https://github.com/PonnamKarthik/FlutterToast',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'photo_view',
                     'https://github.com/renancaraujo/photo_view',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'flutter_pulltorefresh',
                     'https://github.com/peng8350/flutter_pulltorefresh',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText('dio', 'https://github.com/flutterchina/dio',
+                LinkTextSpan('dio', 'https://github.com/flutterchina/dio',
                     linkTitleStyle, linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'objectdb',
                     'https://github.com/netz-chat/objectdb',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'event-bus',
                     'http://code.makery.ch/library/dart-event-bus',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'flutter_parallax',
                     'https://github.com/letsar/flutter_parallax',
                     linkTitleStyle,
                     linkTextStyle),
-                buildLinkText(
+                LinkTextSpan(
                     'url_launcher',
                     'https://github.com/flutter/plugins/tree/master/packages/url_launcher',
                     linkTitleStyle,
@@ -196,34 +222,5 @@ class _AboutPageState extends State<AboutPage> {
         ],
       ),
     );
-  }
-
-  Widget buildLinkText(
-      title, url, TextStyle linkTitleStyle, TextStyle linkTextStyle) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 4.0),
-          ),
-          RichText(
-              text: TextSpan(children: <TextSpan>[
-            TextSpan(
-                style: linkTextStyle,
-                text: title,
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launch(url);
-                  })
-          ]))
-        ],
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 }

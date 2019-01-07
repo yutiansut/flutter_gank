@@ -1,6 +1,6 @@
 ///此类定义了app中所有的字符串常量.
 
-class Strings {
+class AppStrings {
   static const STRING_DB_FAVORITE = "favorites";
 
   static const FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME =

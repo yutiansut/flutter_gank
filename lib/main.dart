@@ -47,6 +47,8 @@ class GankApp extends StatelessWidget {
             supportedLocales: [store.state.locale],
             routes: {
               SplashPage.ROUTER_NAME: (context) =>
+
+                  ///注意只需要包裹第一次打开的页面，BuildContext 会传递给子widget树.
                   GankLocalizationsWrapper(child: SplashPage()),
               HomePage.ROUTER_NAME: (context) => HomePage(),
               LoginPage.ROUTER_NAME: (context) => LoginPage(),

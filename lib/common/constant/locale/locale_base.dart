@@ -53,7 +53,7 @@ abstract class StringBase {
 
   String cancel;
 
-  String titleDesc;
+  String introduction;
 
   String sourceCode;
 
@@ -146,4 +146,22 @@ abstract class StringBase {
   String syncMethodDownload;
 
   String syncMethodMerge;
+
+  String officialWebSite;
+
+  String downloadFavoritesSuccess;
+
+  String uploadFavoritesSuccess;
+
+  String downloadFavoritesFail;
+
+  String uploadFavoritesFail;
+
+  String serverHasNoFavorites;
+
+  String tips;
+
+  String confirmClearFavorites;
+
+  List<String> themeColorList;
 }

@@ -38,7 +38,7 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
 
     ///native插件初始化
     flutterNativePlugin =
-        MethodChannel(Strings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+        MethodChannel(AppStrings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
 
     ///初始化动画相关
     _controllerDrawer = AnimationController(
@@ -66,7 +66,7 @@ class _GankDrawerState extends State<GankDrawer> with TickerProviderStateMixin {
         children: <Widget>[
           StoreBuilder<AppState>(
             builder: (context, store) => UserAccountsDrawerHeader(
-                  accountName: Text(store.state.userInfo?.userName ?? '请先登录'),
+                  accountName: Text(store.state.userInfo?.userName ?? CommonUtils.getLocale(context).pleaseLogin),
                   accountEmail: Text(
                       store.state.userInfo?.userDesc ?? '~~(>_<)~~ 什么也没有~'),
                   currentAccountPicture: GestureDetector(
