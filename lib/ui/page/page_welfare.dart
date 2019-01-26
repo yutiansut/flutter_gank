@@ -6,9 +6,9 @@ import 'package:flutter_gank/common/event/event_change_column.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
+import 'package:flutter_gank/common/utils/time_utils.dart';
 import 'package:flutter_gank/ui/page/page_gallery.dart';
 import 'package:flutter_gank/ui/widget/indicator_factory.dart';
-import 'package:flutter_parallax/flutter_parallax.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class WelfarePage extends StatefulWidget {
@@ -23,7 +23,6 @@ class _WelfarePageState extends State<WelfarePage>
   int _page = 1;
   bool isOneColumn = true;
   RefreshController _refreshController;
-  final _controller = new ScrollController();
 
   @override
   void initState() {
@@ -48,40 +47,43 @@ class _WelfarePageState extends State<WelfarePage>
         children: <Widget>[
           Offstage(
               offstage: _isLoading,
-              child: SmartRefresher(
-                controller: _refreshController,
-                headerBuilder: buildDefaultHeader,
-                footerBuilder: (context, mode) =>
-                    buildDefaultFooter(context, mode, () {
-                      _refreshController.sendBack(
-                          false, RefreshStatus.refreshing);
-                    }),
-                onRefresh: _onRefresh,
-                enablePullUp: true,
-                child: GridView.count(
-                  controller: _controller,
-                  //横轴的最大长度
-                  crossAxisCount: isOneColumn ? 1 : 2,
-                  //主轴间隔
-                  mainAxisSpacing: 2.0,
-                  //横轴间隔
-                  crossAxisSpacing: 2.0,
-                  childAspectRatio: 2 / (isOneColumn ? 2 : 3),
-                  children: _gankItems?.map<Widget>((gankItem) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return GalleryPage([
-                                (gankItem.url as String)
-                                    .replaceFirst("large", "mw690")
-                              ], gankItem.desc);
-                            }));
-                          },
-                          child: _buildImageWidget(gankItem),
-                        );
-                      })?.toList() ??
-                      [],
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: SmartRefresher(
+                  controller: _refreshController,
+                  headerBuilder: buildDefaultHeader,
+                  footerBuilder: (context, mode) =>
+                      buildDefaultFooter(context, mode, () {
+                        _refreshController.sendBack(
+                            false, RefreshStatus.refreshing);
+                      }),
+                  onRefresh: _onRefresh,
+                  enablePullUp: true,
+                  child: GridView.count(
+                    //横轴的最大长度
+                    crossAxisCount: isOneColumn ? 1 : 2,
+                    //主轴间隔
+                    mainAxisSpacing: 10.0,
+                    //横轴间隔
+                    crossAxisSpacing: 10.0,
+                    childAspectRatio: 2 / (isOneColumn ? 2 : 3),
+                    children: _gankItems?.map<Widget>((gankItem) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return GalleryPage([
+                                  (gankItem.url as String)
+                                      .replaceFirst("large", "mw690")
+                                ], gankItem.desc);
+                              }));
+                            },
+                            child: _buildImageWidget(gankItem),
+                          );
+                        })?.toList() ??
+                        [],
+                  ),
                 ),
               )),
           Offstage(
@@ -96,18 +98,42 @@ class _WelfarePageState extends State<WelfarePage>
   }
 
   Widget _buildImageWidget(gankItem) {
-    return isOneColumn
-        ? Parallax.inside(
-            mainAxisExtent: 150.0,
-            child: CachedNetworkImage(
-              imageUrl: gankItem.url,
-              fit: BoxFit.cover,
-            ),
-          )
-        : CachedNetworkImage(
-            imageUrl: gankItem.url,
-            fit: BoxFit.cover,
-          );
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+              child: isOneColumn
+                  ? CachedNetworkImage(
+                      imageUrl: gankItem.url,
+                      fit: BoxFit.cover,
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: gankItem.url,
+                      fit: BoxFit.cover,
+                    )),
+          Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width - 20,
+                color: Colors.black26,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      formatDateStr(gankItem.publishedAt),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
   }
 
   void _onRefresh(bool up) {
