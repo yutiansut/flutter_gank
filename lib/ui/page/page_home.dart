@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     var historyData = await GankApi.getHistoryDateData();
     setState(() {
       _historyData = historyData;
-      _currentDate = _historyData[0];
+      _currentDate = '今日最新干货';
     });
   }
 
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
   ///build AppBar.
   Widget _buildAppBar() {
     return AppBar(
-      elevation: 5,
+      elevation: 0,
       centerTitle: true,
       title: Offstage(
         offstage: _currentPageIndex != 0,
