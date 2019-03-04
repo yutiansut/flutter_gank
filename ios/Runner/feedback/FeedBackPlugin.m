@@ -15,8 +15,8 @@
 NSObject <FlutterPluginRegistry> *registry;
 
 - (void)initFeedBackWithFlutterViewController:(FlutterViewController *)flutterViewController {
-    NSString *appKey = @"25803833";
-    NSString *appSecret = @"01128c938a651fe5b1c71bb6c7e60779";
+    NSString *appKey = @"25802840";
+    NSString *appSecret = @"9c5e748648850a2116c0fc1b5da2bcee";
     feedbackKit = [[YWFeedbackKit alloc] initWithAppKey:appKey appSecret:appSecret];
 
     FlutterMethodChannel *channel = [FlutterMethodChannel methodChannelWithName:@"com.lijnshanmx/FlutterNativePlugin" binaryMessenger:flutterViewController];
