@@ -47,7 +47,7 @@
 - [ ] 备份应用程序配置到云端，比如主题色，语言配置等
 - [x] ~实现桌面版Flutter Gank【暂不考虑了】,具体可参考[flutter-desktop-embedding](https://github.com/google/flutter-desktop-embedding)~
 
-- [ ] iOS端代码PR【首需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】】   
+- [x]【感谢Caijinglong实现相关代码】 iOS端代码PR【首需要本地实现阿里反馈，检查更新，获取版本号，因为我对ios不了解，所以只实现了安卓端的，如果你有兴趣，或者正在学习flutter，欢迎PR哦~】】   
 - [ ] 上线iOS版本【优先级低~】
 
 ## 版本更新记录
