@@ -13,6 +13,7 @@ class GankApi {
   static const String API_HISTORY_CONTENT =
       "$API_GANK_HOST/api/history/content";
   static const String API_SUBMIT = "$API_GANK_HOST/api/add2gank";
+  static const String CHECK_UPDATE = "$API_GANK_HOST/api/checkversion";
 
   ///获取最新一天的数据
   static getTodayData() async {
