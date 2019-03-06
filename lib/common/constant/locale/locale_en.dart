@@ -124,6 +124,9 @@ class StringEn extends StringBase {
   @override
   String languageZh = 'Chinese';
 
+  @override
+  String get hasNewVersion => "A new version has been released.";
+
   ///干货分类
   @override
   List<String> gankAllCategories = <String>[

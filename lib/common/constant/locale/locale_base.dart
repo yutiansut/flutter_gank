@@ -87,6 +87,8 @@ abstract class StringBase {
 
   String alreadyNewVersion;
 
+  String get hasNewVersion;
+
   String gankDesc;
 
   String gankContribution;

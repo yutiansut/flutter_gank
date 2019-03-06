@@ -129,6 +129,9 @@ class StringZh extends StringBase {
   @override
   String languageZh = '中文';
 
+  @override
+  String get hasNewVersion => "新的版本已经发布";
+
   ///干货分类
   @override
   List<String> gankAllCategories = <String>[

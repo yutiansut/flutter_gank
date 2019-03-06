@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
@@ -13,6 +11,7 @@ import 'package:flutter_gank/common/utils/navigator_utils.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
@@ -152,12 +151,9 @@ class _SettingPageState extends State<SettingPage> {
                             style: Theme.of(context).textTheme.body1),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            'v${_version ?? '1.0.0'}(${Platform.isAndroid ? 'Android' : 'iOS'})',
-                            style: Theme.of(context)
-                                .textTheme
-                                .body2
-                                .copyWith(fontSize: 10, color: Colors.black),
+                          child: FutureBuilder<PackageInfo>(
+                            builder: _buildVersion,
+                            future: PackageInfo.fromPlatform(),
                           ),
                         )
                       ],
@@ -198,5 +194,16 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ],
         ));
+  }
+
+  Widget _buildVersion(
+      BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
+    return Text(
+      snapshot.data?.version ?? "",
+      style: Theme.of(context).textTheme.body2.copyWith(
+            fontSize: 10,
+            color: Colors.black,
+          ),
+    );
   }
 }

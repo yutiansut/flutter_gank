@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gank/api/api_gank.dart';
 import 'package:flutter_gank/api/api_github.dart';
 import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/event/event_show_history_date.dart';
@@ -8,6 +12,7 @@ import 'package:flutter_gank/common/manager/cache_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
 import 'package:flutter_gank/common/model/github_user.dart';
+import 'package:flutter_gank/common/net/http_manager.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/sp_utils.dart';
 import 'package:flutter_gank/config/gank_config.dart';
@@ -19,6 +24,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:package_info/package_info.dart';
 
 class AppManager {
   static EventBus eventBus = EventBus();
@@ -64,15 +71,40 @@ class AppManager {
   }
 
   static checkUpdate(context) async {
-    MethodChannel flutterNativePlugin =
-        MethodChannel(AppStrings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
-    var hasNewVersion = await flutterNativePlugin.invokeMethod('checkupdate');
-    if (!hasNewVersion) {
-      Fluttertoast.showToast(
+    if (Platform.isAndroid) {
+      MethodChannel flutterNativePlugin =
+          MethodChannel(AppStrings.FLUTTER_NATIVE_PLUGIN_CHANNEL_NAME);
+      var hasNewVersion = await flutterNativePlugin.invokeMethod('checkupdate');
+      if (!hasNewVersion) {
+        Fluttertoast.showToast(
           msg: CommonUtils.getLocale(context).alreadyNewVersion,
           backgroundColor: Colors.black,
           gravity: ToastGravity.CENTER,
-          textColor: Colors.white);
+          textColor: Colors.white,
+        );
+      }
+    } else if (Platform.isIOS) {
+      var info = await PackageInfo.fromPlatform();
+
+      var data = FormData.from({
+        "appKey": "ab5dce55Ac4bcW408cPb8c2Aaeac179c5f6g",
+        "version": info.version,
+      });
+      var updateResult = await HttpManager.fetch(
+        GankApi.CHECK_UPDATE,
+        method: "post",
+        params: data,
+      );
+      var hasNewVersion = updateResult.data["update"] == "Yes";
+
+      Fluttertoast.showToast(
+        msg: hasNewVersion
+            ? CommonUtils.getLocale(context).hasNewVersion
+            : CommonUtils.getLocale(context).alreadyNewVersion,
+        backgroundColor: Colors.black,
+        gravity: ToastGravity.CENTER,
+        textColor: Colors.white,
+      );
     }
   }
 
