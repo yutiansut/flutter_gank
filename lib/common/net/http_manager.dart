@@ -7,30 +7,46 @@ import 'package:flutter_gank/common/net/http_code.dart';
 import 'package:flutter_gank/common/net/http_response.dart';
 import 'package:flutter_gank/config/gank_config.dart';
 
+import 'http_log_interceptor.dart';
+
 ///http请求
 class HttpManager {
-  static Dio dio = Dio();
+  Dio dio;
 
-  static Future<HttpResponse> fetch(url,
-      {noTip = false,
-      dynamic params,
-      Map<String, String> header,
-      method = 'get'}) async {
-    ///构造Headers
+  static HttpManager get instance => _getInstance();
+  static HttpManager _instance;
+
+  HttpManager._internal() {
+    if (dio == null) {
+      dio = Dio();
+      dio.interceptors.add(HttpLogInterceptor());
+    }
+  }
+
+  static HttpManager _getInstance() {
+    if (_instance == null) {
+      _instance = new HttpManager._internal();
+    }
+    return _instance;
+  }
+
+  Future<HttpResponse> request(url,
+      {dynamic params, Map<String, String> header, method = 'get'}) async {
+    ///Headers
     Map<String, String> headers = HashMap();
     if (header != null) {
       headers.addAll(header);
     }
     Options option = new Options(method: method);
     option.headers = headers;
-    option.connectTimeout = 15000;
+    option.connectTimeout = GankConfig.CONNECT_TIMEOUT;
     Response response;
 
-    ///取缓存
+    ///caches
     var cacheData = await CacheManager.get(url);
     var connectivityResult = await (Connectivity().checkConnectivity());
 
-    ///没有网络
+    ///no network
     if (connectivityResult == ConnectivityResult.none) {
       ///如果缓存不为空且接口可以缓存，那么直接从缓存取即可.
       if (cacheData != null && !CacheManager.ignoreUrl(url)) {
@@ -38,80 +54,34 @@ class HttpManager {
           print('httpManager=====>【缓存】cache请求url: ' + url);
           print('httpManager=====>【缓存】返回结果: ' + cacheData.toString());
         }
-        return HttpResponse(cacheData, true, Code.SUCCESS, headers: null);
+        return HttpResponse(cacheData, true, Code.SUCCESS);
       } else {
-        return HttpResponse(
-            Code.errorHandleFunction(Code.NETWORK_ERROR, "", noTip),
-            false,
-            Code.NETWORK_ERROR);
+        return HttpResponse("网络连接错误", false, Code.NETWORK_ERROR);
       }
     }
 
-    ///否则网络获取接口数据.
     try {
       response = await dio.request(url, data: params, options: option);
       await CacheManager.set(CacheObject(url: url, value: response.data));
     } on DioError catch (e) {
-      ///如果缓存不为空且接口可以缓存，那么直接从缓存取即可.
       if (cacheData != null && !CacheManager.ignoreUrl(url)) {
-        if (GankConfig.DEBUG) {
-          print('httpManager=====>【缓存】cache请求url: ' + url);
-          print('httpManager=====>【缓存】请求头: ' + option.headers.toString());
-          if (params != null) {
-            print('httpManager=====>【缓存】请求参数: ' + params.toString());
-          }
-          if (response != null) {
-            print('httpManager=====>【缓存】返回结果: ' + cacheData.toString());
-          }
-        }
-        return HttpResponse(cacheData, true, Code.SUCCESS, headers: null);
+        return HttpResponse(cacheData, true, Code.SUCCESS);
       }
-      Response errorResponse;
-      if (e.response != null) {
-        errorResponse = e.response;
-      } else {
-        errorResponse = Response(statusCode: 666);
-      }
+      Response errorResponse = e.response ?? Response();
       if (e.type == DioErrorType.CONNECT_TIMEOUT) {
         errorResponse.statusCode = Code.NETWORK_TIMEOUT;
       }
-      if (GankConfig.DEBUG) {
-        print('httpManager=====>请求异常: ' + e.toString());
-        print('httpManager=====>请求异常url: ' + url);
-      }
-      return HttpResponse(
-          Code.errorHandleFunction(errorResponse.statusCode, e.message, noTip),
-          false,
-          errorResponse.statusCode);
+      return HttpResponse(e.message, false, errorResponse.statusCode);
     }
 
-    if (GankConfig.DEBUG) {
-      print('httpManager=====>请求url: ' + url);
-      print('httpManager=====>请求头: ' + option.headers.toString());
-      if (params != null) {
-        print('httpManager=====>请求参数: ' + params.toString());
-      }
-      if (response != null) {
-        print('httpManager=====>返回参数: ' + response.toString());
-      }
-    }
-
-    ///返回正确获取到的网络数据.
     try {
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return HttpResponse(response.data, true, Code.SUCCESS,
-            headers: response.headers);
+        return HttpResponse(response.data, true, Code.SUCCESS);
       }
     } catch (e) {
-      ///错误处理
-      return HttpResponse(response.data, false, response.statusCode,
-          headers: response.headers);
+      return HttpResponse(response.data, false, response.statusCode);
     }
 
-    ///容错处理
-    return HttpResponse(
-        Code.errorHandleFunction(response.statusCode, "", noTip),
-        false,
-        response.statusCode);
+    return HttpResponse("未知错误", false, response.statusCode);
   }
 }

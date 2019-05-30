@@ -90,7 +90,7 @@ class AppManager {
         "appKey": "ab5dce55Ac4bcW408cPb8c2Aaeac179c5f6g",
         "version": info.version,
       });
-      var updateResult = await HttpManager.fetch(
+      var updateResult = await HttpManager.instance.request(
         GankApi.CHECK_UPDATE,
         method: "post",
         params: data,

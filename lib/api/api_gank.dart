@@ -17,33 +17,33 @@ class GankApi {
 
   ///获取最新一天的数据
   static getTodayData() async {
-    HttpResponse response = await HttpManager.fetch(API_TODAY);
+    HttpResponse response = await HttpManager.instance.request(API_TODAY);
     return response.data;
   }
 
   ///获取指定日期的数据 [date:指定日期]
   static getSpecialDayData(String date) async {
     HttpResponse response =
-        await HttpManager.fetch(API_SPECIAL_DAY + date.replaceAll("-", "/"));
+        await HttpManager.instance.request(API_SPECIAL_DAY + date.replaceAll("-", "/"));
     return response.data;
   }
 
   ///获取分类数据 [category:分类, page: 页数, count:每页的个数]
   static getCategoryData(String category, int page, {count = 20}) async {
     String url = API_DATA + category + "/$count/$page";
-    HttpResponse response = await HttpManager.fetch(url);
+    HttpResponse response = await HttpManager.instance.request(url);
     return response.data;
   }
 
   ///获取所有的历史干货日期.
   static getHistoryDateData() async {
-    HttpResponse response = await HttpManager.fetch(API_HISTORY);
+    HttpResponse response = await HttpManager.instance.request(API_HISTORY);
     return response.data['results'];
   }
 
   ///搜索[简易搜索，后面拆分页]
   static searchData(String search) async {
-    HttpResponse response = await HttpManager.fetch(
+    HttpResponse response = await HttpManager.instance.request(
         API_SEARCH + "/$search/category/all/count/50/page/1");
     return response.data['results'];
   }
@@ -58,14 +58,14 @@ class GankApi {
       'debug': debug,
     });
     HttpResponse response =
-        await HttpManager.fetch(API_SUBMIT, params: formData, method: 'post');
+        await HttpManager.instance.request(API_SUBMIT, params: formData, method: 'post');
     return response.data;
   }
 
   ///获取所有的历史干货.
   static getHistoryContentData(int page, {count = 20}) async {
     HttpResponse response =
-        await HttpManager.fetch(API_HISTORY_CONTENT + '/$count/$page');
+        await HttpManager.instance.request(API_HISTORY_CONTENT + '/$count/$page');
     return response.data['results'];
   }
 }

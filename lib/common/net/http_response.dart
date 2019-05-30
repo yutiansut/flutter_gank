@@ -1,8 +1,7 @@
 class HttpResponse {
-  var data;
-  bool isResult;
   int code;
-  var headers;
+  var data;
+  bool isSuccess;
 
-  HttpResponse(this.data, this.isResult, this.code, {this.headers});
+  HttpResponse(this.data, this.isSuccess, this.code);
 }

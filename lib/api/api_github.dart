@@ -31,7 +31,7 @@ class GithubApi {
       String userName, String password) async {
     String authorizationUrl = 'https://api.github.com/authorizations';
     String basic = "Basic ${base64Encode(utf8.encode("$userName:$password"))}";
-    var response = await HttpManager.fetch(authorizationUrl,
+    var response = await HttpManager.instance.request(authorizationUrl,
         params: {
           "client_id": GankConfig.CLIENT_ID,
           "client_secret": GankConfig.CLIENT_SECRET,
@@ -56,7 +56,7 @@ class GithubApi {
   }
 
   static Future<String> getTokenFromBrowserCode(String code) async {
-    var response = await HttpManager.fetch(
+    var response = await HttpManager.instance.request(
         'https://github.com/login/oauth/access_token',
         params: {
           'client_id': GankConfig.CLIENT_ID,
@@ -68,7 +68,7 @@ class GithubApi {
 
   static Future<User> getUserInfo(String accessToken) async {
     try {
-      var response = await HttpManager.fetch(
+      var response = await HttpManager.instance.request(
           "https://api.github.com/user?access_token=$accessToken");
       var userInfo = response.data;
       userInfo['token'] = accessToken;
@@ -81,7 +81,7 @@ class GithubApi {
   }
 
   static starFlutterGank(String accessToken) async {
-    HttpResponse response = await HttpManager.fetch(
+    HttpResponse response = await HttpManager.instance.request(
         "https://api.github.com/user/starred/lijinshanmx/flutter_gank?access_token=$accessToken",
         method: 'put');
     return response.code == 204;
@@ -97,7 +97,7 @@ class GithubApi {
     contentMap['content'] = 'this is flutter gank favorites json backup.';
     filesMap['favorites.json'] = contentMap;
     payloadMap['files'] = filesMap;
-    var response = await HttpManager.fetch(
+    var response = await HttpManager.instance.request(
       'https://api.github.com/gists',
       params: json.encode(payloadMap),
       header: {'Authorization': 'Bearer $accessToken'},
@@ -114,7 +114,7 @@ class GithubApi {
     contentMap['content'] = favoritesJson;
     filesMap['favorites.json'] = contentMap;
     payloadMap['files'] = filesMap;
-    await HttpManager.fetch(
+    await HttpManager.instance.request(
       'https://api.github.com/gists/$gistId',
       params: json.encode(payloadMap),
       header: {'Authorization': 'Bearer $accessToken'},
@@ -123,14 +123,14 @@ class GithubApi {
   }
 
   static listUserGists(userName, accessToken) async {
-    HttpResponse response = await HttpManager.fetch(
+    HttpResponse response = await HttpManager.instance.request(
         "https://api.github.com/users/$userName/gists?access_token=$accessToken",
         method: 'get');
     return response.data;
   }
 
   static Future<String> getUserGist(accessToken, gistId) async {
-    HttpResponse response = await HttpManager.fetch(
+    HttpResponse response = await HttpManager.instance.request(
         "https://api.github.com/gists/$gistId?access_token=$accessToken",
         method: 'get');
     return response.data['files']['favorites.json']['content'];
