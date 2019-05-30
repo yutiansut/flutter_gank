@@ -11,10 +11,11 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -41,8 +42,6 @@ import com.vector.update_app.utils.DrawableUtil;
 import com.vector.update_app.view.NumberProgressBar;
 
 import java.io.File;
-
-import io.flutter.util.PathUtils;
 
 /**
  * Created by Vector
