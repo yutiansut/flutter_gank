@@ -8,13 +8,13 @@
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-52C434.svg">
   <img src="https://img.shields.io/badge/version-1.0.2-52C434.svg">
-  <img src="https://img.shields.io/badge/flutterSdk-1.1.4-red.svg">
-  <img src="https://img.shields.io/badge/language-dart2-blue.svg">
+  <img src="https://img.shields.io/badge/flutterSdk-1.6.6-red.svg">
+  <img src="https://img.shields.io/badge/language-dart2.3.2-blue.svg">
   <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
 # 简介
-「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载](https://raw.githubusercontent.com/lijinshanmx/flutter_gank/master/apks/app-release-latest.apk)吧~,官网地址:[https://gank.io/app/gank](https://gank.io/app/gank)  
+「干货集中营」是一款注重体验的 Gank.io 官方客户端，App整体秉承Material简洁风格，包含搜索，收藏，提交干货，按期浏览、分类浏览等功能，还有漂亮的妹纸等你哦，快来[下载体验](https://raw.githubusercontent.com/lijinshanmx/flutter_gank/master/apks/app-release-latest.apk)吧~
 
 ## 应用截图
 
@@ -45,6 +45,11 @@
 - [ ] 备份应用程序配置到云端，比如主题色，语言配置等
 
 ## 版本更新记录
+### V1.0.3  [2019-05-31]
+  1、升级Flutter插件.
+  2、Android依赖替换为androidx,解决新版编译报错.
+  3、修复福利页面Log报错.
+  4、bug fix.
 ### V1.0.2  [2018-01-03]  
   1、ui调整.  
   2、添加Github登录.  
