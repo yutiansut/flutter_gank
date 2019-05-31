@@ -15,11 +15,9 @@ import 'package:redux/redux.dart';
 void main() => runApp(GankApp());
 
 class GankApp extends StatelessWidget {
-  /// 初始化 State
+  ///init state
   final store = new Store<AppState>(
     appReducer,
-
-    ///初始化数据
     initialState: new AppState(
       userInfo: null,
       themeData: new ThemeData(
@@ -47,8 +45,8 @@ class GankApp extends StatelessWidget {
             supportedLocales: [store.state.locale],
             routes: {
               SplashPage.ROUTER_NAME: (context) =>
-
-                  ///注意只需要包裹第一次打开的页面，BuildContext 会传递给子widget树.
+              ///Note that you only need to wrap the first open page,
+              ///and the BuildContext will be passed to the child widget tree.
                   GankLocalizationsWrapper(child: SplashPage()),
               HomePage.ROUTER_NAME: (context) => HomePage(),
               LoginPage.ROUTER_NAME: (context) => LoginPage(),
