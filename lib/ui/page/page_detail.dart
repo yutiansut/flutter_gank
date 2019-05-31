@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gank/api//api_gank.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/common/model/gank_post.dart';
-import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/ui/page/page_gallery.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
 import 'package:flutter_gank/ui/widget/widget_list_title.dart';
-import 'package:flutter_gank/ui/page/page_gallery.dart';
-import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DetailPage extends StatefulWidget {
@@ -33,11 +32,6 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getNewData({String date, bool isRefresh = false}) async {
-    if (!isRefresh) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
     var specialDayDataJson = await GankApi.getSpecialDayData(widget._date);
     var specialDayItem = GankPost.fromJson(specialDayDataJson);
     setState(() {
@@ -45,13 +39,19 @@ class _DetailPageState extends State<DetailPage> {
       _girlImage = specialDayItem.girlImage;
       _isLoading = false;
     });
+    if (isRefresh) {
+      _refreshController.refreshCompleted();
+    }
   }
 
-  Future _onRefresh(bool up) async {
-    if (up) {
-      await getNewData(date: widget._date, isRefresh: true);
-      _refreshController.sendBack(true, RefreshStatus.completed);
-    }
+  _onRefresh() async {
+    getNewData(date: widget._date, isRefresh: true);
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 
   @override
@@ -71,7 +71,6 @@ class _DetailPageState extends State<DetailPage> {
               enablePullUp: false,
               onRefresh: _onRefresh,
               onOffsetChange: null,
-              headerBuilder: buildDefaultHeader,
               controller: _refreshController,
               child: _buildListView(),
             ),

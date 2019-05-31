@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/event/event_change_column.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/time_utils.dart';
 import 'package:flutter_gank/ui/page/page_gallery.dart';
-import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class WelfarePage extends StatefulWidget {
@@ -27,6 +27,12 @@ class _WelfarePageState extends State<WelfarePage>
   @override
   void initState() {
     super.initState();
+    _refreshController = new RefreshController();
+    initWelfareEventBus();
+    initWelfareData();
+  }
+
+  void initWelfareEventBus() {
     AppManager.eventBus.on<ChangeWelfareColumnEvent>().listen((event) {
       if (mounted) {
         setState(() {
@@ -34,8 +40,14 @@ class _WelfarePageState extends State<WelfarePage>
         });
       }
     });
-    _refreshController = new RefreshController();
-    _getCategoryData();
+  }
+
+  void initWelfareData() async {
+    var gankItems = await _getCategoryData();
+    setState(() {
+      _gankItems.addAll(gankItems);
+      _isLoading = false;
+    });
   }
 
   @override
@@ -52,20 +64,12 @@ class _WelfarePageState extends State<WelfarePage>
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: SmartRefresher(
                   controller: _refreshController,
-                  headerBuilder: buildDefaultHeader,
-                  footerBuilder: (context, mode) =>
-                      buildDefaultFooter(context, mode, () {
-                        _refreshController.sendBack(
-                            false, RefreshStatus.refreshing);
-                      }),
                   onRefresh: _onRefresh,
+                  onLoading: _onLoading,
                   enablePullUp: true,
                   child: GridView.count(
-                    //横轴的最大长度
                     crossAxisCount: isOneColumn ? 1 : 2,
-                    //主轴间隔
                     mainAxisSpacing: 10.0,
-                    //横轴间隔
                     crossAxisSpacing: 10.0,
                     childAspectRatio: 2 / (isOneColumn ? 2 : 3),
                     children: _gankItems?.map<Widget>((gankItem) {
@@ -103,15 +107,10 @@ class _WelfarePageState extends State<WelfarePage>
       child: Stack(
         children: <Widget>[
           Positioned.fill(
-              child: isOneColumn
-                  ? CachedNetworkImage(
-                      imageUrl: gankItem.url,
-                      fit: BoxFit.cover,
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: gankItem.url,
-                      fit: BoxFit.cover,
-                    )),
+              child: CachedNetworkImage(
+            imageUrl: gankItem.url,
+            fit: BoxFit.cover,
+          )),
           Positioned(
               bottom: 0,
               child: Container(
@@ -136,37 +135,39 @@ class _WelfarePageState extends State<WelfarePage>
     );
   }
 
-  void _onRefresh(bool up) {
-    if (!up) {
-      _page++;
-      _getCategoryData(loadMore: true);
-    } else {
-      _page = 1;
-      _getCategoryData();
-    }
+  void _onRefresh() async {
+    _page = 1;
+    var gankItems = await _getCategoryData();
+    _refreshController.refreshCompleted();
+    setState(() {
+      _gankItems = gankItems;
+    });
   }
 
-  void _getCategoryData({bool loadMore = false}) async {
-    var categoryData = await GankApi.getCategoryData('福利', _page);
+  void _onLoading() async {
+    _page++;
+    var gankItems = await _getCategoryData();
+    _refreshController.loadComplete();
+    setState(() {
+      _gankItems.addAll(gankItems);
+    });
+  }
+
+  Future _getCategoryData() async {
+    var categoryData = await GankApi.getCategoryData(AppStrings.WELFARE, _page);
     var gankItems = categoryData['results']
         .map<GankItem>((itemJson) => GankItem.fromJson(itemJson,
             category: CommonUtils.getLocale(context).gankWelfare))
         .toList();
-    if (loadMore) {
-      _refreshController.sendBack(false, RefreshStatus.idle);
-      setState(() {
-        _gankItems.addAll(gankItems);
-        _isLoading = false;
-      });
-    } else {
-      _refreshController.sendBack(true, RefreshStatus.completed);
-      setState(() {
-        _gankItems = gankItems;
-        _isLoading = false;
-      });
-    }
+    return gankItems;
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
 }

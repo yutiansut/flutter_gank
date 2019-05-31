@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gank/api//api_gank.dart';
 import 'package:flutter_gank/common/event/event_refresh_new.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
-import 'package:flutter_gank/common/model/gank_post.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
-import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/common/model/gank_post.dart';
+import 'package:flutter_gank/ui/page/page_gallery.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
 import 'package:flutter_gank/ui/widget/widget_list_title.dart';
-import 'package:flutter_gank/ui/page/page_gallery.dart';
-import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import "package:pull_to_refresh/pull_to_refresh.dart";
 
 class NewPage extends StatefulWidget {
@@ -37,11 +36,8 @@ class NewPageState extends State<NewPage> with AutomaticKeepAliveClientMixin {
     getNewData();
   }
 
-  Future _onRefresh(bool up) async {
-    if (up) {
-      await getNewData(date: _date, isRefresh: true);
-      _refreshController.sendBack(true, RefreshStatus.completed);
-    }
+  Future _onRefresh() async {
+    getNewData(date: _date, isRefresh: true);
   }
 
   @override
@@ -57,7 +53,6 @@ class NewPageState extends State<NewPage> with AutomaticKeepAliveClientMixin {
             enablePullUp: false,
             onRefresh: _onRefresh,
             onOffsetChange: null,
-            headerBuilder: buildDefaultHeader,
             controller: _refreshController,
             child: _buildListView(),
           ),
@@ -104,11 +99,6 @@ class NewPageState extends State<NewPage> with AutomaticKeepAliveClientMixin {
 
   Future getNewData({String date, bool isRefresh = false}) async {
     _date = date;
-    if (!isRefresh) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
     var todayJson;
     if (date == null) {
       todayJson = await GankApi.getTodayData();
@@ -117,12 +107,23 @@ class NewPageState extends State<NewPage> with AutomaticKeepAliveClientMixin {
     }
     var todayItem = GankPost.fromJson(todayJson);
     setState(() {
-      _gankItems = todayItem.gankItems;
-      _girlImage = todayItem.girlImage;
-      _isLoading = false;
+      if (mounted) {
+        _gankItems = todayItem.gankItems;
+        _girlImage = todayItem.girlImage;
+        _isLoading = false;
+      }
     });
+    if (isRefresh) {
+      _refreshController.refreshCompleted();
+    }
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
 }

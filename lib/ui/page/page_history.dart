@@ -5,7 +5,6 @@ import 'package:flutter_gank/api//api_gank.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/time_utils.dart';
 import 'package:flutter_gank/ui/page/page_detail.dart';
-import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -39,13 +38,8 @@ class _HistoryPageState extends State<HistoryPage> {
               offstage: _isLoading,
               child: SmartRefresher(
                   controller: _refreshController,
-                  headerBuilder: buildDefaultHeader,
-                  footerBuilder: (context, mode) =>
-                      buildDefaultFooter(context, mode, () {
-                        _refreshController.sendBack(
-                            false, RefreshStatus.refreshing);
-                      }),
                   onRefresh: _onRefresh,
+                  onLoading: _onLoading,
                   enablePullUp: true,
                   child: ListView.builder(
                       itemCount: _historyContentData?.length ?? 0,
@@ -143,30 +137,37 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  void _getHistoryContentData({bool loadMore = false}) async {
+  void _getHistoryContentData() async {
     List historyContentData = await GankApi.getHistoryContentData(_page);
-    if (loadMore) {
-      _refreshController.sendBack(false, RefreshStatus.idle);
-      setState(() {
-        _historyContentData.addAll(historyContentData);
-        _isLoading = false;
-      });
-    } else {
-      _refreshController.sendBack(true, RefreshStatus.completed);
-      setState(() {
+    setState(() {
+      if (mounted) {
         _historyContentData = historyContentData;
         _isLoading = false;
-      });
-    }
+      }
+    });
   }
 
-  void _onRefresh(bool up) {
-    if (!up) {
-      _page++;
-      _getHistoryContentData(loadMore: true);
-    } else {
-      _page = 1;
-      _getHistoryContentData();
-    }
+  void _onRefresh() async {
+    _page = 1;
+    List historyContentData = await GankApi.getHistoryContentData(_page);
+    _refreshController.refreshCompleted();
+    setState(() {
+      _historyContentData = historyContentData;
+    });
+  }
+
+  void _onLoading() async {
+    _page++;
+    List historyContentData = await GankApi.getHistoryContentData(_page);
+    _refreshController.loadComplete();
+    setState(() {
+      _historyContentData.addAll(historyContentData);
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 }

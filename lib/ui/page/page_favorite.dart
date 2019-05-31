@@ -6,7 +6,6 @@ import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
 import 'package:flutter_gank/redux/app_state.dart';
-import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -36,10 +35,6 @@ class _FavoritePageState extends State<FavoritePage>
     _readFavorites();
   }
 
-  void dispose() async {
-    super.dispose();
-  }
-
   ///读取收藏数据,并更新UI
   void _readFavorites() async {
     List<GankItem> gankItems = await _getFavoritesData();
@@ -53,10 +48,10 @@ class _FavoritePageState extends State<FavoritePage>
   ///刷新收藏,并更新UI
   void _refreshFavorites() async {
     List<GankItem> gankItems = await _getFavoritesData();
+    _refreshController.refreshCompleted();
     setState(() {
       _gankItems = gankItems;
       _isEmpty = _gankItems.length == 0;
-      _refreshController.sendBack(true, RefreshStatus.completed);
     });
   }
 
@@ -82,8 +77,7 @@ class _FavoritePageState extends State<FavoritePage>
             offstage: _isLoading || _isEmpty,
             child: SmartRefresher(
               controller: _refreshController,
-              headerBuilder: buildDefaultHeader,
-              onRefresh: _onRefresh,
+              onRefresh: _refreshFavorites,
               enablePullUp: false,
               child: ListView.builder(
                 itemCount: _gankItems?.length ?? 0,
@@ -127,7 +121,9 @@ class _FavoritePageState extends State<FavoritePage>
   @override
   bool get wantKeepAlive => true;
 
-  void _onRefresh(bool up) {
-    _refreshFavorites();
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 }

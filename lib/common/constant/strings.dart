@@ -21,6 +21,9 @@ class AppStrings {
     '拓展资源',
     '休息视频'
   ];
+  static const String WELFARE = '福利';
+  static const String ALL_ZH = '全部';
+  static const String ALL_EN = 'all';
   static const String UNKNOWN_ERROR = '未知错误';
   static const String NETWORK_CONNECT_ERROR = '网络连接错误';
 }

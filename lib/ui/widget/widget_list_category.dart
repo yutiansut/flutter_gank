@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gank/api//api_gank.dart';
+import 'package:flutter_gank/common/constant/strings.dart';
 import 'package:flutter_gank/common/model/gank_item.dart';
-import 'package:flutter_gank/ui/widget/indicator_factory.dart';
 import 'package:flutter_gank/ui/widget/widget_list_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -26,7 +26,15 @@ class _GankListCategoryState extends State<GankListCategory>
   void initState() {
     super.initState();
     _refreshController = new RefreshController();
-    _getCategoryData();
+    _initListCategoryData();
+  }
+
+  void _initListCategoryData() async {
+    var gankItems = await _getCategoryData();
+    setState(() {
+      _gankItems = gankItems;
+      _isLoading = false;
+    });
   }
 
   @override
@@ -39,13 +47,8 @@ class _GankListCategoryState extends State<GankListCategory>
             offstage: _isLoading,
             child: SmartRefresher(
               controller: _refreshController,
-              headerBuilder: buildDefaultHeader,
-              footerBuilder: (context, mode) =>
-                  buildDefaultFooter(context, mode, () {
-                    _refreshController.sendBack(
-                        false, RefreshStatus.refreshing);
-                  }),
               onRefresh: _onRefresh,
+              onLoading: _onLoading,
               enablePullUp: true,
               child: ListView.builder(
                 itemCount: _gankItems?.length ?? 0,
@@ -65,38 +68,44 @@ class _GankListCategoryState extends State<GankListCategory>
     );
   }
 
-  void _onRefresh(bool up) {
-    if (!up) {
-      _page++;
-      _getCategoryData(loadMore: true);
-    } else {
-      _page = 1;
-      _getCategoryData();
-    }
+  void _onRefresh() async {
+    _page = 1;
+    var gankItems = await _getCategoryData();
+    _refreshController.refreshCompleted();
+    setState(() {
+      _gankItems = gankItems;
+    });
   }
 
-  void _getCategoryData({bool loadMore = false}) async {
+  void _onLoading() async {
+    _page++;
+    var gankItems = await _getCategoryData();
+    _refreshController.loadComplete();
+    setState(() {
+      _gankItems.addAll(gankItems);
+    });
+  }
+
+  _getCategoryData() async {
     var categoryData = await GankApi.getCategoryData(
-        widget.category == "全部" ? "all" : widget.category, _page);
+        widget.category == AppStrings.ALL_ZH
+            ? AppStrings.ALL_EN
+            : widget.category,
+        _page);
     var gankItems = categoryData['results']
         .map<GankItem>((itemJson) =>
             GankItem.fromJson(itemJson, category: widget.category))
         .toList();
-    if (loadMore) {
-      _refreshController.sendBack(false, RefreshStatus.idle);
-      setState(() {
-        _gankItems.addAll(gankItems);
-        _isLoading = false;
-      });
-    } else {
-      _refreshController.sendBack(true, RefreshStatus.completed);
-      setState(() {
-        _gankItems = gankItems;
-        _isLoading = false;
-      });
-    }
+
+    return gankItems;
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
 }
