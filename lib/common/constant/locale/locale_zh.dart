@@ -10,6 +10,8 @@ class StringZh extends StringBase {
   @override
   String about = '关于';
   @override
+  String article = '文章';
+  @override
   String settings = '设置';
   @override
   String gankAndroid = 'Android';

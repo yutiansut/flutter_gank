@@ -38,11 +38,11 @@ class _BottomTabsState extends State<BottomTabs> {
         title: Text(CommonUtils.getLocale(context).girl),
       ),
 
-      ///收藏
+      ///文章
       BottomNavigationBarItem(
-        icon: Icon(Icons.favorite),
+        icon: Icon(IconFont(0xe64f)),
         title:
-            Text(GankLocalizations.of(context).currentLocalized.gankFavorite),
+            Text(GankLocalizations.of(context).currentLocalized.article),
       ),
     ];
     return BottomNavigationBar(

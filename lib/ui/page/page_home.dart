@@ -10,8 +10,8 @@ import 'package:flutter_gank/common/event/event_show_history_date.dart';
 import 'package:flutter_gank/common/manager/app_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/utils/navigator_utils.dart';
+import 'package:flutter_gank/ui/page/page_articles.dart';
 import 'package:flutter_gank/ui/page/page_category.dart';
-import 'package:flutter_gank/ui/page/page_favorite.dart';
 import 'package:flutter_gank/ui/page/page_new.dart';
 import 'package:flutter_gank/ui/page/page_welfare.dart';
 import 'package:flutter_gank/ui/widget/widget_bottom_tabs.dart';
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
             NewPage(),
             CategoryPage(),
             WelfarePage(),
-            FavoritePage()
+            ArticlePage()
           ],
         ),
         HistoryDate(_historyData),
@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
     } else if (_currentPageIndex == 2) {
       return IconFont(0xe63a);
     } else {
-      return IconFont(0xe619);
+      return null;
     }
   }
 }

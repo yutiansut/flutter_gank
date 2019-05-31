@@ -5,6 +5,8 @@ abstract class StringBase {
 
   String about;
 
+  String article;
+
   String settings;
 
   String gankAndroid;

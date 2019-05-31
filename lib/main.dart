@@ -4,6 +4,7 @@ import 'package:flutter_gank/common/localization/gank_localizations_delegate.dar
 import 'package:flutter_gank/common/localization/gank_localizations_wrapper.dart';
 import 'package:flutter_gank/redux/app_state.dart';
 import 'package:flutter_gank/ui/page/page_about.dart';
+import 'package:flutter_gank/ui/page/page_articles.dart';
 import 'package:flutter_gank/ui/page/page_home.dart';
 import 'package:flutter_gank/ui/page/page_login.dart';
 import 'package:flutter_gank/ui/page/page_search.dart';
@@ -45,13 +46,14 @@ class GankApp extends StatelessWidget {
             supportedLocales: [store.state.locale],
             routes: {
               SplashPage.ROUTER_NAME: (context) =>
-              ///Note that you only need to wrap the first open page,
-              ///and the BuildContext will be passed to the child widget tree.
+                  ///Note that you only need to wrap the first open page,
+                  ///and the BuildContext will be passed to the child widget tree.
                   GankLocalizationsWrapper(child: SplashPage()),
               HomePage.ROUTER_NAME: (context) => HomePage(),
               LoginPage.ROUTER_NAME: (context) => LoginPage(),
               SearchPage.ROUTER_NAME: (context) => SearchPage(),
               AboutPage.ROUTER_NAME: (context) => AboutPage(),
+              ArticlePage.ROUTER_NAME: (context) => ArticlePage(),
             },
           );
         },

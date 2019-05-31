@@ -7,6 +7,8 @@ class StringEn extends StringBase {
   @override
   String about = 'About';
   @override
+  String article = 'Article';
+  @override
   String settings = 'Settings';
   @override
   String gankAndroid = 'Android';

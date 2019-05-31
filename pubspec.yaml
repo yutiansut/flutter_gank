@@ -53,23 +53,23 @@ flutter:
   fonts:
     - family: IconFont
       fonts:
-        - asset: static/font/iconfont.ttf
+        - asset: font/iconfont.ttf
 
     - family: WorkSansSemiBold
       fonts:
-        - asset: static/font/WorkSans-SemiBold.ttf
+        - asset: font/WorkSans-SemiBold.ttf
 
     - family: WorkSansBold
       fonts:
-        - asset: static/font/WorkSans-Bold.ttf
+        - asset: font/WorkSans-Bold.ttf
 
     - family: WorkSansMedium
       fonts:
-        - asset: static/font/WorkSans-Medium.ttf
+        - asset: font/WorkSans-Medium.ttf
 
     - family: WorkSansLight
       fonts:
-        - asset: static/font/WorkSans-Light.ttf
+        - asset: font/WorkSans-Light.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
