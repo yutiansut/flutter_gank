@@ -92,7 +92,7 @@ class AppManager {
       });
       var updateResult = await HttpManager.instance.request(
         GankApi.CHECK_UPDATE,
-        method: "post",
+        method: HttpMethod.post,
         params: data,
       );
       var hasNewVersion = updateResult.data["update"] == "Yes";
