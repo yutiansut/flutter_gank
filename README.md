@@ -7,7 +7,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/build-passing-52C434.svg">
-  <img src="https://img.shields.io/badge/version-1.0.2-52C434.svg">
+  <img src="https://img.shields.io/badge/version-1.0.3-52C434.svg">
   <img src="https://img.shields.io/badge/flutterSdk-1.6.6-red.svg">
   <img src="https://img.shields.io/badge/language-dart2.3.2-blue.svg">
   <img src="https://img.shields.io/badge/license-MIT-orange.svg">
@@ -46,10 +46,10 @@
 
 ## 版本更新记录
 ### V1.0.3  [2019-05-31]
-  1、升级Flutter插件. 
-  2、Android依赖替换为androidx,解决新版编译报错. 
-  3、修复福利页面Log报错. 
-  4、bug fix. 
+  1、升级Flutter插件.
+  2、Android依赖替换为androidx,解决新版编译报错.
+  3、修复福利页面Log报错.
+  4、bug fix.
 ### V1.0.2  [2018-01-03]  
   1、ui调整.  
   2、添加Github登录.  
