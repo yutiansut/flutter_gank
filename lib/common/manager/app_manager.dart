@@ -12,7 +12,7 @@ import 'package:flutter_gank/common/manager/cache_manager.dart';
 import 'package:flutter_gank/common/manager/favorite_manager.dart';
 import 'package:flutter_gank/common/manager/user_manager.dart';
 import 'package:flutter_gank/common/model/github_user.dart';
-import 'package:flutter_gank/common/net/http_manager.dart';
+import 'package:flutter_gank/common/network/http_manager.dart';
 import 'package:flutter_gank/common/utils/common_utils.dart';
 import 'package:flutter_gank/common/utils/sp_utils.dart';
 import 'package:flutter_gank/config/gank_config.dart';

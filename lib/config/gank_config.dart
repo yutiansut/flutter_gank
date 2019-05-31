@@ -7,6 +7,7 @@ class GankConfig {
   static const THEME_COLOR = "theme-color";
   static const LOCALE = "locale";
   static const CONNECT_TIMEOUT = 15000;
+  static const RECEIVE_TIMEOUT = 15000;
 
   ///github相关
   static const CLIENT_ID = '750419fa775225670b05';

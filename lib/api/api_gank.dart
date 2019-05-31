@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_gank/common/net/http_manager.dart';
-import 'package:flutter_gank/common/net/http_response.dart';
+import 'package:flutter_gank/common/network/http_manager.dart';
+import 'package:flutter_gank/common/network/http_response.dart';
 
 class GankApi {
   /// gank api urls.
@@ -23,8 +23,8 @@ class GankApi {
 
   ///获取指定日期的数据 [date:指定日期]
   static getSpecialDayData(String date) async {
-    HttpResponse response =
-        await HttpManager.instance.request(API_SPECIAL_DAY + date.replaceAll("-", "/"));
+    HttpResponse response = await HttpManager.instance
+        .request(API_SPECIAL_DAY + date.replaceAll("-", "/"));
     return response.data;
   }
 
@@ -43,8 +43,8 @@ class GankApi {
 
   ///搜索[简易搜索，后面拆分页]
   static searchData(String search) async {
-    HttpResponse response = await HttpManager.instance.request(
-        API_SEARCH + "/$search/category/all/count/50/page/1");
+    HttpResponse response = await HttpManager.instance
+        .request(API_SEARCH + "/$search/category/all/count/50/page/1");
     return response.data['results'];
   }
 
@@ -57,15 +57,15 @@ class GankApi {
       'type': type,
       'debug': debug,
     });
-    HttpResponse response =
-        await HttpManager.instance.request(API_SUBMIT, params: formData, method: 'post');
+    HttpResponse response = await HttpManager.instance
+        .request(API_SUBMIT, params: formData, method: HttpMethod.post);
     return response.data;
   }
 
   ///获取所有的历史干货.
   static getHistoryContentData(int page, {count = 20}) async {
-    HttpResponse response =
-        await HttpManager.instance.request(API_HISTORY_CONTENT + '/$count/$page');
+    HttpResponse response = await HttpManager.instance
+        .request(API_HISTORY_CONTENT + '/$count/$page');
     return response.data['results'];
   }
 }
