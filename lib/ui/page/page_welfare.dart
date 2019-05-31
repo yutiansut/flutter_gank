@@ -21,7 +21,7 @@ class _WelfarePageState extends State<WelfarePage>
   bool _isLoading = true;
   List _gankItems = [];
   int _page = 1;
-  bool isOneColumn = true;
+  bool isOneColumn = false;
   RefreshController _refreshController;
 
   @override
@@ -59,36 +59,36 @@ class _WelfarePageState extends State<WelfarePage>
         children: <Widget>[
           Offstage(
               offstage: _isLoading,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: SmartRefresher(
-                  controller: _refreshController,
-                  onRefresh: _onRefresh,
-                  onLoading: _onLoading,
-                  enablePullUp: true,
-                  child: GridView.count(
-                    crossAxisCount: isOneColumn ? 1 : 2,
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                    childAspectRatio: 2 / (isOneColumn ? 2 : 3),
-                    children: _gankItems?.map<Widget>((gankItem) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return GalleryPage([
-                                  (gankItem.url as String)
-                                      .replaceFirst("large", "mw690")
-                                ], gankItem.desc);
-                              }));
-                            },
-                            child: _buildImageWidget(gankItem),
-                          );
-                        })?.toList() ??
-                        [],
-                  ),
-                ),
+              child: SmartRefresher(
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                enablePullUp: true,
+                child: GridView.builder(
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isOneColumn ? 1 : 2,
+                      childAspectRatio: 2 / (isOneColumn ? 2 : 3),
+                      crossAxisSpacing: 10.0,
+                    ),
+                    itemCount: _gankItems?.length ?? 0,
+                    padding: EdgeInsets.all(10),
+                    itemBuilder: (BuildContext context, int index) {
+                      var gankItem = _gankItems[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return GalleryPage(
+                                [gankItem.url.replaceFirst("large", "mw690")],
+                                gankItem.desc);
+                          }));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: _buildImageWidget(gankItem),
+                        ),
+                      );
+                    }),
               )),
           Offstage(
             offstage: !_isLoading,
